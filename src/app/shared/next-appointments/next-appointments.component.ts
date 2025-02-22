@@ -9,6 +9,7 @@ import { EventEmitter } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { UtilitiesService } from '../../services/utilities.service';
 import { filter } from 'rxjs';
+import { CalendarService } from '../../services/calendar.service';
 
 @Component({
   selector: 'app-next-appointments',
@@ -18,23 +19,29 @@ import { filter } from 'rxjs';
 export class NextAppointmentsComponent {
   constructor(
     private appointmentSvc: AppointmentService,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private calendarSvc: CalendarService
   ) {}
 
   appointments!: iAppointment[];
-  @Input() calendar!: iCalendar;
+  calendar!: iCalendar;
 
-  @Output() onAppointmentSelected =
-    new EventEmitter<iAppointmentResponseForCalendar>();
+  @Output() onAppointmentSelected = new EventEmitter<iAppointment>();
 
   // elementi per gestire il pageable
   pages: number[] = [];
   currentPage: number = 0;
-  size: number = 4;
+  size: number = 3;
   totalElements!: number;
 
   ngOnInit() {
-    this.getNextAppointments();
+    this.calendarSvc.calendar$.subscribe((calendar) => {
+      if (calendar) {
+        this.calendar = calendar;
+
+        this.getNextAppointments();
+      }
+    });
   }
 
   // funzione per ottenere la lista dei prossimi appuntamenti
@@ -46,14 +53,14 @@ export class NextAppointmentsComponent {
           (a, b) =>
             new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         );
-
+        console.log(res);
         this.totalElements = res.totalElements;
         this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
         this.currentPage = this.pages[0];
       });
   }
 
-  setStatus(app: iAppointmentResponseForCalendar) {
+  setStatus(app: iAppointment) {
     return this.utilities.setStatus(app);
   }
 

@@ -1,4 +1,5 @@
 import { iAddress } from './iaddress';
+import { iAppointment } from './iappointment';
 import { iService } from './idoctor';
 
 export interface iCalendar {
@@ -7,6 +8,20 @@ export interface iCalendar {
   doctorName: string;
   days: iActiveDay[];
   appointments: iAppointmentResponseForCalendar[];
+  slotMinTime: string;
+  slotMaxTime: string;
+  isActive: boolean;
+  onHoliday: boolean;
+  holidayDateStart: string;
+  holidayDateEnd: string;
+}
+
+export interface iCalendarForDoctor {
+  id: number;
+  doctorId: number;
+  doctorName: string;
+  days: iActiveDay[];
+  appointments: iAppointment[];
   slotMinTime: string;
   slotMaxTime: string;
   isActive: boolean;
@@ -28,7 +43,21 @@ export interface iActiveDay {
   hasExtraRange: boolean;
 }
 
+export interface iActiveDayUpdate {
+  dayName: string;
+  isActive: boolean;
+  startTime: string;
+  endTime: string;
+  extraRange?: iTimeSlot;
+}
+
 export interface iTimeSlot {
+  startTime: string;
+  endTime: string;
+}
+
+export interface iTimeSlotRequest {
+  dayId: number;
   startTime: string;
   endTime: string;
 }
@@ -41,6 +70,7 @@ export interface iAppointmentResponseForCalendar {
   patient: iPatientResponseForCalendar;
   status: string;
   doctorAddress: iAddress | null;
+  online: boolean;
 }
 
 export interface iPatientResponseForCalendar {
@@ -51,4 +81,11 @@ export interface iPatientResponseForCalendar {
   taxId: string;
   avatar: string;
   phoneNumber: string;
+}
+
+export interface iHolidayrequest {
+  calendarId: number;
+  onHoliday: boolean;
+  holidayDateStart: string;
+  holidayDateEnd: string;
 }

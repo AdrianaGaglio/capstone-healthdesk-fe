@@ -10,6 +10,7 @@ import {
 import { CalendarService } from './calendar.service';
 import { iPagedAppointments } from '../interfaces/ipagedappointments';
 import { iAppointmentResponseForMF } from '../interfaces/imedicalfolder';
+import { iMessage } from '../interfaces/imessage';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +63,18 @@ export class AppointmentService {
       `${this.url}/confirm/${id}`,
       id
     );
+  }
+
+  blockSlot(
+    blockedSlot: Partial<iAppointmentRequest>
+  ): Observable<iAppointmentResponseForCalendar> {
+    return this.http.post<iAppointmentResponseForCalendar>(
+      `${this.url}/block-slot`,
+      blockedSlot
+    );
+  }
+
+  unlockSlot(id: number): Observable<iMessage> {
+    return this.http.post<iMessage>(`${this.url}/unlock-slot?id=${id}`, id);
   }
 }

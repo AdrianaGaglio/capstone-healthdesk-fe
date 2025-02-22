@@ -27,6 +27,9 @@ import { AuthService } from '../../auth/auth.service';
 import { CalendarUtilitiesService } from '../../services/calendar-utilities.service';
 import { iTiming } from '../../interfaces/itiming';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { ionFunnel } from '@ng-icons/ionicons';
+import { iAppointment } from '../../interfaces/iappointment';
 
 @Component({
   selector: 'app-calendar',
@@ -36,7 +39,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class CalendarComponent implements OnInit, OnChanges {
   constructor(
     private authSvc: AuthService,
-    private utilities: CalendarUtilitiesService
+    private utilities: CalendarUtilitiesService,
+    private router: Router
   ) {}
 
   private activeModal = inject(NgbActiveModal);
@@ -137,6 +141,19 @@ export class CalendarComponent implements OnInit, OnChanges {
       .filter((date) => date >= new Date()) // Filtra solo le date future o uguali a oggi
       .sort((a, b) => a.getTime() - b.getTime())[0]; // Ordina e prendi la prima
 
+    if (this.router.url.includes('impostazioni/calendar')) {
+      this.slots = this.slots.filter(
+        (slot) => slot.booked == false || slot.classNames.includes('blocked')
+      );
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        events: this.slots,
+        validRange: {
+          start: firstAvailableSlot.toISOString().split('T')[0],
+        },
+      };
+    }
+
     // se l'utente è un paziente, la imposto per bloccare il calendario
     if (
       this.authSvc.auth$.getValue()?.role !== 'DOCTOR' &&
@@ -152,16 +169,14 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // ❗TO-DO: implementazione per il medico
-    // if (this.authSvc.auth$.getValue()?.role !== 'DOCTOR') {
-    //   this.calendarOptions = {
-    //     ...this.calendarOptions,
-    //     validRange: {
-    //       // mostra il calendario a partire dalla settimana corrente
-    //       start: new Date().toISOString().split('T')[0], // Imposta la data di inizio alla settimana corrente
-    //     },
-    //   };
-    // }
+    this.authSvc.auth$.subscribe((auth) => {
+      if (auth && auth.role === 'DOCTOR') {
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          initialDate: new Date().toISOString().split('T')[0], // Imposta la data di inizio alla settimana corrente
+        };
+      }
+    });
 
     this.calendarOptions = {
       ...this.calendarOptions,

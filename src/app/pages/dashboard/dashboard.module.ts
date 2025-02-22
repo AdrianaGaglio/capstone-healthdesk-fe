@@ -18,6 +18,8 @@ import { NgIconsModule } from '@ng-icons/core';
 import { CalendarModule } from '../../shared/calendar/calendar.module';
 import { NextAppointmentsModule } from '../../shared/next-appointments/next-appointments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonsModule } from '../../shared/buttons/buttons.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     NgIconsModule,
     CalendarModule,
     NextAppointmentsModule,
+    ButtonsModule,
+    FormsModule,
   ],
   providers: [NgbActiveModal],
 })

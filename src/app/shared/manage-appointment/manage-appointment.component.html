@@ -1,13 +1,20 @@
 <div
-  class="p-3 bg-secondary-light rounded-2 d-flex"
-  [ngClass]="{ 'justify-content-between': !isPassed }"
+  class="p-3 bg-secondary-light rounded-2 d-flex flex-column flex-lg-row overflow-y-scroll overflow-y-auto position-relative"
+  [ngClass]="{
+    'justify-content-between': !isPassed
+  }"
   *ngIf="appointment"
 >
+  <ng-icon
+    name="ionCloseOutline"
+    class="close-icon fs-3 position-absolute top-0 end-0 mt-3 me-3"
+    (click)="close()"
+  ></ng-icon>
   <div
-    class="d-flex flex-grow-1"
+    class="d-flex flex-grow-0 flex-lg-grow-1"
     [ngClass]="{
       'max-width-300 flex-column': !isPassed,
-      'justify-content-between': isPassed
+      'justify-content-between align-items-end': isPassed
     }"
   >
     <div>
@@ -19,7 +26,7 @@
         {{ patient.name }} {{ patient.surname }}
       </h6>
     </div>
-    <div [ngClass]="{ 'align-self-center': isPassed }">
+    <div>
       <span class="fs-xs fw-medium">Prestazione:</span>
       <p
         class="fs-6 text-decoration-underline"
@@ -31,7 +38,7 @@
 
     <p
       class="mb-1 d-inline-block"
-      [ngClass]="{ 'align-self-center mb-0': isPassed, 'mb-3': !isPassed }"
+      [ngClass]="{ 'mb-0': isPassed, 'mb-3': !isPassed }"
     >
       <span class="fs-xs fw-medium me-2">Modalità:</span>
       <span class="bg-secondary rounded-2 text-dark fs-sm px-2">{{
@@ -50,15 +57,15 @@
       >
     </p>
     <span
-      class="fs-xs text-dark fw-medium py-1 px-2 rounded-2 align-self-start"
+      class="fs-xs text-dark fw-medium py-1 px-2 rounded-2 align-self-start mb-3 mb-lg-0"
       [ngClass]="{
         'bg-primary': setStatus(appointment) == 'Confermato',
         'bg-warning': setStatus(appointment) == 'In attesa',
-        'align-self-center': isPassed
+        'align-self-end': isPassed
       }"
       >{{ setStatus(appointment) }}</span
     >
-    <div class="mt-auto">
+    <div class="mt-auto mb-3 mb-lg-0">
       <app-btn-danger-filled
         *ngIf="
           (appointment.status === 'PENDING' ||
@@ -77,7 +84,7 @@
       >
     </div>
   </div>
-  <div class="flex-grow-1 px-3" *ngIf="!isPassed">
+  <div class="flex-grow-1 px-0 px-lg-3 mb-3 mb-lg-0" *ngIf="!isPassed">
     <app-calendar
       *ngIf="calendar"
       [calendar]="calendar"

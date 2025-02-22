@@ -15,6 +15,8 @@ export class UtilitiesService {
 
   statuses: { eng: string; it: string }[] = environment.statuses;
 
+  days: { eng: string; it: string }[] = environment.days;
+
   getAvatar(user: iPatient | iDoctor | null): string {
     if (!user) {
       return 'https://ui-avatars.com/api/?name=A';
@@ -27,5 +29,9 @@ export class UtilitiesService {
 
   setStatus(app: iAppointmentResponseForCalendar | iAppointment) {
     return this.statuses.find((status) => status.eng === app.status)?.it;
+  }
+
+  setDay(day: string) {
+    return this.days.find((d) => d.eng === day)?.it;
   }
 }

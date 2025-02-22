@@ -5,6 +5,7 @@ import { CalendarService } from '../../services/calendar.service';
 import {
   iAppointmentResponseForCalendar,
   iCalendar,
+  iPatientResponseForCalendar,
 } from '../../interfaces/icalendar';
 import { CalendarUtilitiesService } from '../../services/calendar-utilities.service';
 import { iEvent } from '../../interfaces/ievent';
@@ -54,7 +55,6 @@ export class ManageAppointmentComponent {
   addAddress: boolean = false;
 
   ngOnInit() {
-    console.log(this.appointment);
     this.today = new Date().toISOString().split('T')[0];
 
     this.doctorSvc.doctor$.subscribe((doctor) => {
@@ -126,7 +126,7 @@ export class ManageAppointmentComponent {
     });
   }
 
-  setStatus(app: iAppointmentResponseForCalendar) {
+  setStatus(app: iAppointment) {
     return this.utilities.setStatus(app);
   }
 
@@ -168,9 +168,11 @@ export class ManageAppointmentComponent {
   }
 
   submit() {
-    console.log(this.appointment);
-    this.appointmentSvc.updateAppointment(this.appointment).subscribe((res) => {
-      this.activeModal.close();
+    let appointment = (<unknown>(
+      this.appointment
+    )) as iAppointmentResponseForCalendar;
+    this.appointmentSvc.updateAppointment(appointment).subscribe((res) => {
+      this.activeModal.close('update');
     });
   }
 
@@ -178,13 +180,17 @@ export class ManageAppointmentComponent {
     this.appointmentSvc
       .cancelAppointment(this.appointment.id)
       .subscribe((res) => {
-        this.activeModal.close();
+        this.activeModal.close('cancel');
       });
   }
 
   confirm() {
     this.appointmentSvc
       .confirmAppointment(this.appointment.id)
-      .subscribe((res) => this.activeModal.close());
+      .subscribe((res) => this.activeModal.close('confirm'));
+  }
+
+  close() {
+    this.activeModal.close();
   }
 }
