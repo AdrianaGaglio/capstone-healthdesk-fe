@@ -1,0 +1,91 @@
+<form [formGroup]="registerRequest" (submit)="register()">
+  <div class="mb-3">
+    <h5 class="text-center">
+      Inserisci i tuoi dati per conferma la prenotazione
+    </h5>
+  </div>
+  <div class="mb-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <label for="name" class="form-label text mb-1">Email*</label>
+      <span class="text-danger" *ngIf="isTouchedInvalid('email')">{{
+        message("email")
+      }}</span>
+    </div>
+    <input
+      type="text"
+      class="form-control form-control-sm rounded-1"
+      id="email"
+      formControlName="email"
+    />
+  </div>
+  <ng-container formGroupName="patient">
+    <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <label for="name" class="form-label text mb-1">Nome*</label>
+        <span class="text-danger" *ngIf="isTouchedInvalid('patient.name')">{{
+          message("patient.name")
+        }}</span>
+      </div>
+      <input
+        type="text"
+        class="form-control form-control-sm rounded-1"
+        id="name"
+        formControlName="name"
+      />
+    </div>
+    <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <label for="surname" class="form-label text mb-1">Cognome*</label>
+        <span class="text-danger" *ngIf="isTouchedInvalid('patient.surname')">{{
+          message("patient.surname")
+        }}</span>
+      </div>
+      <input
+        type="text"
+        class="form-control form-control-sm rounded-1"
+        id="surname"
+        formControlName="surname"
+      />
+    </div>
+    <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <label for="birthDate" class="form-label text mb-1"
+          >Data di nascita*</label
+        >
+        <span
+          class="text-danger"
+          *ngIf="isTouchedInvalid('patient.birthDate')"
+          >{{ message("patient.birthDate") }}</span
+        >
+      </div>
+      <input
+        type="date"
+        class="form-control form-control-sm rounded-1"
+        id="birthDate"
+        formControlName="birthDate"
+      />
+    </div>
+    <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <label for="birthDphoneNumberate" class="form-label text mb-1"
+          >Numero di telefono*</label
+        >
+        <span
+          class="text-danger"
+          *ngIf="isTouchedInvalid('patient.phoneNumber')"
+          >{{ message("patient.phoneNumber") }}</span
+        >
+      </div>
+      <input
+        type="number"
+        class="form-control form-control-sm rounded-1"
+        id="phoneNumber"
+        formControlName="phoneNumber"
+      />
+    </div>
+  </ng-container>
+
+  <app-btn-primary-filled [type]="'submit'" [disabled]="!registerRequest.valid"
+    >Continua</app-btn-primary-filled
+  >
+</form>

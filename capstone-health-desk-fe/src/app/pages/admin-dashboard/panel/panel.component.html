@@ -1,0 +1,319 @@
+<div class="row">
+  <h3 class="mb-3 display-4">Pannello amministratore</h3>
+  <section class="col-12 col-md-7 col-xl-6">
+    <h3 class="fw-bolder">Lista medici attivi</h3>
+    <ng-container *ngIf="doctors && doctors.length < 1">
+      Nessun medico registrato
+    </ng-container>
+    <ng-container *ngIf="doctors && doctors.length > 0">
+      <div
+        *ngFor="let d of doctors"
+        class="onhover d-flex align-items-center gap-3 mb-3 p-2 rounded-1 text-decoration-none"
+      >
+        <img
+          class="rounded-circle w-fixed-50 shadow-sm"
+          [src]="
+            d.avatar
+              ? d.avatar
+              : 'https://ui-avatars.com/api/?name=' + d.name + '+' + d.surname
+          "
+          alt="doctor avatar"
+        />
+        <p class="mb-0 fw-bold">{{ d.name }} {{ d.surname }}</p>
+        <span>{{
+          d.title ? "(" + d.title + ")" : "(Titolo non specificato)"
+        }}</span>
+        <app-btn-dark-filled
+          class="ms-auto"
+          [type]="'button'"
+          (onClick)="handleDoctor(d.id)"
+          >Gestisci</app-btn-dark-filled
+        >
+        <app-btn-danger-filled
+          [type]="'button'"
+          [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+        >
+          <ng-icon
+            class="position-absolute start-50 top-50 translate-middle"
+            name="ionTrashBinOutline"
+          ></ng-icon>
+        </app-btn-danger-filled>
+      </div>
+    </ng-container>
+  </section>
+  <section class="col-12 col-md-7 col-xl-6">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h3 class="fw-bolder mb-0">Registra un nuovo medico</h3>
+      <app-btn-secondary-filled
+        (onClick)="add = !add"
+        [type]="'button'"
+        [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+      >
+        <ng-icon
+          class="position-absolute start-50 top-50 translate-middle"
+          [name]="add ? 'ionRemoveOutline' : 'ionAddOutline'"
+        ></ng-icon>
+      </app-btn-secondary-filled>
+    </div>
+    <form #form="ngForm" *ngIf="add">
+      <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="name" class="form-label mb-0">Nome medico</label>
+            <span *ngIf="name.invalid && name.touched" class="text-danger"
+              >Campo richiesto</span
+            >
+          </div>
+          <input
+            #name="ngModel"
+            class="form-control form-control-sm"
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="newDoctor.doctor.name"
+            required
+          />
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="surname" class="form-label mb-0">Cognome medico</label>
+            <span *ngIf="surname.invalid && surname.touched" class="text-danger"
+              >Campo richiesto</span
+            >
+          </div>
+          <input
+            #surname="ngModel"
+            class="form-control form-control-sm"
+            type="text"
+            id="surname"
+            name="surname"
+            [(ngModel)]="newDoctor.doctor.surname"
+            required
+          />
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="name" class="form-label mb-0">Numero di telefono</label>
+            <span
+              *ngIf="phoneNumber.invalid && phoneNumber.touched"
+              class="text-danger"
+              >Campo richiesto</span
+            >
+          </div>
+          <input
+            #phoneNumber="ngModel"
+            class="form-control form-control-sm"
+            type="number"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="newDoctor.doctor.phoneNumber"
+            required
+          />
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="name" class="form-label mb-0">Email</label>
+            <ng-container *ngIf="email.invalid && email.touched">
+              <span class="text-danger" *ngIf="email.errors?.['required']"
+                >Campo richiesto</span
+              >
+              <span class="text-danger" *ngIf="email.errors?.['email']"
+                >Email non valida</span
+              >
+            </ng-container>
+          </div>
+          <input
+            #email="ngModel"
+            class="form-control form-control-sm"
+            type="text"
+            id="email"
+            name="email"
+            [(ngModel)]="newDoctor.email"
+            required
+            email
+          />
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="licenceNumber" class="form-label mb-0"
+              >Numero di licenza</label
+            >
+            <ng-container
+              *ngIf="licenceNumber.invalid && licenceNumber.touched"
+            >
+              <span
+                class="text-danger"
+                *ngIf="licenceNumber.errors?.['required']"
+                >Campo obbligatorio</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="licenceNumber.errors?.['pattern']"
+                >Codice non valido</span
+              >
+            </ng-container>
+          </div>
+          <input
+            #licenceNumber="ngModel"
+            class="form-control form-control-sm"
+            type="text"
+            id="licenceNumber"
+            name="licenceNumber"
+            [(ngModel)]="newDoctor.doctor.licenceNumber"
+            required
+            pattern="^[A-Z0-9]{8}$"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label class="form-label mb-0" for="name">Nome studio</label>
+          <span class="text-danger" *ngIf="name.invalid && name.touched"
+            >Richiesto</span
+          >
+        </div>
+        <input
+          class="form-control form-control-sm"
+          id="name"
+          name="name"
+          [(ngModel)]="newAddress.name"
+          type="text"
+          #name="ngModel"
+          required
+        />
+      </div>
+      <div class="mb-3 d-flex align-items-center gap-2">
+        <div class="col-6 flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label mb-0" for="description">Indirizzo</label>
+            <span class="text-danger" *ngIf="street.invalid && street.touched"
+              >Richiesto</span
+            >
+          </div>
+          <input
+            #street="ngModel"
+            class="form-control form-control-sm"
+            id="street"
+            name="street"
+            [(ngModel)]="newAddress.street"
+            type="text"
+            required
+          />
+        </div>
+        <div class="col-6 w-25">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label mb-0" for="price">Numero</label>
+            <span
+              class="text-danger"
+              *ngIf="streetNumber.invalid && streetNumber.touched"
+              >Richiesto</span
+            >
+          </div>
+          <input
+            #streetNumber="ngModel"
+            class="form-control form-control-sm"
+            id="streetNumber"
+            name="streetNumber"
+            [(ngModel)]="newAddress.streetNumber"
+            type="number"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <div class="d-flex flex-column flex-grow-1">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <label class="form-label mb-0" for="description">Provincia</label>
+              <span
+                class="text-danger"
+                *ngIf="province.invalid && province.touched"
+                >Richiesto</span
+              >
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <select
+                #province="ngModel"
+                (change)="setAcronym()"
+                class="form-select form-select-sm"
+                name="province"
+                id="province"
+                [(ngModel)]="newAddress.provinceAcronym"
+                required
+              >
+                <option value="" selected>-- seleziona provincia --</option>
+                <option *ngFor="let p of provinces" [value]="p.acronym">
+                  {{ p.name }}
+                </option>
+              </select>
+              <input
+                class="form-control form-control-sm w-25"
+                id="provinceAcronym"
+                name="provinceAcronym"
+                type="text"
+                disabled="true"
+                [value]="provinceAcronym"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <label class="form-label mb-0" for="city">Città</label>
+              <span class="text-danger" *ngIf="city.invalid && city.touched"
+                >Richiesto</span
+              >
+            </div>
+            <select
+              #city="ngModel"
+              [disabled]="newAddress.provinceAcronym == ''"
+              class="form-select form-select-sm"
+              name="city"
+              id="city"
+              (change)="setPostalCode()"
+              [(ngModel)]="newAddress.city"
+              required
+            >
+              <option value="" selected>-- seleziona città --</option>
+              <option *ngFor="let c of cities" [value]="c.name">
+                {{ c.name }}
+              </option>
+            </select>
+          </div>
+          <div class="w-25">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <label class="form-label mb-0" for="postalCode">CAP</label>
+              <span
+                class="text-danger"
+                *ngIf="postalCode.invalid && postalCode.touched"
+                >Richiesto</span
+              >
+            </div>
+            <input
+              #postalCode="ngModel"
+              class="form-control form-control-sm"
+              id="postalCode"
+              name="postalCode"
+              [(ngModel)]="newAddress.postalCode"
+              type="text"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <app-btn-primary-filled
+        [type]="'submit'"
+        [disabled]="!form.valid"
+        (onClick)="save()"
+        >Inserisci</app-btn-primary-filled
+      >
+    </form>
+  </section>
+</div>

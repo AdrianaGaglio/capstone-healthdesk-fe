@@ -1,0 +1,23 @@
+@media screen and (max-width: 1199px) {
+  #sidenav {
+    position: fixed;
+    padding-inline: 0;
+    min-width: 100px;
+    left: -100px;
+    top: 0;
+    bottom: 0;
+    transition: left 1s ease-in-out;
+    background-color: $background;
+    z-index: 9999;
+    box-shadow: 1px 1px 5px rgb(0 0 0 / 0.5);
+  }
+
+  #toggle {
+    transform: translateX(70%) translateY(50%);
+    cursor: pointer;
+  }
+
+  #sidenav.show {
+    left: 0;
+  }
+}

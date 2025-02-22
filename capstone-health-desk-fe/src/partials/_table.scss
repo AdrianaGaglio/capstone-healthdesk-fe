@@ -1,0 +1,39 @@
+.table tr td,
+.table tr th {
+  background: transparent;
+}
+
+.table tr:hover {
+  td:first-child {
+    border-top-left-radius: 0.25rem !important;
+  }
+  td:last-child {
+    border-top-right-radius: 0.25rem !important;
+  }
+  td:first-child {
+    border-bottom-left-radius: 0.25rem !important;
+  }
+  th:last-child {
+    border-bottom-right-radius: 0.25rem !important;
+  }
+  td {
+    background-color: lighten(lightgrey, 15%) !important;
+  }
+}
+
+/* Applica border-radius agli angoli della prima e ultima cella */
+tr.bg-secondary.rounded-1:first-child th:first-child {
+  border-top-left-radius: 0.25rem !important;
+}
+
+tr.bg-secondary.rounded-1:first-child th:last-child {
+  border-top-right-radius: 0.25rem !important;
+}
+
+tr.bg-secondary.rounded-1:last-child th:first-child {
+  border-bottom-left-radius: 0.25rem !important;
+}
+
+tr.bg-secondary.rounded-1:last-child th:last-child {
+  border-bottom-right-radius: 0.25rem !important;
+}

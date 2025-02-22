@@ -1,0 +1,29 @@
+<div class="card border-0 default-bg p-3 mb-3 bg-secondary-light rounded-1">
+  <div class="d-flex align-items-center gap-3" *ngIf="doctor">
+    <img
+      class="w-fixed-100 rounded-circle"
+      [src]="
+        doctor.avatar
+          ? doctor.avatar
+          : 'https://ui-avatars.com/api/?name=' +
+            doctor.name +
+            '+' +
+            doctor.surname
+      "
+    />
+    <div class="ps-2 flex-grow-1">
+      <h3 class="mb-0">{{ doctor.name }} {{ doctor.surname }}</h3>
+      <p class="mb-0 fw-bold fst-italic">{{ doctor.title }}</p>
+      <ul class="nav gap-2">
+        <li class="nav-item d-flex align-items-center gap-1">
+          <ng-icon class="text-primary" name="ionMailOutline"></ng-icon>
+          <span>{{ doctor.email }}</span>
+        </li>
+        <li class="nav-item d-flex align-items-center gap-1">
+          <ng-icon class="text-primary" name="ionCallOutline"></ng-icon>
+          <span>{{ doctor.phoneNumber }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
