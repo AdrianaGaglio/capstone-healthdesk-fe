@@ -1,5 +1,5 @@
 <div
-  class="p-3 bg-secondary-light rounded-2 d-flex flex-column flex-lg-row overflow-y-scroll overflow-y-auto position-relative"
+  class="p-3 bg-secondary-light rounded-2 d-flex flex-column flex-xl-row overflow-y-scroll overflow-y-auto position-relative"
   [ngClass]="{
     'justify-content-between': !isPassed
   }"
@@ -11,13 +11,14 @@
     (click)="close()"
   ></ng-icon>
   <div
-    class="d-flex flex-grow-0 flex-lg-grow-1"
+    class="d-flex flex-grow-0 flex-xl-grow-1 flex-column"
     [ngClass]="{
-      'max-width-300 flex-column': !isPassed,
-      'justify-content-between align-items-end': isPassed
+      'max-width-300 ': !isPassed,
+      'flex-xl-row justify-content-between align-items-ceneter align-items-xl-end':
+        isPassed
     }"
   >
-    <div>
+    <div class="mb-3 mb-xl-0">
       <p class="fs-xs fw-medium mb-2">
         {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
       </p>
@@ -26,7 +27,7 @@
         {{ patient.name }} {{ patient.surname }}
       </h6>
     </div>
-    <div>
+    <div class="mb-3 mb-xl-0">
       <span class="fs-xs fw-medium">Prestazione:</span>
       <p
         class="fs-6 text-decoration-underline"
@@ -36,11 +37,8 @@
       </p>
     </div>
 
-    <p
-      class="mb-1 d-inline-block"
-      [ngClass]="{ 'mb-0': isPassed, 'mb-3': !isPassed }"
-    >
-      <span class="fs-xs fw-medium me-2">Modalità:</span>
+    <p class="mb-3 d-inline-block" [ngClass]="{ 'mb-3 mb-xl-0': isPassed }">
+      <span class="fs-xs fw-medium me-3">Modalità:</span>
       <span class="bg-secondary rounded-2 text-dark fs-sm px-2">{{
         appointment.online ? "Online" : "In presenza"
       }}</span>
@@ -57,15 +55,15 @@
       >
     </p>
     <span
-      class="fs-xs text-dark fw-medium py-1 px-2 rounded-2 align-self-start mb-3 mb-lg-0"
+      class="fs-xs text-dark fw-medium py-1 px-2 rounded-2 align-self-start mb-3 mb-xl-0 align-self-start"
       [ngClass]="{
         'bg-primary': setStatus(appointment) == 'Confermato',
         'bg-warning': setStatus(appointment) == 'In attesa',
-        'align-self-end': isPassed
+        'align-self-xl-end': isPassed
       }"
       >{{ setStatus(appointment) }}</span
     >
-    <div class="mt-auto mb-3 mb-lg-0">
+    <div class="mt-auto mb-3 mb-xl-0">
       <app-btn-danger-filled
         *ngIf="
           (appointment.status === 'PENDING' ||
@@ -84,7 +82,7 @@
       >
     </div>
   </div>
-  <div class="flex-grow-1 px-0 px-lg-3 mb-3 mb-lg-0" *ngIf="!isPassed">
+  <div class="flex-grow-1 px-0 px-xl-3 mb-3 mb-xl-0" *ngIf="!isPassed">
     <app-calendar
       *ngIf="calendar"
       [calendar]="calendar"

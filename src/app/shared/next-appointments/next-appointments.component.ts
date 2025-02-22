@@ -70,11 +70,11 @@ export class NextAppointmentsComponent {
       .getNextAppointments(this.calendar.id, page, this.size)
       .subscribe((res) => {
         this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
+        this.currentPage = res.pageable.pageNumber;
         this.appointments = res.content.sort(
           (a, b) =>
             new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         );
-        this.currentPage = res.pageable.pageNumber;
       });
   }
 

@@ -104,6 +104,7 @@ a.custom-event.booked.fc-daygrid-event.fc-daygrid-dot-event:hover,
 
 a.custom-event.blocked.fc-daygrid-event.fc-daygrid-dot-event:hover,
 .blocked {
+  font-size: 0.7rem !important;
   background-color: lighten(gray, 10%);
   border-color: lighten(gray, 10%);
   opacity: 0.8;
@@ -117,6 +118,12 @@ a.custom-event.free.fc-daygrid-event.fc-daygrid-dot-event:hover,
 .free {
   background-color: $primary;
   border-color: $primary;
+}
+
+.fc-daygrid-event-harness {
+  min-height: 15px !important;
+  height: 15px !important;
+  margin-bottom: 0.05rem;
 }
 
 a.custom-event.fc-daygrid-event.fc-daygrid-dot-event {

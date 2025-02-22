@@ -1,0 +1,16 @@
+table.table th {
+  @extend .bg-secondary;
+  &:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+  &:last-of-type {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+}
+
+table.table th:not(:first-of-type, :nth-of-type(2)),
+table.table td:not(:first-of-type, :nth-of-type(2)) {
+  text-align: center;
+}
