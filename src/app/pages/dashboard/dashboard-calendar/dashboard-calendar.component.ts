@@ -3,6 +3,7 @@ import { CalendarService } from '../../../services/calendar.service';
 import {
   iAppointmentResponseForCalendar,
   iCalendar,
+  iCalendarForDoctor,
 } from '../../../interfaces/icalendar';
 import { iAppointment } from '../../../interfaces/iappointment';
 import { ManageAppointmentComponent } from '../../../shared/manage-appointment/manage-appointment.component';
@@ -20,13 +21,13 @@ export class DashboardCalendarComponent implements OnInit {
 
   private modalService = inject(NgbModal);
 
-  calendar!: iCalendar;
+  calendar!: iCalendarForDoctor;
   nextAppointments!: iAppointment[];
 
   ngOnInit() {
     this.calendarSvc.calendar$.subscribe((calendar) => {
       if (calendar) {
-        this.calendar = calendar;
+        this.calendar = calendar as iCalendarForDoctor;
       }
     });
   }

@@ -22,6 +22,7 @@ import {
   iActiveDay,
   iAppointmentResponseForCalendar,
   iCalendar,
+  iCalendarForDoctor,
 } from '../../interfaces/icalendar';
 import { AuthService } from '../../auth/auth.service';
 import { CalendarUtilitiesService } from '../../services/calendar-utilities.service';
@@ -48,7 +49,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   slots: iEvent[] = [];
   days!: iActiveDay[];
 
-  @Input() calendar!: iCalendar;
+  @Input() calendar!: iCalendar | iCalendarForDoctor;
 
   // per gestire le opzioni del calendario in maniera dinamica
   @Input() slotMinTime!: string;
@@ -56,10 +57,11 @@ export class CalendarComponent implements OnInit, OnChanges {
   @Input() height!: number;
   @Input() filterForDoctor: string = 'prev,next';
 
+  @Input() initialView!: string;
+
   @Output() onTimeSelect = new EventEmitter<iTiming>(); // emetto gli orari dello slot selezionato
   @Output() onUnlockSlot = new EventEmitter<number>(); // emetto l'id dello slot da sbloccare
-  @Output() onAppointmentSelect =
-    new EventEmitter<iAppointmentResponseForCalendar>();
+  @Output() onAppointmentSelect = new EventEmitter<iAppointment>();
 
   calendarOptions: CalendarOptions = {
     plugins: [
@@ -183,6 +185,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       slotMinTime: this.slotMinTime,
       slotMaxTime: this.slotMaxTime,
       height: this.height,
+      initialView: this.initialView ? this.initialView : 'timeGridWeek',
       headerToolbar: {
         left: 'title',
         right: this.filterForDoctor ? this.filterForDoctor : 'prev,next',
@@ -214,9 +217,10 @@ export class CalendarComponent implements OnInit, OnChanges {
     };
 
     // controllo se per la data selezionata c'è un appuntamento
-    let app = this.calendar.appointments.find(
-      (app: iAppointmentResponseForCalendar) =>
-        app.startDate === startDateString
+    let app = <iAppointment>(
+      this.calendar.appointments.find(
+        (app) => app.startDate === startDateString
+      )
     );
 
     this.authSvc.auth$.subscribe((auth) => {
@@ -225,6 +229,7 @@ export class CalendarComponent implements OnInit, OnChanges {
           // se il medico clicca su un appuntamento
           if (app.status !== 'BLOCKED') {
             // emette l'appuntamento per la gestione
+
             this.onAppointmentSelect.emit(app);
           } else {
             // sblocca lo slot bloccato

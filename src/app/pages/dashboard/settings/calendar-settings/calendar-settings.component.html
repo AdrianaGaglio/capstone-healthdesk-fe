@@ -151,26 +151,6 @@
           }}</app-btn-primary-filled
         >
       </div>
-    </div>
-    <div class="col col-12 col-lg-6 px-5">
-      <h5 class="fw-bolder">
-        Blocca/sblocca gli orari
-        <span class="fs-xs"
-          >(clicca sugli slot per modificarne la disponibilità)</span
-        >
-      </h5>
-      <div class="mb-3">
-        <app-calendar
-          *ngIf="calendar"
-          [calendar]="calendar"
-          [slotMaxTime]="calendar.slotMaxTime"
-          [slotMinTime]="calendar.slotMinTime"
-          [height]="300"
-          [filterForDoctor]="''"
-          (onTimeSelect)="blockSlot($event)"
-          (onUnlockSlot)="unlockSlot($event)"
-        ></app-calendar>
-      </div>
       <div class="card mb-3 p-2 rounded-1 border-0 shadow-sm default-bg">
         <ng-container *ngIf="calendar">
           <div class="w-100 d-flex align-items-center justify-content-between">
@@ -238,6 +218,26 @@
             >
           </div>
         </ng-container>
+      </div>
+    </div>
+    <div class="col col-12 col-lg-6 px-5">
+      <h5 class="fw-bolder">
+        Blocca/sblocca gli orari
+        <span class="fs-xs"
+          >(clicca sugli slot per modificarne la disponibilità)</span
+        >
+      </h5>
+      <div class="mb-3">
+        <app-calendar
+          *ngIf="calendar"
+          [calendar]="calendar"
+          [slotMaxTime]="calendar.slotMaxTime"
+          [slotMinTime]="calendar.slotMinTime"
+          [filterForDoctor]="''"
+          [initialView]="'dayGridMonth'"
+          (onTimeSelect)="blockSlot($event)"
+          (onUnlockSlot)="unlockSlot($event)"
+        ></app-calendar>
       </div>
     </div>
   </div>
