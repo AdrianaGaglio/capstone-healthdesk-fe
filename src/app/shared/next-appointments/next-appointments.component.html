@@ -47,7 +47,7 @@
     </p>
     <div class="d-flex align-items-center gap-2">
       <app-link-dark-filled [class]="''">Dettagli</app-link-dark-filled>
-      <app-btn-primary-filled [type]="'button'"
+      <app-btn-primary-filled [type]="'button'" (onClick)="emitAppointment(a)"
         >Modifica</app-btn-primary-filled
       >
     </div>

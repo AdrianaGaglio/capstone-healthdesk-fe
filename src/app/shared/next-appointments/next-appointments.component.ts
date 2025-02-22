@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { iAppointment } from '../../interfaces/iappointment';
-import { iCalendar } from '../../interfaces/icalendar';
+import {
+  iAppointmentResponseForCalendar,
+  iCalendar,
+} from '../../interfaces/icalendar';
 import { AppointmentService } from '../../services/appointment.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-next-appointments',
@@ -13,6 +17,9 @@ export class NextAppointmentsComponent {
 
   appointments!: iAppointment[];
   @Input() calendar!: iCalendar;
+
+  @Output() onAppointmentSelected =
+    new EventEmitter<iAppointmentResponseForCalendar>();
 
   // elementi per gestire il pageable
   pages: number[] = [];
@@ -53,5 +60,9 @@ export class NextAppointmentsComponent {
         );
         this.currentPage = res.pageable.pageNumber;
       });
+  }
+
+  emitAppointment(appointment: iAppointment) {
+    this.onAppointmentSelected.emit(appointment);
   }
 }

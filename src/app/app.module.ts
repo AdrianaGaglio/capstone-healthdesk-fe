@@ -59,6 +59,7 @@ import { FrontHeaderComponent } from './main-components/header/front-header/fron
 import { DashboardHeaderComponent } from './main-components/header/dashboard-header/dashboard-header.component';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeIt);
 

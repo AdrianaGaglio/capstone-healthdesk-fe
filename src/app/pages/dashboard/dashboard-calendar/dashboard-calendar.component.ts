@@ -5,7 +5,10 @@ import {
   iCalendar,
 } from '../../../interfaces/icalendar';
 import { iAppointment } from '../../../interfaces/iappointment';
-import { AppointmentService } from '../../../services/appointment.service';
+import { ManageAppointmentComponent } from '../../../shared/manage-appointment/manage-appointment.component';
+import { inject } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-dashboard-calendar',
   templateUrl: './dashboard-calendar.component.html',
@@ -13,6 +16,8 @@ import { AppointmentService } from '../../../services/appointment.service';
 })
 export class DashboardCalendarComponent implements OnInit {
   constructor(private calendarSvc: CalendarService) {}
+
+  private modalService = inject(NgbModal);
 
   calendar!: iCalendar;
   nextAppointments!: iAppointment[];
@@ -25,5 +30,26 @@ export class DashboardCalendarComponent implements OnInit {
     });
   }
 
-  manageAppointment(appointment: iAppointmentResponseForCalendar) {}
+  manageAppointment(
+    appointment: iAppointment | iAppointmentResponseForCalendar
+  ) {
+    this.openModal(appointment as iAppointment)
+      .result.then((result) => {
+        this.calendarSvc.restoreCalendar();
+      })
+      .catch((error) => {
+        this.modalService.dismissAll(error);
+      });
+  }
+
+  openModal(appointment: iAppointment) {
+    const modalRef = this.modalService.open(ManageAppointmentComponent, {
+      size: 'xl',
+      centered: true,
+    });
+
+    modalRef.componentInstance.appointment = appointment;
+
+    return modalRef;
+  }
 }

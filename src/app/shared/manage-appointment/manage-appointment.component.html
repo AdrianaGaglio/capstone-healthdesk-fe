@@ -1,1 +1,29 @@
-<p>manage-appointment works!</p>
+<div class="p-3 bg-secondary-light rounded-2">
+  <div>
+    <p class="fs-xs fw-medium mb-2">
+      {{ formattedDate() }}
+    </p>
+    <span class="fs-xs fw-medium">Paziente:</span>
+    <h6 class="fs-5">{{ patient.name }} {{ patient.surname }}</h6>
+    <span class="fs-xs fw-medium">Prestazione:</span>
+    <p class="fs-6 mb-2 text-decoration-underline">
+      {{ appointment.service.name }}
+    </p>
+
+    <p class="mb-0 d-inline-block">
+      <span class="fs-xs fw-medium me-2">Modalità:</span>
+      <span class="bg-secondary rounded-2 text-dark fs-sm px-2">{{
+        appointment.online ? "Online" : "In presenza"
+      }}</span>
+    </p>
+  </div>
+  <form>
+    <label for="data">Nuova data</label>
+    <input
+      class="form-control form-control-sm"
+      type="date"
+      [min]="today"
+      name="date"
+    />
+  </form>
+</div>

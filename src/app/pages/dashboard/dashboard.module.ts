@@ -18,6 +18,7 @@ import { SidenavModule } from '../../shared/sidenav/sidenav.module';
 import { NgIconsModule } from '@ng-icons/core';
 import { CalendarModule } from '../../shared/calendar/calendar.module';
 import { NextAppointmentsModule } from '../../shared/next-appointments/next-appointments.module';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -41,5 +42,6 @@ import { NextAppointmentsModule } from '../../shared/next-appointments/next-appo
     CalendarModule,
     NextAppointmentsModule,
   ],
+  providers: [NgbActiveModal],
 })
 export class DashboardModule {}

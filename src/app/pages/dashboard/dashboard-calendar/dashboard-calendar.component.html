@@ -2,7 +2,11 @@
   <div class="row">
     <h3 class="mb-3 display-4">Agenda</h3>
     <div class="col col-12 px-3 col-lg-6 mb-3">
-      <app-next-appointments *ngIf="calendar" [calendar]="calendar">
+      <app-next-appointments
+        *ngIf="calendar"
+        [calendar]="calendar"
+        (onAppointmentSelected)="manageAppointment($event)"
+      >
       </app-next-appointments>
     </div>
     <div class="col col-12 col-lg-6">
