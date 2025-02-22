@@ -3,12 +3,17 @@ import { iDoctor } from './../interfaces/idoctor';
 import { iPatient } from './../interfaces/ipatient';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import { iAppointmentResponseForCalendar } from '../interfaces/icalendar';
+import { iAppointment } from '../interfaces/iappointment';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilitiesService {
   constructor(private authSvc: AuthService) {}
+
+  statuses: { eng: string; it: string }[] = environment.statuses;
 
   getAvatar(user: iPatient | iDoctor | null): string {
     if (!user) {
@@ -18,5 +23,9 @@ export class UtilitiesService {
         ? user.avatar
         : 'https://ui-avatars.com/api/?name=' + user.name + '+' + user.surname;
     }
+  }
+
+  setStatus(app: iAppointmentResponseForCalendar | iAppointment) {
+    return this.statuses.find((status) => status.eng === app.status)?.it;
   }
 }

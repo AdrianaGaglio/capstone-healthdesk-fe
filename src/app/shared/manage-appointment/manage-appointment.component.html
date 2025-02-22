@@ -1,36 +1,83 @@
 <div
-  class="p-3 bg-secondary-light rounded-2 d-flex justify-content-between"
+  class="p-3 bg-secondary-light rounded-2 d-flex"
+  [ngClass]="{ 'justify-content-between': !isPassed }"
   *ngIf="appointment"
 >
-  <div>
-    <p class="fs-xs fw-medium mb-2">
-      {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
-    </p>
-    <span class="fs-xs fw-medium">Paziente:</span>
-    <h6 class="fs-5">{{ patient.name }} {{ patient.surname }}</h6>
-    <span class="fs-xs fw-medium">Prestazione:</span>
-    <p class="fs-6 mb-2 text-decoration-underline">
-      {{ appointment.service.name }}
-    </p>
+  <div
+    class="d-flex flex-grow-1"
+    [ngClass]="{
+      'max-width-300 flex-column': !isPassed,
+      'justify-content-between': isPassed
+    }"
+  >
+    <div>
+      <p class="fs-xs fw-medium mb-2">
+        {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
+      </p>
+      <span class="fs-xs fw-medium">Paziente:</span>
+      <h6 class="fs-5" [ngClass]="{ 'mb-0': isPassed }">
+        {{ patient.name }} {{ patient.surname }}
+      </h6>
+    </div>
+    <div [ngClass]="{ 'align-self-center': isPassed }">
+      <span class="fs-xs fw-medium">Prestazione:</span>
+      <p
+        class="fs-6 text-decoration-underline"
+        [ngClass]="{ 'mb-2': !isPassed, 'mb-0': isPassed }"
+      >
+        {{ appointment.service.name }}
+      </p>
+    </div>
 
-    <p class="mb-1 d-inline-block">
+    <p
+      class="mb-1 d-inline-block"
+      [ngClass]="{ 'align-self-center mb-0': isPassed, 'mb-3': !isPassed }"
+    >
       <span class="fs-xs fw-medium me-2">Modalità:</span>
       <span class="bg-secondary rounded-2 text-dark fs-sm px-2">{{
         appointment.online ? "Online" : "In presenza"
       }}</span>
     </p>
 
-    <p *ngIf="!appointment.online && appointment.address">
+    <p *ngIf="!appointment.online && appointment.doctorAddress" class="mb-3">
       <span class="fs-xs fw-medium me-2">
         <ng-icon name="ionLocationOutline"></ng-icon>
-        {{ appointment.address.street }},
-        {{ appointment.address.streetNumber }} {{ appointment.address.city }}
-        {{ appointment.address.provinceAcronym }}
-        {{ appointment.address.postalCode }}</span
+        {{ appointment.doctorAddress.street }},
+        {{ appointment.doctorAddress.streetNumber }}
+        {{ appointment.doctorAddress.city }}
+        {{ appointment.doctorAddress.provinceAcronym }}
+        {{ appointment.doctorAddress.postalCode }}</span
       >
     </p>
+    <span
+      class="fs-xs text-dark fw-medium py-1 px-2 rounded-2 align-self-start"
+      [ngClass]="{
+        'bg-primary': setStatus(appointment) == 'Confermato',
+        'bg-warning': setStatus(appointment) == 'In attesa',
+        'align-self-center': isPassed
+      }"
+      >{{ setStatus(appointment) }}</span
+    >
+    <div class="mt-auto">
+      <app-btn-danger-filled
+        *ngIf="
+          (appointment.status === 'PENDING' ||
+            appointment.status === 'CONFIRMED') &&
+          !isPassed
+        "
+        [type]="'button'"
+        (onClick)="cancel()"
+        >Annulla appuntamento</app-btn-danger-filled
+      >
+      <app-btn-primary-filled
+        *ngIf="appointment.status === 'PENDING' && isPassed"
+        [type]="'button'"
+        (onClick)="confirm()"
+        >Conferma appuntamento</app-btn-primary-filled
+      >
+    </div>
   </div>
-  <div class="flex-grow-1 px-3">
+  <div class="flex-grow-1 px-3" *ngIf="!isPassed">
     <app-calendar
       *ngIf="calendar"
       [calendar]="calendar"
@@ -41,25 +88,30 @@
     ></app-calendar>
   </div>
   <form
+    *ngIf="!isPassed"
     #form="ngForm"
-    class="d-flex flex-column justify-content-between"
+    class="d-flex flex-column justify-content-between flex-grow-1 max-width-200"
     (submit)="submit()"
   >
     <label for="data" class="form-label fs-sm mb-1">Nuova data</label>
     <input
-      class="form-control form-control-sm border-secondary shadow-sm mb-3"
+      #dateInput="ngModel"
+      class="form-control form-control-sm border-secondary shadow-sm mb-3 w-auto"
       type="date"
       [min]="today"
       name="date"
       [(ngModel)]="date"
+      required
     />
     <select
       *ngIf="date"
-      class="form-select form-select-sm border-secondary shadow-sm"
+      class="form-select form-select-sm border-secondary shadow-sm mb-3 w-auto"
       name="time"
       id="time"
       [(ngModel)]="time"
       (change)="setTime({ startDate: date + 'T' + time + ':00', endDate: '' })"
+      #timeInput="ngModel"
+      required
     >
       <option *ngFor="let time of generateTimeSlots(date)" [value]="time">
         {{ time }}
@@ -84,16 +136,16 @@
       *ngIf="doctor && addAddress"
       name="address"
       id="address"
-      class="form-select form-select-sm border-secondary shadow-sm"
-      [(ngModel)]="appointment.address"
+      class="form-select form-select-sm border-secondary shadow-sm w-auto"
+      [(ngModel)]="appointment.doctorAddress"
       [required]="!appointment.online && addAddress"
       [ngClass]="{ 'border-danger': address.invalid }"
     >
       <option [ngValue]="null">-- seleziona lo studio --</option>
-      <option [ngValue]="a.address" *ngFor="let a of doctor.addresses">
-        {{ a.address.street }}, {{ a.address.streetNumber }}
-        {{ a.address.city }} {{ a.address.provinceAcronym }}
-        {{ a.address.postalCode }}
+      <option [ngValue]="a.doctorAddress" *ngFor="let a of doctor.addresses">
+        {{ a.doctorAddress.street }}, {{ a.doctorAddress.streetNumber }}
+        {{ a.doctorAddress.city }} {{ a.doctorAddress.provinceAcronym }}
+        {{ a.doctorAddress.postalCode }}
       </option>
     </select>
 

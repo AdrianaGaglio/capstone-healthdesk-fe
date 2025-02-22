@@ -1,0 +1,9 @@
+<button
+  [class]="'btn btn-sm btn-danger text-light rounded-2 ' + class"
+  [disabled]="disabled"
+  [type]="type"
+  [title]="title"
+  (click)="onClick.emit($event)"
+>
+  <ng-content></ng-content>
+</button>

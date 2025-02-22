@@ -10,7 +10,7 @@ export interface iAppointment {
   patient: iPatient;
   service: iService;
   status: string;
-  address: iAddress | null;
+  doctorAddress: iAddress | null;
   online: boolean;
 }
 

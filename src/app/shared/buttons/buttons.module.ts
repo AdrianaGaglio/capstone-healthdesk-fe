@@ -7,6 +7,7 @@ import { BtnPrimaryComponent } from './btn-primary/btn-primary.component';
 import { BtnDarkComponent } from './btn-dark/btn-dark.component';
 import { BtnDarkFilledComponent } from './btn-dark-filled/btn-dark-filled.component';
 import { LinkDarkFilledComponent } from './link-dark-filled/link-dark-filled.component';
+import { BtnDangerFilledComponent } from './btn-danger-filled/btn-danger-filled.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { LinkDarkFilledComponent } from './link-dark-filled/link-dark-filled.com
     BtnDarkComponent,
     BtnDarkFilledComponent,
     LinkDarkFilledComponent,
+    BtnDangerFilledComponent,
   ],
   imports: [CommonModule, RouterLink, RouterLinkActive],
   exports: [
@@ -25,6 +27,7 @@ import { LinkDarkFilledComponent } from './link-dark-filled/link-dark-filled.com
     BtnDarkComponent,
     BtnDarkFilledComponent,
     LinkDarkFilledComponent,
+    BtnDangerFilledComponent,
   ],
 })
 export class ButtonsModule {}

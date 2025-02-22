@@ -10,11 +10,14 @@
         <ng-icon name="ionLocationOutline"></ng-icon> {{ a.name }}
       </p>
       <p class="mb-0">
-        {{ a.address.street }}, {{ a.address.streetNumber }}
-        {{ a.address.city }} {{ a.address.provinceAcronym }}
-        {{ a.address.postalCode }}
+        {{ a.doctorAddress.street }}, {{ a.doctorAddress.streetNumber }}
+        {{ a.doctorAddress.city }} {{ a.doctorAddress.provinceAcronym }}
+        {{ a.doctorAddress.postalCode }}
       </p>
     </div>
-    <app-map [address]="getAddress(a.address)" [width]="'250px'"></app-map>
+    <app-map
+      [address]="getAddress(a.doctorAddress)"
+      [width]="'250px'"
+    ></app-map>
   </div>
 </div>

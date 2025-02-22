@@ -4,6 +4,7 @@ $primary: #51b4a2;
 $secondary: #d9eee7;
 $accent: #c3f6c3;
 $danger: #d87093;
+$warning: #f4a261;
 
 $custom-colors: (
   "primary": $primary,
@@ -14,5 +15,6 @@ $custom-colors: (
   "white": $background,
   "success": $accent,
   "danger": $danger,
+  "warning": lighten($warning, 15%),
   "info": darken($primary, 20%),
 ) !default;

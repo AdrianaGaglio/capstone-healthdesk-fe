@@ -11,5 +11,5 @@ export interface iAddress {
 
 export interface iAddressForDoctor {
   name: string;
-  address: iAddress;
+  doctorAddress: iAddress;
 }

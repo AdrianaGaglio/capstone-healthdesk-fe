@@ -11,10 +11,13 @@
         [ngClass]="{ 'border-danger': isTouchedInvalid('doctorAddressId') }"
       >
         <option [ngValue]="null">-- seleziona lo studio --</option>
-        <option [ngValue]="a.address.id" *ngFor="let a of doctor.addresses">
-          {{ a.address.street }}, {{ a.address.streetNumber }}
-          {{ a.address.city }} {{ a.address.provinceAcronym }}
-          {{ a.address.postalCode }}
+        <option
+          [ngValue]="a.doctorAddress.id"
+          *ngFor="let a of doctor.addresses"
+        >
+          {{ a.doctorAddress.street }}, {{ a.doctorAddress.streetNumber }}
+          {{ a.doctorAddress.city }} {{ a.doctorAddress.provinceAcronym }}
+          {{ a.doctorAddress.postalCode }}
         </option>
       </select>
     </div>

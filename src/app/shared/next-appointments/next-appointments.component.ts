@@ -6,6 +6,9 @@ import {
 } from '../../interfaces/icalendar';
 import { AppointmentService } from '../../services/appointment.service';
 import { EventEmitter } from '@angular/core';
+import { environment } from '../../../environments/environment.development';
+import { UtilitiesService } from '../../services/utilities.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-next-appointments',
@@ -13,7 +16,10 @@ import { EventEmitter } from '@angular/core';
   styleUrl: './next-appointments.component.scss',
 })
 export class NextAppointmentsComponent {
-  constructor(private appointmentSvc: AppointmentService) {}
+  constructor(
+    private appointmentSvc: AppointmentService,
+    private utilities: UtilitiesService
+  ) {}
 
   appointments!: iAppointment[];
   @Input() calendar!: iCalendar;
@@ -36,16 +42,19 @@ export class NextAppointmentsComponent {
     this.appointmentSvc
       .getNextAppointments(this.calendar.id, this.currentPage, this.size)
       .subscribe((res) => {
-        this.appointments = res.content
-          .sort(
-            (a, b) =>
-              new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-          )
-          .filter((a) => a.status != 'CANCELLED');
+        this.appointments = res.content.sort(
+          (a, b) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        );
+
         this.totalElements = res.totalElements;
         this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
         this.currentPage = this.pages[0];
       });
+  }
+
+  setStatus(app: iAppointmentResponseForCalendar) {
+    return this.utilities.setStatus(app);
   }
 
   // funzione per cambiare la pagina e numero di elementi

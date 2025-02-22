@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { iAppointment } from '../../interfaces/iappointment';
 import { iPatient } from '../../interfaces/ipatient';
 import { CalendarService } from '../../services/calendar.service';
@@ -11,6 +11,9 @@ import { iEvent } from '../../interfaces/ievent';
 import { iTiming } from '../../interfaces/itiming';
 import { DoctorService } from '../../services/doctor.service';
 import { iDoctor } from '../../interfaces/idoctor';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AppointmentService } from '../../services/appointment.service';
+import { UtilitiesService } from '../../services/utilities.service';
 
 @Component({
   selector: 'app-manage-appointment',
@@ -20,9 +23,13 @@ import { iDoctor } from '../../interfaces/idoctor';
 export class ManageAppointmentComponent {
   constructor(
     private calendarSvc: CalendarService,
-    private utilities: CalendarUtilitiesService,
-    private doctorSvc: DoctorService
+    private calUtilities: CalendarUtilitiesService,
+    private doctorSvc: DoctorService,
+    private appointmentSvc: AppointmentService,
+    private utilities: UtilitiesService
   ) {}
+
+  private activeModal = inject(NgbActiveModal);
 
   @Input() appointment!: iAppointment;
   calendar!: iCalendar;
@@ -47,6 +54,7 @@ export class ManageAppointmentComponent {
   addAddress: boolean = false;
 
   ngOnInit() {
+    console.log(this.appointment);
     this.today = new Date().toISOString().split('T')[0];
 
     this.doctorSvc.doctor$.subscribe((doctor) => {
@@ -58,7 +66,7 @@ export class ManageAppointmentComponent {
     this.calendarSvc.calendar$.subscribe((calendar) => {
       if (calendar) {
         this.calendar = calendar;
-        this.slots = this.utilities
+        this.slots = this.calUtilities
           .generateSlots(calendar.appointments, calendar.days, calendar)
           .filter(
             (slot) => new Date(slot.start).getTime() > new Date().getTime()
@@ -118,9 +126,13 @@ export class ManageAppointmentComponent {
     });
   }
 
+  setStatus(app: iAppointmentResponseForCalendar) {
+    return this.utilities.setStatus(app);
+  }
+
   handleAddress() {
     if (this.appointment.online) {
-      this.appointment.address = null;
+      this.appointment.doctorAddress = null;
       this.addAddress = false;
     } else {
       this.addAddress = true;
@@ -157,5 +169,22 @@ export class ManageAppointmentComponent {
 
   submit() {
     console.log(this.appointment);
+    this.appointmentSvc.updateAppointment(this.appointment).subscribe((res) => {
+      this.activeModal.close();
+    });
+  }
+
+  cancel() {
+    this.appointmentSvc
+      .cancelAppointment(this.appointment.id)
+      .subscribe((res) => {
+        this.activeModal.close();
+      });
+  }
+
+  confirm() {
+    this.appointmentSvc
+      .confirmAppointment(this.appointment.id)
+      .subscribe((res) => this.activeModal.close());
   }
 }

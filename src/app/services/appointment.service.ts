@@ -3,9 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { iAppointmentRequest } from '../interfaces/iappointment';
 import { Observable, tap } from 'rxjs';
-import { iAppointmentResponseForCalendar } from '../interfaces/icalendar';
+import {
+  iAppointmentResponseForCalendar,
+  iCalendar,
+} from '../interfaces/icalendar';
 import { CalendarService } from './calendar.service';
 import { iPagedAppointments } from '../interfaces/ipagedappointments';
+import { iAppointmentResponseForMF } from '../interfaces/imedicalfolder';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +30,7 @@ export class AppointmentService {
   getNextAppointments(
     calendarId: number,
     page: number = 0,
-    size: number = 5,
+    size: number = 4,
     sort?: string[]
   ): Observable<iPagedAppointments> {
     let url: string = `${this.url}/next/${calendarId}?page=${page}&size=${size}&sort=startDate`;
@@ -35,5 +39,28 @@ export class AppointmentService {
     }
 
     return this.http.get<iPagedAppointments>(url);
+  }
+
+  updateAppointment(
+    appointment: iAppointmentResponseForCalendar
+  ): Observable<iCalendar> {
+    return this.http.put<iCalendar>(
+      `${this.url}/${appointment.id}`,
+      appointment
+    );
+  }
+
+  cancelAppointment(id: number): Observable<iAppointmentResponseForMF> {
+    return this.http.put<iAppointmentResponseForMF>(
+      `${this.url}/cancel/${id}`,
+      id
+    );
+  }
+
+  confirmAppointment(id: number): Observable<iAppointmentResponseForMF> {
+    return this.http.put<iAppointmentResponseForMF>(
+      `${this.url}/confirm/${id}`,
+      id
+    );
   }
 }

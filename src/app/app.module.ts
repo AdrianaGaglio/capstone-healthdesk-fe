@@ -2,7 +2,10 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { NgIconsModule } from '@ng-icons/core';
+import { RefreshTokenInterceptor } from './auth/refreshtoken.interceptor';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
@@ -118,7 +121,18 @@ registerLocaleData(localeIt);
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'it' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
