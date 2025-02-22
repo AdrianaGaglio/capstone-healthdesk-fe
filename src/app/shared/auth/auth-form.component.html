@@ -1,0 +1,26 @@
+<app-login-form *ngIf="!isRegister" (onLogin)="emitPatientId($event)">
+  <p slot="title" class="fs-5 text-dark text-center mb-3">Accedi</p>
+
+  <app-btn-dark
+    class="w-100"
+    [class]="'w-100 '"
+    *ngIf="bookingRequest"
+    slot="extraButton"
+    (onClick)="isRegister = !isRegister"
+    >Se non hai un account, clicca qui!</app-btn-dark
+  >
+</app-login-form>
+
+<app-register-form *ngIf="isRegister" (onRegister)="emitPatientId($event)">
+  <p slot="title" class="fs-5 text-dark text-center mb-3">
+    Inserisci i tuoi dati per la registrazione
+  </p>
+  <app-btn-dark
+    class="w-100"
+    [class]="'w-100 '"
+    *ngIf="bookingRequest"
+    slot="extraButton"
+    (onClick)="isRegister = !isRegister"
+    >Se hai già un account, clicca qui!</app-btn-dark
+  >
+</app-register-form>

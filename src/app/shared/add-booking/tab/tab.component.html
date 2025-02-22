@@ -1,0 +1,19 @@
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  [destroyOnHide]="false"
+  class="nav-tabs"
+>
+  <li [ngbNavItem]="1" [destroyOnHide]="true" (click)="emitOnline(false)">
+    <button ngbNavLink class="rounded-2 text-dark">In presenza</button>
+    <ng-template ngbNavContent>
+      <ng-content></ng-content>
+    </ng-template>
+  </li>
+  <li *ngIf="hasOnline" [ngbNavItem]="2" (click)="emitOnline(true)">
+    <button ngbNavLink class="rounded-2 text-dark">Online</button>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

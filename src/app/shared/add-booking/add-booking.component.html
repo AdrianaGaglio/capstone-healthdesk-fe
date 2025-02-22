@@ -1,0 +1,51 @@
+<form [formGroup]="appointmentRequest" (submit)="submit()">
+  <app-tab [hasOnline]="hasOnline" (onTabChanged)="setOnline($event)">
+    <div *ngIf="doctor && doctor.addresses" class="mb-2 py-2">
+      <label for="doctorAddressId" class="fs-sm mb-1">Studio medico</label>
+      <select
+        class="form-select form-select-sm border-secondary shadow-sm"
+        formControlName="doctorAddressId"
+        id="doctorAddressId"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('doctorAddressId') }"
+      >
+        <option [ngValue]="null">-- seleziona lo studio --</option>
+        <option [ngValue]="a.address.id" *ngFor="let a of doctor.addresses">
+          {{ a.address.street }}, {{ a.address.streetNumber }}
+          {{ a.address.city }} {{ a.address.provinceAcronym }}
+          {{ a.address.postalCode }}
+        </option>
+      </select>
+    </div>
+  </app-tab>
+  <div class="mb-2 py-2" *ngIf="services">
+    <label for="serviceId" class="fs-sm mb-1">Prestazione</label>
+    <select
+      class="form-select form-select-sm border-secondary shadow-sm"
+      formControlName="serviceId"
+      id="serviceId"
+      [ngClass]="{ 'border-danger': isTouchedInvalid('serviceId') }"
+    >
+      <option [ngValue]="null">-- seleziona la prestazione --</option>
+      <option [ngValue]="s.id" *ngFor="let s of services">
+        {{ s.name }}
+      </option>
+    </select>
+  </div>
+  <div class="py-2 mb-2">
+    <app-calendar
+      *ngIf="calendar"
+      [calendar]="calendar"
+      [slotMaxTime]="calendar.slotMaxTime"
+      [slotMinTime]="calendar.slotMinTime"
+      [height]="300"
+      (onTimeSelect)="setTime($event)"
+    ></app-calendar>
+  </div>
+  <app-btn-primary-filled
+    class="w-100"
+    [class]="'w-100'"
+    [type]="'submit'"
+    [disabled]="appointmentRequest.invalid"
+    >Conferma appuntamento</app-btn-primary-filled
+  >
+</form>

@@ -1,0 +1,91 @@
+<div class="container">
+  <div
+    class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start"
+  >
+    <a routerLink="/" class="d-flex align-items-center mb-lg-0">
+      <img src="images/logo-texted.png" alt="logo" class="w-fixed-75" />
+    </a>
+
+    <ul
+      #menu
+      class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-start justify-content-md-center p-3 p-md-0 mb-md-0 flex-grow-1 bg-secondary-light shadow-sm"
+    >
+      <img src="images/logo-texted.png" alt="logo" class="w-fixed-75 ms-2" />
+      <li>
+        <a
+          routerLink="/"
+          class="nav-link text-dark"
+          routerLinkActive="fw-bold"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Home</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/chi-sono"
+          class="nav-link text-dark"
+          routerLinkActive="fw-bold"
+          >Chi sono</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/contatti"
+          class="nav-link text-dark"
+          routerLinkActive="fw-bold"
+          >Contatti</a
+        >
+      </li>
+      <li>
+        <app-link-primary-filled
+          [url]="'/prenota'"
+          class="nav-link mx-2 p-0"
+          [class]="' px-2'"
+          routerLinkActive="fw-bold"
+          >Prenota appuntamento</app-link-primary-filled
+        >
+      </li>
+    </ul>
+
+    <div class="text-end d-flex align-items-center gap-2">
+      <app-btn-primary
+        *ngIf="!isLoggedIn"
+        [title]="'Accedi'"
+        (onClick)="openAuthModal()"
+        >Accedi</app-btn-primary
+      >
+      <div ngbDropdown *ngIf="isLoggedIn">
+        <img
+          *ngIf="avatar"
+          role="button"
+          ngbDropdownToggle
+          [src]="avatar"
+          class="w-fixed-40 h-fixed-40 rounded-circle shadow-sm"
+          alt="immagine profilo"
+        />
+        <div ngbDropdownMenu class="bg-secondary-light shadow-sm rounded-2">
+          <a
+            ngbDropdownItem
+            class="text-dark"
+            [routerLink]="isDoctor ? '/dashboard' : '/scheda-personale'"
+            >{{ isDoctor ? "Dashboard" : "Scheda personale" }}</a
+          >
+          <a
+            ngbDropdownItem
+            class="text-dark"
+            [routerLink]="
+              isDoctor ? '/dashboard/impostazioni/profilo' : '/paziente/profilo'
+            "
+            >Profilo</a
+          >
+          <button ngbDropdownItem class="text-dark" (click)="logout()">
+            Esci
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-sm border-0 close-btn" (click)="openMenu()">
+        <ng-icon name="ionMenuOutline" class="fs-3"></ng-icon>
+      </button>
+    </div>
+  </div>
+</div>

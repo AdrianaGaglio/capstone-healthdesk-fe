@@ -1,0 +1,27 @@
+<div
+  class="d-flex flex-wrap gap-2 bg-secondary rounded-2 shadow-sm p-3"
+  *ngIf="doctor"
+>
+  <img
+    [src]="avatar"
+    *ngIf="avatar"
+    alt="doctor image"
+    class="rounded-2 w-fixed-100 h-fixed-100"
+  />
+  <div class="d-flex flex-column justify-content-center">
+    <h3 class="display-6 text-dark mb-0">
+      {{ doctor.name }} {{ doctor.surname }}
+    </h3>
+    <p *ngIf="doctor.title" class="fs-xs fst-italic mb-2">{{ doctor.title }}</p>
+    <p class="fs-sm d-flex gap-3 align-items-center mb-0">
+      <span class="d-flex align-items-center gap-2">
+        <ng-icon name="ionCallOutline" class="fs-sm"></ng-icon>
+        {{ doctor.phoneNumber }}
+      </span>
+      <span class="d-flex align-items-center gap-2">
+        <ng-icon name="ionMailOutline" class="fs-sm"></ng-icon>
+        {{ doctor.email }}
+      </span>
+    </p>
+  </div>
+</div>

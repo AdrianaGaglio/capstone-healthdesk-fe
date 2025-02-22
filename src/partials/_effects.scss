@@ -1,0 +1,25 @@
+.onhover:hover {
+  @extend .bg-secondary-light;
+  @extend .shadow-sm;
+}
+
+.bounce {
+  animation-name: bounce;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}

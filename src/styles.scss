@@ -1,0 +1,23 @@
+@import "partials/colors";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+$theme-colors: map-merge(
+  $map1: $theme-colors,
+  $map2: $custom-colors,
+);
+
+@import "partials/fonts";
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+@import "partials/alignment";
+@import "partials/header";
+@import "partials/background";
+@import "partials/sizes";
+@import "partials/scroll";
+@import "partials/icons";
+@import "partials/effects";
+@import "partials/calendar";
+@import "partials/navtabs";
+@import "partials/sidenav";

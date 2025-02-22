@@ -1,0 +1,20 @@
+<div *ngIf="addresses">
+  <ng-content></ng-content>
+
+  <div
+    *ngFor="let a of addresses"
+    class="p-2 onhover rounded-2 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between"
+  >
+    <div class="mb-2">
+      <p class="fs-3 mb-0">
+        <ng-icon name="ionLocationOutline"></ng-icon> {{ a.name }}
+      </p>
+      <p class="mb-0">
+        {{ a.address.street }}, {{ a.address.streetNumber }}
+        {{ a.address.city }} {{ a.address.provinceAcronym }}
+        {{ a.address.postalCode }}
+      </p>
+    </div>
+    <app-map [address]="getAddress(a.address)" [width]="'250px'"></app-map>
+  </div>
+</div>

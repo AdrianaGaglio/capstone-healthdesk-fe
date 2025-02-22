@@ -1,0 +1,33 @@
+header .nav {
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  // left: 0;
+  width: 250px;
+  transition: left 0.3s ease;
+}
+
+header .nav.show {
+  left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  header .nav {
+    position: initial;
+    flex-direction: row;
+    box-shadow: unset !important;
+    img {
+      display: none;
+    }
+  }
+
+  .close-btn {
+    display: none;
+  }
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}

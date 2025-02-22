@@ -1,0 +1,60 @@
+<aside class="position-absolute top-0 bottom-0 start-0">
+  <div
+    id="sidenav"
+    class="position-absolute top-0 bottom-0 flex-column flex-shrink-0 shadow-sm"
+  >
+    <div
+      id="sidenavToggle"
+      appToggleSidenav
+      (click)="show = !show"
+      class="rounded-pill px-3 py-2 d-flex fs-sm position-absolute bg-secondary end-0 top-0 shadow-sm"
+    >
+      <ng-icon
+        [name]="show ? 'ionChevronBackOutline' : 'ionChevronForwardOutline'"
+        class="position-absolute top-50 start-50 translate-middle"
+      ></ng-icon>
+    </div>
+    <ul class="nav nav-pills nav-flush flex-column text-center">
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/calendario"
+          routerLinkActive="bg-secondary-light"
+          class="nav-link rounded-0 py-3"
+          title="Gestione calendario"
+        >
+          <ng-icon name="ionCalendarOutline" class="fs-3"></ng-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/pazienti"
+          routerLinkActive="bg-secondary-light"
+          class="nav-link rounded-0 py-3"
+          title="Gestione pazienti"
+        >
+          <ng-icon name="ionPeopleOutline" class="fs-3"></ng-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/appuntamenti"
+          routerLinkActive="bg-secondary-light"
+          class="nav-link rounded-0 py-3"
+          title="Gestione appuntamenti"
+        >
+          <ng-icon name="ionListOutline" class="fs-3"></ng-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/impostazioni"
+          routerLinkActive="bg-secondary-light"
+          class="nav-link rounded-0 py-3"
+          title="Impostazioni"
+        >
+          <ng-icon name="ionSettingsOutline" class="fs-3"></ng-icon>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

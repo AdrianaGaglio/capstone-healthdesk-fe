@@ -1,0 +1,9 @@
+ul.nav-tabs,
+.nav-tabs .nav-item button {
+  border: none !important;
+}
+
+.nav-tabs .nav-item button.nav-link.active {
+  @extend .bg-secondary-light;
+  @extend .shadow-sm;
+}

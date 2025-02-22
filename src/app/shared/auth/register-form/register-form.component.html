@@ -1,0 +1,85 @@
+<div class="px-5 py-3 px-sm-3 rounded-2 shadow-lg bg-secondary-light">
+  <ng-content select="[slot=title]"></ng-content>
+  <form [formGroup]="registerRequest" (submit)="register()">
+    <div class="form-floating mb-3">
+      <input
+        type="email"
+        class="form-control form-control-sm border-secondary shadow-sm rounded-3"
+        id="email"
+        formControlName="email"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('email') }"
+      />
+      <label for="email" class="fs-sm text-dark">Indirizzo email</label>
+    </div>
+
+    <ng-container formGroupName="patient">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control form-control-sm border-secondary shadow-sm rounded-3"
+          id="name"
+          formControlName="name"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('patient.name') }"
+        />
+        <label for="name" class="fs-sm text-dark">Nome</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control form-control-sm border-secondary shadow-sm rounded-3"
+          id="surname"
+          formControlName="surname"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('patient.surname') }"
+        />
+        <label for="surname" class="fs-sm text-dark">Cognome</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="date"
+          class="form-control form-control-sm border-secondary shadow-sm rounded-3"
+          id="birthDate"
+          formControlName="birthDate"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('patient.birthDate') }"
+        />
+        <label for="birthDate" class="fs-sm text-dark">Data di nascita</label>
+      </div>
+
+      <div class="form-floating mb-3 position-relative">
+        <input
+          type="number"
+          class="ps-75 form-control form-control-sm border-secondary shadow-sm rounded-3"
+          id="phoneNumber"
+          formControlName="phoneNumber"
+          [ngClass]="{
+            'border-danger': isTouchedInvalid('patient.phoneNumber')
+          }"
+        />
+        <select
+          class="border-0 w-fixed-70 position-absolute start-0 bottom-0 ms-10 mb-12 fs-sm"
+          name="prefixes"
+          id="prefixes"
+          formControlName="prefixes"
+        >
+          <option [value]="prefix" *ngFor="let prefix of prefixes">
+            {{ prefix }}
+          </option>
+        </select>
+        <label for="phoneNumber" class="fs-sm text-dark"
+          >Numero di telefono</label
+        >
+      </div>
+    </ng-container>
+
+    <app-btn-primary-filled
+      [title]="'Conferma registrazione'"
+      [type]="'submit'"
+      class="w-100"
+      [class]="'w-100'"
+      [disabled]="registerRequest.invalid"
+      >Conferma registrazione</app-btn-primary-filled
+    >
+    <ng-content select="[slot=extraButton]"></ng-content>
+  </form>
+</div>

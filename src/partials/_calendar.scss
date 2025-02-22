@@ -1,0 +1,150 @@
+// margine toolbar calendario
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.3rem !important;
+}
+
+// titolo (mese e anno) calendario
+.fc .fc-toolbar-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+// pulsanti prima / dopo
+.fc-toolbar-chunk .btn-group .fc-prev-button.btn.btn-primary,
+.fc-toolbar-chunk .btn-group .fc-next-button.btn.btn-primary {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+.fc-theme-bootstrap5 .fc-scrollgrid {
+  border-radius: 0.375rem;
+}
+
+.fc .fc-col-header-cell-cushion {
+  font-weight: 500 !important;
+  font-size: 0.8rem !important;
+}
+
+.fc .fc-timegrid-axis-cushion,
+.fc .fc-timegrid-slot-label-cushion {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+// pulsanti filtro mese / settimana per dottore
+.fc-dayGridMonth-button.btn.btn-primary,
+.fc-timeGridWeek-button.btn.btn-primary {
+  background: none !important;
+  border: none !important;
+  opacity: 0.5 !important;
+  color: $text !important;
+}
+
+.fc-dayGridMonth-button.btn.btn-primary.active,
+.fc-timeGridWeek-button.btn.btn-primary.active {
+  color: $text !important;
+  font-weight: bold !important;
+  opacity: 1 !important;
+}
+
+// slot calendario
+.fc-event.custom-event {
+  width: 90%;
+  height: 90%;
+  margin-inline: auto;
+  margin-block: auto;
+  cursor: pointer;
+}
+
+.fc-event.custom-event .fc-event-main {
+  font-size: 0.8rem;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.fc-event.custom-event.free .fc-event-main {
+  b,
+  i {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 699px) {
+  .fc-event.custom-event.booked .fc-event-main {
+    b,
+    i {
+      display: none !important;
+    }
+  }
+}
+
+.fc-day-today {
+  background-color: lighten($secondary, 3%) !important;
+}
+
+a.custom-event.booked.fc-daygrid-event.fc-daygrid-dot-event:hover,
+.booked {
+  background-color: lighten($text, 10%);
+  border-color: lighten($text, 10%);
+  opacity: 0.8;
+  position: relative;
+  b,
+  i {
+    color: $white !important;
+  }
+}
+
+a.custom-event.blocked.fc-daygrid-event.fc-daygrid-dot-event:hover,
+.blocked {
+  background-color: lighten(gray, 10%);
+  border-color: lighten(gray, 10%);
+  opacity: 0.8;
+  text-align: center;
+  b {
+    display: none !important;
+  }
+}
+
+a.custom-event.free.fc-daygrid-event.fc-daygrid-dot-event:hover,
+.free {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+a.custom-event.fc-daygrid-event.fc-daygrid-dot-event {
+  height: 25px !important;
+  display: inline-block;
+}
+
+a.custom-event.free.fc-daygrid-event.fc-daygrid-dot-event {
+  b,
+  i {
+    display: none !important;
+  }
+}
+
+a.fc-event.fc-event-start.fc-event-end.fc-event-future.custom-event.booked.fc-timegrid-event.fc-v-event {
+  b {
+    display: none !important;
+  }
+}
+
+a.custom-event.booked.fc-daygrid-event.fc-daygrid-dot-event {
+  font-size: 0.7rem !important;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.selected > div {
+  border: 2px solid darken($primary, 20%);
+}

@@ -1,0 +1,4 @@
+<header class="p-1 container-fluid bg-secondary-light shadow-sm">
+  <app-front-header *ngIf="!isDashboard"></app-front-header>
+  <app-dashboard-header *ngIf="isDashboard"></app-dashboard-header>
+</header>
