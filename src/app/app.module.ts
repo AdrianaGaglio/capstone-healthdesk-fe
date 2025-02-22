@@ -60,6 +60,7 @@ import { DashboardHeaderComponent } from './main-components/header/dashboard-hea
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { FormsModule } from '@angular/forms';
+import { ManageAppointmentModule } from './shared/manage-appointment/manage-appointment.module';
 
 registerLocaleData(localeIt);
 

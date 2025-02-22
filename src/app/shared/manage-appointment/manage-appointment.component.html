@@ -1,7 +1,10 @@
-<div class="p-3 bg-secondary-light rounded-2">
+<div
+  class="p-3 bg-secondary-light rounded-2 d-flex justify-content-between"
+  *ngIf="appointment"
+>
   <div>
     <p class="fs-xs fw-medium mb-2">
-      {{ formattedDate() }}
+      {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
     </p>
     <span class="fs-xs fw-medium">Paziente:</span>
     <h6 class="fs-5">{{ patient.name }} {{ patient.surname }}</h6>
@@ -10,20 +13,95 @@
       {{ appointment.service.name }}
     </p>
 
-    <p class="mb-0 d-inline-block">
+    <p class="mb-1 d-inline-block">
       <span class="fs-xs fw-medium me-2">Modalità:</span>
       <span class="bg-secondary rounded-2 text-dark fs-sm px-2">{{
         appointment.online ? "Online" : "In presenza"
       }}</span>
     </p>
+
+    <p *ngIf="!appointment.online && appointment.address">
+      <span class="fs-xs fw-medium me-2">
+        <ng-icon name="ionLocationOutline"></ng-icon>
+        {{ appointment.address.street }},
+        {{ appointment.address.streetNumber }} {{ appointment.address.city }}
+        {{ appointment.address.provinceAcronym }}
+        {{ appointment.address.postalCode }}</span
+      >
+    </p>
   </div>
-  <form>
-    <label for="data">Nuova data</label>
+  <div class="flex-grow-1 px-3">
+    <app-calendar
+      *ngIf="calendar"
+      [calendar]="calendar"
+      [slotMaxTime]="calendar.slotMaxTime"
+      [slotMinTime]="calendar.slotMinTime"
+      [height]="300"
+      (onTimeSelect)="setTime($event)"
+    ></app-calendar>
+  </div>
+  <form
+    #form="ngForm"
+    class="d-flex flex-column justify-content-between"
+    (submit)="submit()"
+  >
+    <label for="data" class="form-label fs-sm mb-1">Nuova data</label>
     <input
-      class="form-control form-control-sm"
+      class="form-control form-control-sm border-secondary shadow-sm mb-3"
       type="date"
       [min]="today"
       name="date"
+      [(ngModel)]="date"
     />
+    <select
+      *ngIf="date"
+      class="form-select form-select-sm border-secondary shadow-sm"
+      name="time"
+      id="time"
+      [(ngModel)]="time"
+      (change)="setTime({ startDate: date + 'T' + time + ':00', endDate: '' })"
+    >
+      <option *ngFor="let time of generateTimeSlots(date)" [value]="time">
+        {{ time }}
+      </option>
+    </select>
+
+    <div class="d-flex gap-2 mb-3">
+      <input
+        (change)="handleAddress()"
+        class="form-check-input"
+        type="checkbox"
+        name="online"
+        id="online"
+        [(ngModel)]="appointment.online"
+      />
+      <label for="online">{{
+        appointment.online ? "Online" : "In presenza"
+      }}</label>
+    </div>
+    <select
+      #address="ngModel"
+      *ngIf="doctor && addAddress"
+      name="address"
+      id="address"
+      class="form-select form-select-sm border-secondary shadow-sm"
+      [(ngModel)]="appointment.address"
+      [required]="!appointment.online && addAddress"
+      [ngClass]="{ 'border-danger': address.invalid }"
+    >
+      <option [ngValue]="null">-- seleziona lo studio --</option>
+      <option [ngValue]="a.address" *ngFor="let a of doctor.addresses">
+        {{ a.address.street }}, {{ a.address.streetNumber }}
+        {{ a.address.city }} {{ a.address.provinceAcronym }}
+        {{ a.address.postalCode }}
+      </option>
+    </select>
+
+    <app-btn-dark-filled
+      class="mt-auto"
+      [type]="'submit'"
+      [disabled]="form.invalid!"
+      >Conferma modifica</app-btn-dark-filled
+    >
   </form>
 </div>

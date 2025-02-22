@@ -40,7 +40,7 @@ export interface iAppointmentResponseForCalendar {
   service: iService;
   patient: iPatientResponseForCalendar;
   status: string;
-  address: iAddress;
+  address: iAddress | null;
 }
 
 export interface iPatientResponseForCalendar {

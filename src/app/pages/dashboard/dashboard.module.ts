@@ -12,7 +12,6 @@ import { CalendarSettingsComponent } from './settings/calendar-settings/calendar
 import { DetailsComponent } from './settings/details/details.component';
 import { PaymentMethodsComponent } from './settings/payment-methods/payment-methods.component';
 import { ServicesComponent } from './settings/services/services.component';
-import { RouterModule } from '@angular/router';
 import { SettingsControlsComponent } from './settings/settings-controls/settings-controls.component';
 import { SidenavModule } from '../../shared/sidenav/sidenav.module';
 import { NgIconsModule } from '@ng-icons/core';

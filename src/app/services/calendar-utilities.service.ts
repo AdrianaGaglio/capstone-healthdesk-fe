@@ -139,6 +139,7 @@ export class CalendarUtilitiesService {
   ): iEvent[] {
     let slots: iEvent[] = [];
     let year = new Date().getFullYear();
+    let currentMonth = new Date().getMonth(); // Mese corrente (0-11)
     let today = new Date();
     let daysOfWeek = [
       'SUNDAY',
@@ -153,38 +154,29 @@ export class CalendarUtilitiesService {
     let holidayStart = null;
     let holidayEnd = null;
 
-    // se c'è un periodi di sospensione aggiorno le date
+    // Se c'è un periodo di sospensione aggiorno le date
     if (calendar.onHoliday) {
-      // converto le date (stringa) in date
       holidayStart = new Date(calendar.holidayDateStart);
       holidayEnd = new Date(calendar.holidayDateEnd);
     }
 
-    // Genero gli slot liberi
-    // a partire da 0 (gennaio) fino a 11 (dicembre)
-    for (let month = 0; month < 12; month++) {
-      // calcolo i giorni del mese che sto ciclando
+    // Ciclo solo dai mesi dal corrente fino a dicembre
+    for (let month = currentMonth; month < 12; month++) {
       let daysInMonth = new Date(year, month + 1, 0).getDate();
 
-      // per ogni giorno del mese
-      for (let day = 1; day <= daysInMonth; day++) {
-        // ottengo la data a partire da anno, mese e giorno che sto ciclando
+      // Se il mese corrente, partiamo dal giorno odierno, altrimenti dal primo giorno
+      let startDay = month === currentMonth ? today.getDate() : 1;
+
+      for (let day = startDay; day <= daysInMonth; day++) {
         let date = new Date(year, month, day);
-        // ottengo il giorno del nome della settimana
         let dayName = daysOfWeek[date.getDay()];
-        // controllo se il giorno che sto ciclando è il giorno corrente
         let isToday = date.toDateString() === today.toDateString();
 
-        // per ogni giorno passato come argomento
         days.forEach((activeDay: iActiveDay) => {
-          // controllo se è attivo
           if (activeDay.dayName === dayName) {
             activeDay.slots.forEach((slot) => {
-              // per ogni giorno ottengo la data formattata (mese e giorno)
               let formattedMonth = (month + 1).toString().padStart(2, '0');
               let formattedDay = day.toString().padStart(2, '0');
-
-              // concateno i dati per ottenere il formato data necessario per creare l'evento
               let slotKey = `${year}-${formattedMonth}-${formattedDay}T${slot.startTime}`;
               let slotDate = new Date(
                 `${year}-${formattedMonth}-${formattedDay}`
@@ -193,7 +185,6 @@ export class CalendarUtilitiesService {
                 `${year}-${formattedMonth}-${formattedDay}T${slot.startTime}`
               );
 
-              // controllo se l'utente non è admin o medico e se il giorno corrente non sia un giorno di sospensione
               this.authSvc.auth$.subscribe((res) => {
                 if (
                   !(
@@ -204,11 +195,8 @@ export class CalendarUtilitiesService {
                     slotDate <= holidayEnd!
                   )
                 ) {
-                  // controllo inoltre che il time slot che sto ciclando non si passato rispetto al momento attuale
                   let isPastSlot = isToday && slotDateTime < today;
-                  // se non ci sono appuntamenti e lo slot non è passato nel tempo
                   if (!bookedSlots.has(slotKey) && !isPastSlot) {
-                    // genero l'evento libero per il calendario
                     slots.push(
                       this.slotTemplate(
                         '',
@@ -223,12 +211,10 @@ export class CalendarUtilitiesService {
               });
             });
 
-            // controllo se la giornata ha definito degli extra range orari e ripeto la logica sopra
             if (activeDay.hasExtraRange) {
               activeDay.extraRange.forEach((slot) => {
                 let formattedMonth = (month + 1).toString().padStart(2, '0');
                 let formattedDay = day.toString().padStart(2, '0');
-
                 let slotKey = `${year}-${formattedMonth}-${formattedDay}T${slot.startTime}`;
                 let slotDate = new Date(
                   `${year}-${formattedMonth}-${formattedDay}`

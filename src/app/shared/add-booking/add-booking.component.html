@@ -1,7 +1,9 @@
 <form [formGroup]="appointmentRequest" (submit)="submit()">
   <app-tab [hasOnline]="hasOnline" (onTabChanged)="setOnline($event)">
     <div *ngIf="doctor && doctor.addresses" class="mb-2 py-2">
-      <label for="doctorAddressId" class="fs-sm mb-1">Studio medico</label>
+      <label for="doctorAddressId" class="form-label fs-sm mb-1"
+        >Studio medico</label
+      >
       <select
         class="form-select form-select-sm border-secondary shadow-sm"
         formControlName="doctorAddressId"
@@ -18,7 +20,7 @@
     </div>
   </app-tab>
   <div class="mb-2 py-2" *ngIf="services">
-    <label for="serviceId" class="fs-sm mb-1">Prestazione</label>
+    <label for="serviceId" class="form-label fs-sm mb-1">Prestazione</label>
     <select
       class="form-select form-select-sm border-secondary shadow-sm"
       formControlName="serviceId"

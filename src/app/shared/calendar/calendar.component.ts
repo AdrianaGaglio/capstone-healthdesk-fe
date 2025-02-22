@@ -217,7 +217,7 @@ export class CalendarComponent implements OnInit, OnChanges {
           }
         } else {
           // se invece clicca su uno slot libero
-          let isPassed = startDate.getTime() >= Date.now(); // controllo se la data selezionata e' passata
+          let isPassed = startDate.getTime() <= Date.now(); // controllo se la data selezionata e' passata
           if (!isPassed) {
             this.onTimeSelect.emit(timing);
             this.selectSlot(event);
