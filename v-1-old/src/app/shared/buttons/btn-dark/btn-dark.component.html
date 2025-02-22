@@ -1,0 +1,10 @@
+<button
+  [class]="'btn rounded-1 btn-sm fw-bolder fs-6 text-dark' + ' ' + extraClass"
+  [ngClass]="color"
+  [type]="type"
+  [disabled]="disabled"
+  [title]="title"
+  (click)="onClick.emit($event)"
+>
+  <ng-content></ng-content>
+</button>

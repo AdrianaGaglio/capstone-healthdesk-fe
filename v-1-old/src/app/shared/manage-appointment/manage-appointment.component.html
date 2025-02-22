@@ -1,0 +1,114 @@
+<form form="ngForm" class="p-3 bg-white">
+  <div class="d-flex align-items-start justify-content-between mb-3">
+    <div class="d-flex align-items-center gap-2">
+      <img
+        role="button"
+        class="rounded-circle w-fixed-50 h-fixed-50 shadow-sm me-0 me-md-3"
+        [src]="
+          appointment.patient.avatar
+            ? appointment.patient.avatar
+            : 'https://ui-avatars.com/api/?name=' +
+              appointment.patient.name +
+              '+' +
+              appointment.patient.surname
+        "
+        alt="profile image"
+      />
+      <div>
+        <p class="mb-2 fs-5">
+          <span class="fw-bold"
+            >{{ appointment.patient.name }}
+            {{ appointment.patient.surname }}</span
+          >
+        </p>
+        <div
+          class="d-flex flex-column flex-lg-row justify-content-start align-items-lg-center gap-0 gap-lg-3 fs-sm"
+        >
+          <span class="d-flex align-items-center gap-1"
+            ><ng-icon name="ionCallOutline"></ng-icon>
+            {{ appointment.patient.phoneNumber }}</span
+          >
+          <span class="d-flex align-items-center gap-1"
+            ><ng-icon name="ionMailOutline"></ng-icon>
+            {{ appointment.patient.email }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <p
+      class="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-2 justify-content-end fw-bold fs-sm mb-0 flex-grow-1 text-end"
+      *ngIf="!edit"
+    >
+      <span
+        >{{ appointment.startDate | date : "EEEE" : "it" | titlecase }}
+        {{ appointment.startDate | date : "dd/MM/yyyy" }}</span
+      >
+      <span>Ore: {{ appointment.startDate | date : "HH:ms" }}</span>
+    </p>
+    <div
+      class="d-flex flex-column flex-sm-row align-items-end align-items-sm-center gap-2"
+    >
+      <input
+        *ngIf="edit"
+        class="form-control form-control-sm w-auto"
+        type="date"
+        id="date"
+        name="date"
+        [min]="today"
+        [(ngModel)]="date"
+      />
+      <select
+        class="form-select form-select-sm w-auto"
+        name="time"
+        id="time"
+        *ngIf="edit"
+        [(ngModel)]="time"
+      >
+        <option [value]="t" *ngFor="let t of timeRanges">{{ t }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="d-flex flex-column flex-lg-row justify-content-between">
+    <div>
+      <p>
+        Prestazione: <span class="fw-bold">{{ appointment.service.name }}</span>
+      </p>
+      <div class="mt-1 mb-3 mb-lg-0 d-flex align-items-center gap-2 w-auto">
+        <label for="appointmentStatus">Stato prenotazione:</label>
+        <select
+          class="form-select form-select-sm w-auto"
+          name="appointmentStatus"
+          id="appointmentStatus"
+          [(ngModel)]="appointment.status"
+          [disabled]="!edit"
+        >
+          <option [value]="s.eng" *ngFor="let s of statuses">{{ s.it }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="d-flex align-items-end gap-2">
+      <app-btn-link
+        [url]="'/dettagli-appuntamento/' + appointment.id"
+        [extraClass]="'px-0 fw-bold btn-sm fs-6'"
+        >Dettagli appuntamento</app-btn-link
+      >
+      <app-btn-primary
+        *ngIf="!isPassed"
+        [type]="'button'"
+        [extraClass]="'px-0'"
+        (onClick)="edit = !edit"
+        [title]="!edit ? 'Modifica appuntamento' : 'Annulla modifica'"
+        >{{
+          !edit ? "Modifica appuntamento" : "Annulla modifica"
+        }}</app-btn-primary
+      >
+      <app-btn-primary-filled
+        *ngIf="edit"
+        [type]="'submit'"
+        (onClick)="updateAppointment()"
+        [title]="'Conferma modifica'"
+        >Conferma</app-btn-primary-filled
+      >
+    </div>
+  </div>
+</form>

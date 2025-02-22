@@ -1,0 +1,100 @@
+<div class="d-flex align-items-center gap-3">
+  <h5 class="fw-bolder mb-0">Reminder attivi</h5>
+  <app-btn
+    [type]="'button'"
+    [color]="'btn-secondary'"
+    [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+    (onClick)="add = !add"
+  >
+    <ng-icon
+      class="fs-4 position-absolute start-50 top-50 translate-middle"
+      [name]="!add ? 'ionAddOutline' : 'ionRemoveOutline'"
+    ></ng-icon>
+  </app-btn>
+</div>
+<ng-container *ngIf="medicalFolder.reminders.length < 1">
+  Nessun reminder attivato
+</ng-container>
+<ng-container *ngIf="medicalFolder.reminders.length > 0">
+  <div
+    class="onhover p-1 mb-1 d-flex align-items-center gap-3"
+    *ngFor="let r of medicalFolder.reminders"
+  >
+    <h5 class="mb-0 fw-bold fs-sm d-flex align-items-center gap-3">
+      <ng-icon name="ionAlarmOutline"></ng-icon> {{ r.description }}
+    </h5>
+    <span class="fs-sm"
+      >si ripete dal {{ r.startDate | date : "dd/MM/yyyy" }} al
+    </span>
+    <span class="fs-sm fw-bold bg-secondary rounded-1 p-1">{{
+      setFrequency(r.frequency)
+    }}</span>
+
+    <app-btn
+      [type]="'button'"
+      [color]="'btn-primary'"
+      [extraClass]="'position-relative btn-sm w-fixed-30 h-fixed-30'"
+      (onClick)="delete(r.id)"
+    >
+      <ng-icon
+        class="position-absolute top-50 start-50 translate-middle"
+        name="ionTrashBinOutline"
+      ></ng-icon>
+    </app-btn>
+  </div>
+</ng-container>
+
+<div
+  *ngIf="add"
+  class="p-3 rounded-1 position-absolute top-50 w-75 start-50 translate-middle z-3 default-bg shadow-lg"
+>
+  <form #form="ngForm" class="position-relative">
+    <ng-icon
+      role="button"
+      name="ionCloseOutline"
+      class="position-absolute top-0 end-0 z-3"
+    ></ng-icon>
+    <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+      <div class="flex-grow-1">
+        <label class="mb-1 form-label" for="description">Descrizione</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          id="description"
+          name="description"
+          [(ngModel)]="reminder.description"
+          required
+        />
+      </div>
+      <div class="flex-grow-1">
+        <label class="mb-1 form-label" for="startDate">Dal giorno</label>
+        <input
+          type="date"
+          min="{{ today }}"
+          class="form-control form-control-sm"
+          id="startDate"
+          name="startDate"
+          [(ngModel)]="reminder.startDate"
+          required
+        />
+      </div>
+      <div class="flex-grow-1">
+        <label for="frequency" class="form-label">Frequenza</label>
+        <select
+          class="form-select form-select-sm"
+          id="frequency"
+          name="frequency"
+          [(ngModel)]="reminder.frequency"
+          required
+        >
+          <option *ngFor="let f of frequencyTranslation" [ngValue]="f.eng">
+            {{ f.it }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <app-btn-dark-filled [disabled]="!form.valid" (onClick)="addReminder()"
+      >Aggiungi</app-btn-dark-filled
+    >
+  </form>
+</div>

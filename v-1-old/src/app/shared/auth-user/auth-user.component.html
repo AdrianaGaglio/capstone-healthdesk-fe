@@ -1,0 +1,11 @@
+<div class="p-3 bg-white overflow-y-scroll overflow-y-auto" #longContent>
+  <app-login-form *ngIf="!register" (onLogin)="emitPatient($event)">
+    <app-btn-dark [type]="'button'" (onClick)="register = !register"
+      >Se non hai ancora un account, clicca qui!</app-btn-dark
+    >
+  </app-login-form>
+  <app-register-form
+    *ngIf="register"
+    (onRegister)="emitPatient($event)"
+  ></app-register-form>
+</div>

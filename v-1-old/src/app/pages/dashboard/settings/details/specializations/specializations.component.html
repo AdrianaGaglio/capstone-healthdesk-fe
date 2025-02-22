@@ -1,0 +1,131 @@
+<div class="d-flex flex-column p-2" *ngIf="specializations">
+  <div
+    class="d-flex align-items-center justify-content-between bg-secondary px-2 py-1 rounded-1 shadow-sm mb-2"
+  >
+    <h5 class="mb-0 fw-bolder">Specializzazioni</h5>
+    <app-btn-secondary-filled
+      [type]="'button'"
+      [color]="'btn-secondary'"
+      [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+      (onClick)="addSpecialization = !addSpecialization"
+    >
+      <ng-icon
+        [name]="!addSpecialization ? 'ionAddOutline' : 'ionRemoveOutline'"
+        class="fs-4 position-absolute start-50 top-50 translate-middle"
+      ></ng-icon>
+    </app-btn-secondary-filled>
+  </div>
+  <ng-container *ngIf="specializations.length < 1"
+    >Nessuna specializzazione inserita</ng-container
+  >
+  <ng-container *ngIf="specializations.length > 0">
+    <div
+      *ngFor="let s of specializations"
+      class="onhover rounded-1 p-2 position-relative"
+    >
+      <h6 class="text-dark fw-bold mb-1">{{ s.name }}</h6>
+      <p>{{ s.description }}</p>
+      <p class="mb-0 fs-sm">Conseguita il {{ s.date | date : "dd/MM/yyyy" }}</p>
+      <app-btn
+        class="position-absolute end-0 bottom-0 me-2 mb-2"
+        [type]="'button'"
+        [color]="'btn-primary'"
+        [extraClass]="'btn-sm position-relative w-fixed-30 h-fixed-30'"
+        [title]="'Elimina specializzazione'"
+        (onClick)="delete(s.id)"
+        ><ng-icon
+          class="fs-6 position-absolute start-50 top-50 translate-middle"
+          name="ionTrashBinOutline"
+        ></ng-icon
+      ></app-btn>
+    </div>
+  </ng-container>
+  <div
+    *ngIf="addSpecialization"
+    class="bg-white card p-2 rounded-1 mt-3 default-bg border-0 position-absolute z-3 shadow-lg w-50 start-50 top-50 translate-middle"
+  >
+    <form #form="ngForm">
+      <div class="d-flex align-items-start justify-content-between">
+        <h4>Aggiungi una nuova specializzazione</h4>
+        <ng-icon
+          name="ionCloseOutline"
+          role="button"
+          (click)="addSpecialization = !addSpecialization"
+        ></ng-icon>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="mb-3 w-75">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label fs-sm mb-0" for="name"
+              >Nome della specializzazione</label
+            >
+            <span
+              class="text-danger fs-sm fw-bold"
+              *ngIf="name.invalid && name.touched"
+              >Campo obbligatorio</span
+            >
+          </div>
+          <input
+            #name="ngModel"
+            class="form-control form-control-sm border-secondary shadow-sm"
+            [ngClass]="{ 'border-danger': name.invalid && name.touched }"
+            id="name"
+            name="name"
+            [(ngModel)]="newSpecialization.name"
+            type="text"
+            required
+          />
+        </div>
+        <div class="mb-3 w-25">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label fs-sm mb-0" for="date">Data</label>
+            <span
+              class="text-danger fs-sm fw-bold"
+              *ngIf="date.invalid && date.touched"
+              >Richiesto</span
+            >
+          </div>
+          <input
+            #date="ngModel"
+            type="date"
+            class="form-control form-control-sm border-secondary shadow-sm"
+            [ngClass]="{ 'border-danger': date.invalid && date.touched }"
+            id="date"
+            name="date"
+            [(ngModel)]="newSpecialization.date"
+            required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label mb-0 fs-sm" for="description"
+            >Breve descrizione</label
+          >
+          <span
+            class="text-danger fs-sm fw-bold"
+            *ngIf="description.invalid && description.touched"
+            >Campo obbligatorio</span
+          >
+        </div>
+        <textarea
+          #description="ngModel"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{
+            'border-danger': description.invalid && description.touched
+          }"
+          id="description"
+          name="description"
+          [(ngModel)]="newSpecialization.description"
+          type="text"
+          required
+        ></textarea>
+      </div>
+      <app-btn-primary-filled
+        [type]="'submit'"
+        (onClick)="createSpecialization()"
+        >Salva</app-btn-primary-filled
+      >
+    </form>
+  </div>
+</div>

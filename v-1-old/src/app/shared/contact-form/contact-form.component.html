@@ -1,0 +1,101 @@
+<form [formGroup]="mailRequest" class="py-3">
+  <ng-content></ng-content>
+  <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <label for="from" class="form-label fs-sm mb-1">Indirizzo email:</label>
+      <span
+        class="text-danger fw-bold fs-sm"
+        *ngIf="isTouchedInvalid('from')"
+        >{{ getMessage("from") }}</span
+      >
+    </div>
+    <input
+      type="email"
+      id="from"
+      name="from"
+      formControlName="from"
+      class="form-control form-control-sm rounded-1 border-secondary-light shadow-sm"
+      [ngClass]="{ 'border-danger': isTouchedInvalid('from') }"
+    />
+  </div>
+  <div class="d-flex align-items-center gap-2 justify-content-between">
+    <div class="mb-3 flex-grow-1">
+      <div class="d-flex justify-content-between align-items-center">
+        <label for="subject" class="form-label fs-sm mb-1">Nome</label>
+        <span
+          class="text-danger fs-sm fw-bold"
+          *ngIf="isTouchedInvalid('name')"
+          >{{ getMessage("name") }}</span
+        >
+      </div>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        formControlName="name"
+        class="form-control form-control-sm rounded-1 border-secondary-light shadow-sm"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('name') }"
+      />
+    </div>
+    <div class="mb-3 flex-grow-1">
+      <div class="d-flex justify-content-between align-items-center">
+        <label class="form-label fs-sm mb-1" for="subject">Cognome</label>
+        <span
+          class="text-danger fs-sm fw-bold"
+          *ngIf="isTouchedInvalid('surname')"
+          >{{ getMessage("surname") }}</span
+        >
+      </div>
+      <input
+        type="text"
+        id="surname"
+        name="surname"
+        formControlName="surname"
+        class="form-control form-control-sm rounded-1 border-secondary-light shadow-sm"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('surname') }"
+      />
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <label for="subject" class="form-label fs-sm mb-1">Oggetto</label>
+      <span
+        class="text-danger fs-sm fw-bold"
+        *ngIf="isTouchedInvalid('subject')"
+        >{{ getMessage("subject") }}</span
+      >
+    </div>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      formControlName="subject"
+      class="form-control form-control-sm rounded-1 border-secondary-light shadow-sm"
+      [ngClass]="{ 'border-danger': isTouchedInvalid('subject') }"
+    />
+  </div>
+  <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <label for="subject" class="form-label fs-sm mb-1">Messaggio</label>
+      <span
+        class="text-danger fs-sm fw-bold"
+        *ngIf="isTouchedInvalid('body')"
+        >{{ getMessage("body") }}</span
+      >
+    </div>
+    <textarea
+      type="text"
+      id="body"
+      name="body"
+      formControlName="body"
+      class="form-control form-control-sm rounded-1 border-secondary-light shadow-sm"
+      [ngClass]="{ 'border-danger': isTouchedInvalid('body') }"
+    ></textarea>
+  </div>
+  <app-btn-primary-filled
+    [type]="'submit'"
+    [disabled]="this.mailRequest.invalid"
+    (onClick)="sendMail()"
+    >Invia richiesta</app-btn-primary-filled
+  >
+</form>

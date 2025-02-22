@@ -1,0 +1,23 @@
+<ul class="nav flex-column mb-auto">
+  <li class="nav-item mb-3">
+    <app-btn-link
+      [url]="'/paziente/scheda-personale'"
+      [title]="'Scheda personale'"
+      [color]="'text-primary'"
+      [active]="'btn-secondary btn-sm'"
+    >
+      <ng-icon class="fs-3" name="ionFolderOpenOutline"></ng-icon>
+    </app-btn-link>
+  </li>
+  <li class="nav-item mb-3">
+    <app-btn-link
+      [url]="'/paziente/profilo'"
+      [title]="'Profilo'"
+      [color]="'text-primary'"
+      [active]="'btn-secondary btn-sm'"
+      [exact]="false"
+    >
+      <ng-icon class="fs-3" name="ionSettingsOutline"></ng-icon
+    ></app-btn-link>
+  </li>
+</ul>

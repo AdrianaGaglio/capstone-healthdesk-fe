@@ -1,0 +1,24 @@
+<div class="card border-0 default-bg p-2" *ngIf="doctor">
+  <h5 class="fw-bolder">Prestazioni e prezzi</h5>
+  <div
+    *ngFor="let s of doctor.services"
+    class="onhover d-flex align-items-center justify-content-between gap-3 rounded-1 p-2 text-decoration-none"
+  >
+    <div class="d-flex flex-column">
+      <h6 class="mb-0 fw-bold text-dark">{{ s.name }}</h6>
+
+      <p class="mb-0 fw-medium fs-6">
+        A partire da: {{ s.price }},00€
+        <a
+          role="button"
+          class="text-primary text-decoration-underline ms-0 ms-sm-3"
+          (click)="serviceDetails(s)"
+          >Dettagli</a
+        >
+      </p>
+    </div>
+    <app-btn-dark-filled [type]="'button'" (onClick)="emitService(s)"
+      >Prenota visita</app-btn-dark-filled
+    >
+  </div>
+</div>

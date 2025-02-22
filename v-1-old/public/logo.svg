@@ -1,0 +1,17 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sfondo circolare decorativo -->
+  <circle cx="200" cy="100" r="120" fill="#c3f6c3" opacity="0.3"/>
+
+  <!-- Nome principale -->
+  <text x="200" y="85" text-anchor="middle" font-family="Helvetica" font-size="42" fill="#134053" font-weight="bold">
+    Maria Valentina
+  </text>
+  <text x="200" y="130" text-anchor="middle" font-family="Helvetica" font-size="48" fill="#51b4a2" font-weight="bold">
+    Barone
+  </text>
+
+  <!-- Sottotitolo -->
+  <text x="200" y="165" text-anchor="middle" font-family="Helvetica" font-size="20" fill="#134053">
+    psichiatra e psicoterapeuta
+  </text>
+</svg>

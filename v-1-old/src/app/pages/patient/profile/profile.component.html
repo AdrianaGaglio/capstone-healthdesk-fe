@@ -1,0 +1,300 @@
+<div class="row gy-3">
+  <h3 class="mb-3 display-4">Dettagli profilo</h3>
+  <div class="col-12" *ngIf="patient">
+    <div class="row p-2">
+      <div class="col-12 col-sm-2 col-md-1 mb-3 mb-md-0">
+        <div class="position-relative text-center">
+          <img
+            class="w-100 rounded-1 object-fit-cover object-position-center"
+            [src]="
+              patient.avatar
+                ? patient.avatar
+                : 'https://ui-avatars.com/api/?name=' +
+                  patient.name +
+                  '+' +
+                  patient.surname
+            "
+            alt="profile image"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            #fileInput
+            hidden
+          />
+          <app-btn
+            class="position-absolute end-0 bottom-0 me-1 mb-1"
+            [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+            [type]="'button'"
+            [color]="'btn-primary'"
+            (onClick)="fileInput.click()"
+          >
+            <ng-icon
+              class="position-absolute start-50 top-50 translate-middle"
+              name="ionCloudUploadOutline"
+            ></ng-icon>
+          </app-btn>
+        </div>
+      </div>
+      <div class="col-12 col-sm-10 col-md-11 ps-3 position-relative">
+        <div class="d-flex gap-2 position-absolute end-0 mt-2 me-2">
+          <app-btn-primary-filled
+            [type]="'button'"
+            *ngIf="edit"
+            (onClick)="update(patient.id, patient)"
+            >Salva</app-btn-primary-filled
+          >
+          <app-btn-dark-filled [type]="'button'" (onClick)="edit = !edit">{{
+            !edit ? "Modifica" : "Annulla"
+          }}</app-btn-dark-filled>
+        </div>
+        <h6 class="fw-bold fs-1">{{ patient.name }} {{ patient.surname }}</h6>
+        <div class="row align-items-center py-2" #editTaxId>
+          <div class="col-12 col-md-2">
+            <p class="mb-0 fw-semibold">Codice fiscale:</p>
+          </div>
+          <div class="col-12 col-md-10">
+            <input
+              *ngIf="edit && firstAccess"
+              class="form-control form-control-sm w-auto"
+              [ngClass]="{ 'border-danger': firstAccess }"
+              type="text"
+              id="title"
+              name="title"
+              [(ngModel)]="patient.taxId"
+            />
+            <p class="mb-0" *ngIf="!edit || !firstAccess">
+              {{ patient.taxId ? patient.taxId : "---------" }}
+            </p>
+          </div>
+        </div>
+        <div class="row align-items-center py-2">
+          <div class="col-12 col-md-2">
+            <p class="mb-0 fw-semibold">Data di nascita:</p>
+          </div>
+          <div class="col-12 col-md-10">
+            <p class="mb-0">{{ patient.birthDate | date : "dd/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="row align-items-center py-2">
+          <div class="col-12 col-md-2">
+            <p class="mb-0 fw-semibold">Numero di telefono:</p>
+          </div>
+          <div class="col-12 col-md-10">
+            <input
+              *ngIf="edit"
+              class="form-control form-control-sm w-auto"
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              [(ngModel)]="patient.phoneNumber"
+            />
+            <p class="mb-0" *ngIf="!edit">{{ patient.phoneNumber }}</p>
+          </div>
+        </div>
+        <div class="row align-items-center py-2" #editAddress>
+          <div class="col-12 col-md-2">
+            <p class="mb-0 fw-semibold">Indirizzo:</p>
+          </div>
+          <div class="col-12 col-md-10">
+            <p
+              class="mb-0"
+              *ngIf="!edit && patient.address && patient.address.street !== ''"
+            >
+              {{ patient.address.street }}, {{ patient.address.streetNumber }} -
+              {{ patient.address.city }}, {{ patient.address.provinceAcronym }}
+              {{ patient.address.postalCode }}
+            </p>
+            <p
+              class="mb-0"
+              *ngIf="
+                (!patient.address || patient.address.street === '') && !edit
+              "
+            >
+              Nessun indirizzo specificato
+            </p>
+            <div class="d-flex align-items-center gap-1" *ngIf="edit">
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="streetName"
+                  >Indirizzo</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-auto"
+                  id="streetName"
+                  name="streetName"
+                  [value]="patient.address.street ? patient.address.street : ''"
+                  [(ngModel)]="patient.address.street"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="streetNumber"
+                  >Numero</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-auto"
+                  id="streetNumber"
+                  name="streetNumber"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  [value]="
+                    patient.address.streetNumber
+                      ? patient.address.streetNumber
+                      : ''
+                  "
+                  [(ngModel)]="patient.address.streetNumber"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="provinceName"
+                  >Provincia</label
+                >
+                <select
+                  class="form-select form-select-sm w-auto"
+                  name="provinceName"
+                  id="provinceName"
+                  [(ngModel)]="selectedProvince"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  (change)="setCity()"
+                >
+                  <option [ngValue]="p" *ngFor="let p of provinces">
+                    {{ p.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="d-flex flex-column">
+                <label class="form-label col-form-label-sm mb-0" for="cityName"
+                  >Città</label
+                >
+                <select
+                  class="form-select form-select-sm w-auto"
+                  name="cityName"
+                  id="cityName"
+                  [(ngModel)]="selectedCity"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  (change)="selectCity()"
+                >
+                  <option [ngValue]="c" *ngFor="let c of cities">
+                    {{ c.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="postalCode"
+                  >CAP</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-auto"
+                  name="postalCode"
+                  id="postalCode"
+                  [value]="
+                    selectedCity
+                      ? selectedCity.postalCode
+                      : patient.address.postalCode
+                  "
+                  [(ngModel)]="patient.address.postalCode"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 position-relative">
+          <div class="d-flex gap-2 position-absolute end-0 mt-2 me-2">
+            <app-btn-primary-filled
+              [type]="'button'"
+              *ngIf="editLoginInfo"
+              (onClick)="updateLoginInfo()"
+              >Salva</app-btn-primary-filled
+            >
+            <app-btn-dark-filled
+              [type]="'button'"
+              (onClick)="editLoginInfo = !editLoginInfo"
+              >{{
+                !editLoginInfo ? "Modifica" : "Annulla"
+              }}</app-btn-dark-filled
+            >
+          </div>
+          <h6 class="fw-bold">Dati di accesso</h6>
+          <div class="row align-items-center py-2">
+            <div class="col-12 col-md-2">
+              <p class="mb-0 fw-semibold">Email:</p>
+            </div>
+            <div class="col-12 col-md-10">
+              <p class="mb-0" *ngIf="!editLoginInfo">{{ patient.email }}</p>
+              <input
+                *ngIf="editLoginInfo"
+                class="form-control form-control-sm w-auto"
+                type="text"
+                id="email"
+                name="email"
+                [(ngModel)]="patient.email"
+              />
+            </div>
+          </div>
+          <div class="row align-items-center py-2">
+            <div class="col-12 col-md-2">
+              <p class="mb-0 fw-semibold">Password:</p>
+            </div>
+            <div class="col-12 col-md-10">
+              <p class="mb-0" *ngIf="!editLoginInfo">****************</p>
+              <div
+                *ngIf="editLoginInfo"
+                class="d-flex align-items-center gap-2"
+              >
+                <div class="position-relative">
+                  <input
+                    class="form-control form-control-sm w-auto"
+                    [type]="!showOldPassword ? 'password' : 'text'"
+                    id="oldPassword"
+                    name="oldPassword"
+                    [(ngModel)]="loginUpdate.oldPassword"
+                    placeholder="Vecchia password"
+                  />
+                  <ng-icon
+                    role="button"
+                    class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-50"
+                    [name]="
+                      showOldPassword ? 'ionEyeOffOutline' : 'ionEyeOutline'
+                    "
+                    (click)="showOldPassword = !showOldPassword"
+                  ></ng-icon>
+                </div>
+                <div class="position-relative">
+                  <input
+                    class="form-control form-control-sm w-auto"
+                    [type]="!showNewPassword ? 'password' : 'text'"
+                    id="newPassword"
+                    name="newPassword"
+                    placeholder="Nuova password"
+                    [(ngModel)]="loginUpdate.newPassword"
+                  />
+                  <ng-icon
+                    role="button"
+                    class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-50"
+                    [name]="
+                      showNewPassword ? 'ionEyeOffOutline' : 'ionEyeOutline'
+                    "
+                    (click)="showNewPassword = !showNewPassword"
+                  ></ng-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div ngbDropdown>
+  <img
+    role="button"
+    class="rounded-circle w-fixed-50 h-fixed-50 object-fit-cover shadow-sm object-position-center"
+    *ngIf="user && !isAdmin"
+    [src]="
+      user.avatar
+        ? user.avatar
+        : 'https://ui-avatars.com/api/?name=' + user.name + '+' + user.surname
+    "
+    alt="profile image"
+    id="dropdownBasic1"
+    ngbDropdownToggle
+  />
+  <img
+    role="button"
+    class="rounded-circle w-fixed-50 h-fixed-50 object-fit-cover shadow-sm object-position-center"
+    *ngIf="isAdmin"
+    src="
+      https://ui-avatars.com/api/?name=A
+    "
+    alt="profile image"
+    id="dropdownBasic1"
+    ngbDropdownToggle
+  />
+  <div
+    ngbDropdownMenu
+    class="border-0 bg-secondary shadow-sm end-0 start-50"
+    aria-labelledby="dropdownBasic1"
+  >
+    <div class="d-flex flex-column">
+      <app-sub-menu
+        [isLoggedIn]="isLoggedIn"
+        [user]="user"
+        [isDoctor]="isDoctor"
+        (onClick)="logout($event)"
+      ></app-sub-menu>
+    </div>
+  </div>
+</div>

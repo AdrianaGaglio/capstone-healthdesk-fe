@@ -1,0 +1,37 @@
+$widths: (10, 20, 25, 30, 40, 50, 75, 100, 150, 200);
+
+@each $width in $widths {
+  .w-fixed-#{$width} {
+    width: #{$width}px !important;
+  }
+}
+
+$heights: (10, 20, 25, 30, 40, 50, 75, 100, 150, 200);
+
+@each $height in $heights {
+  .h-fixed-#{$height} {
+    height: #{$height}px !important;
+  }
+}
+
+.w-30 {
+  width: 33.333% !important;
+}
+
+.min-vh-75 {
+  min-height: 75vh !important;
+}
+
+.min-h-500 {
+  min-height: 500px !important;
+}
+
+@media screen and (min-width: 768px) {
+  .min-vh-75 {
+    min-height: initial !important;
+  }
+}
+
+.max-h-65 {
+  height: 65vh;
+}

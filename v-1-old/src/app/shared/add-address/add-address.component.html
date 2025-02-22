@@ -1,0 +1,164 @@
+<div class="card p-2 rounded-1 border-0 shadow-sm default-bg">
+  <div class="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0 fw-bolder">Aggiungi indirizzo nuovo studio</h5>
+    <app-btn-secondary-filled
+      [type]="'button'"
+      [color]="'btn-secondary'"
+      [extraClass]="'position-relative w-fixed-30 h-fixed-30'"
+      (onClick)="addAddress = !addAddress"
+    >
+      <ng-icon
+        class="fs-4 position-absolute start-50 top-50 translate-middle"
+        [name]="!addAddress ? 'ionAddOutline' : 'ionRemoveOutline'"
+      ></ng-icon>
+    </app-btn-secondary-filled>
+  </div>
+</div>
+<div *ngIf="addAddress" class="card p-2 rounded-1 border-0 default-bg mt-3">
+  <form [formGroup]="addressRequest">
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <label class="form-label fs-sm mb-0" for="name">Nome studio</label>
+        <span class="text-danger fs-sm fw-bold" *ngIf="isTouchedInvalid('name')"
+          >Campo obbligatorio</span
+        >
+      </div>
+      <input
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('name') }"
+        id="name"
+        name="name"
+        formControlName="name"
+        type="text"
+      />
+    </div>
+    <div class="mb-3 d-flex align-items-center gap-2">
+      <div class="col-6 flex-grow-1">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label fs-sm mb-0" for="description"
+            >Indirizzo</label
+          >
+          <span
+            class="text-danger fs-sm fw-bold"
+            *ngIf="isTouchedInvalid('street')"
+            >Campo obbligatorio</span
+          >
+        </div>
+        <input
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('street') }"
+          id="street"
+          name="street"
+          formControlName="street"
+          type="text"
+        />
+      </div>
+      <div class="col-6 w-25">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label fs-sm mb-0" for="price">Numero</label>
+          <span
+            class="text-danger fs-sm fw-bold"
+            *ngIf="isTouchedInvalid('streetNumber')"
+            >Richiesto</span
+          >
+        </div>
+        <input
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('streetNumber') }"
+          id="streetNumber"
+          name="streetNumber"
+          formControlName="streetNumber"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label fs-sm mb-0" for="description"
+              >Provincia</label
+            >
+            <span
+              class="text-danger fs-sm fw-bold"
+              *ngIf="isTouchedInvalid('province')"
+              >Campo obbligatorio</span
+            >
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <select
+              (change)="setAcronym()"
+              class="form-select form-select-sm border-secondary shadow-sm"
+              [ngClass]="{ 'border-danger': isTouchedInvalid('province') }"
+              name="province"
+              id="province"
+              formControlName="province"
+            >
+              <option value="null" selected>-- seleziona provincia --</option>
+              <option *ngFor="let p of provinces" [ngValue]="p.acronym">
+                {{ p.name }}
+              </option>
+            </select>
+            <input
+              class="form-control form-control-sm w-25"
+              id="provinceAcronym"
+              name="provinceAcronym"
+              formControlName="provinceAcronym"
+              type="text"
+              [value]="addressRequest.get('provinceAcronym')?.value"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label fs-sm mb-0" for="city">Città</label>
+            <span
+              class="text-danger fs-sm fw-bold"
+              *ngIf="isTouchedInvalid('city')"
+              >Richiesto</span
+            >
+          </div>
+          <select
+            class="form-select form-select-sm border-secondary shadow-sm"
+            [ngClass]="{ 'border-danger': isTouchedInvalid('city') }"
+            name="city"
+            id="city"
+            (change)="setPostalCode()"
+            formControlName="city"
+          >
+            <option value="null" selected>-- seleziona città --</option>
+            <option *ngFor="let c of cities" [ngValue]="c.name">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+        <div class="w-25">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <label class="form-label mb-0" for="postalCode">CAP</label>
+            <span class="text-danger" *ngIf="isTouchedInvalid('postalCode')"
+              >Richiesto</span
+            >
+          </div>
+          <input
+            class="form-control form-control-sm"
+            id="postalCode"
+            name="postalCode"
+            formControlName="postalCode"
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+    <app-btn-primary-filled
+      [type]="'submit'"
+      (onClick)="createAddress()"
+      [disabled]="!addressRequest.valid"
+      >Salva</app-btn-primary-filled
+    >
+  </form>
+</div>

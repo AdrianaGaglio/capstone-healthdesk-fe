@@ -1,0 +1,41 @@
+<ul class="navbar-nav d-flex flex-column">
+  <li class="nav-item" *ngIf="!isAdmin">
+    <a
+      class="nav-link"
+      ngbDropdownItem
+      routerLink="{{
+        isDoctor ? '/dashboard/impostazioni/dettagli' : '/paziente/profilo'
+      }}"
+      title="Vai al profilo"
+      >Profilo</a
+    >
+  </li>
+  <li class="nav-item" *ngIf="!isAdmin">
+    <a
+      class="nav-link text-dark"
+      ngbDropdownItem
+      routerLink="{{ isDoctor ? '/dashboard' : '/paziente/scheda-personale' }}"
+      title="Vai alla dashboard"
+      >{{ isDoctor ? "Dashboard" : "Scheda personale" }}</a
+    >
+  </li>
+  <li class="nav-item" *ngIf="isAdmin">
+    <a
+      class="nav-link text-dark"
+      ngbDropdownItem
+      routerLink="/admin"
+      title="Vai alla dashboard"
+      >Dashboard</a
+    >
+  </li>
+  <li class="nav-item">
+    <button
+      ngbDropdownItem
+      title="Esci"
+      (click)="onClick.emit($event)"
+      class="btn-link nav-link text-dark"
+    >
+      Esci
+    </button>
+  </li>
+</ul>

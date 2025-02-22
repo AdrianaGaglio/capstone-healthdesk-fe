@@ -1,0 +1,15 @@
+<div
+  #longContent
+  [ngClass]="{ 'p-3': modal, 'overflow-y-scroll overflow-y-auto': modal }"
+>
+  <ng-container *ngIf="modal"
+    ><h4>Modifica orario appuntamento</h4></ng-container
+  >
+  <ng-content></ng-content>
+  <full-calendar [options]="calendarOptions">
+    <ng-template #eventContent let-arg>
+      <b>{{ arg.timeText }}</b>
+      <i>{{ arg.event.title }}</i>
+    </ng-template>
+  </full-calendar>
+</div>

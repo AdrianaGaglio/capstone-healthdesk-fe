@@ -1,0 +1,56 @@
+<div class="row">
+  <h3 class="mb-3 display-4">Agenda</h3>
+  <section class="col-12 col-md-7 col-xl-6">
+    <app-calendar
+      *ngIf="calendar"
+      [slotMinTime]="calendar.slotMinTime"
+      [slotMaxTime]="calendar.slotMaxTime"
+      [height]="500"
+      [filterForDoctor]="'dayGridMonth,timeGridWeek prev,next'"
+      (emitAppointment)="manageAppointment($event)"
+    ></app-calendar>
+  </section>
+  <section class="col-12 col-md-5 col-xl-6 d-flex flex-column pt-3">
+    <div
+      class="mb-3 d-flex justify-content-between align-items-center bg-secondary px-2 py-1 rounded-1 shadow-sm"
+    >
+      <h5 class="mb-0">Prossimi appuntamenti</h5>
+      <div
+        *ngIf="appointments"
+        class="d-flex align-items-center flex-grow-1 justify-content-end gap-2"
+      >
+        <input
+          type="number"
+          min="1"
+          [max]="totalElements"
+          [(ngModel)]="size"
+          class="form-control form-control-sm w-auto"
+          (change)="changePageAndSize()"
+        />
+        <select
+          class="form-select form-select-sm w-auto"
+          name="currentPage"
+          id="currentPage"
+          (change)="changePageAndSize()"
+          [(ngModel)]="currentPage"
+        >
+          <option [value]="p" *ngFor="let p of pages">
+            {{ p + 1 }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <ng-container *ngIf="!appointments || appointments.length < 1">
+      Nessun appuntamento trovato
+    </ng-container>
+    <div *ngIf="appointments" class="flex-grow-1 position-relative min-vh-75">
+      <div
+        class="position-absolute h-100 start-0 end-0 top-0 bottom-0 overflow-y-scroll overflow-y-auto"
+      >
+        <div *ngFor="let a of appointments">
+          <app-next-appointments [appointment]="a"></app-next-appointments>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

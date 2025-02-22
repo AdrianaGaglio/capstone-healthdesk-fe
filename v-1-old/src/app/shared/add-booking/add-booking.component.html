@@ -1,0 +1,92 @@
+<form [formGroup]="newAppointment">
+  <h5 class="mb-3">Prenota appuntamento</h5>
+
+  <div class="mb-3">
+    <app-nav-tab
+      *ngIf="hasOnline != null"
+      [hasOnline]="hasOnline"
+      (setOnline)="setOnline($event)"
+    >
+      <ng-container *ngIf="doctor.addresses">
+        <div class="d-flex align-items justify-content-between mb-1">
+          <label class="mb-0 form-label fs-sm" for="doctorAddressId"
+            >Scegli lo studio del medico</label
+          >
+
+          <span
+            class="text-danger fs-sm fw-bold"
+            *ngIf="isTouchedInvalid('doctorAddressId')"
+            >Campo obbligatorio</span
+          >
+        </div>
+
+        <select
+          class="form-select form-select-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('doctorAddressId') }"
+          name="doctorAddressId"
+          id="doctorAddressId"
+          formControlName="doctorAddressId"
+        >
+          <option [ngValue]="null" selected>
+            -- seleziona lo studio del medico --
+          </option>
+          <option [ngValue]="a.address.id" *ngFor="let a of doctor.addresses">
+            {{ a.name }} - {{ a.address.city }} - {{ a.address.street }},
+            {{ a.address.streetNumber }} - {{ a.address.province }} -
+            {{ a.address.postalCode }}
+          </option>
+        </select>
+      </ng-container>
+    </app-nav-tab>
+  </div>
+  <div class="mb-3 px-3">
+    <div class="d-flex align-items-center justify-content-between mb-1">
+      <label class="mb-0 form-label fs-sm" for="selectedService"
+        >Prestazioni disponibili</label
+      >
+
+      <span
+        class="text-danger fs-sm fw-bold"
+        *ngIf="isTouchedInvalid('serviceId')"
+        >Campo obbligatorio</span
+      >
+    </div>
+
+    <select
+      class="form-select form-select-sm border-secondary shadow-sm"
+      name="serviceId"
+      id="serviceId"
+      formControlName="serviceId"
+      [ngClass]="{ 'border-danger': isTouchedInvalid('serviceId') }"
+    >
+      <option [ngValue]="null">-- seleziona la prestazione --</option>
+
+      <option [ngValue]="s.id" *ngFor="let s of services">
+        {{ s.name }}
+      </option>
+    </select>
+    <input
+      type="datetime"
+      id="startDate"
+      name="startDate"
+      formControlName="startDate"
+      hidden
+    />
+    <input
+      type="datetime"
+      id="endDate"
+      name="endDate"
+      formControlName="endDate"
+      hidden
+    />
+  </div>
+  <ng-content></ng-content>
+  <div class="px-3">
+    <app-btn-primary-filled
+      [type]="'submit'"
+      [extraClass]="'w-100'"
+      (onClick)="bookAppointment()"
+      >Prenota</app-btn-primary-filled
+    >
+  </div>
+</form>

@@ -1,0 +1,69 @@
+<form [formGroup]="loginRequest" (submit)="login()">
+  <div class="mb-3">
+    <h3 class="display-3" *ngIf="isAuthPage">Benvenuto/a!</h3>
+    <h5 [ngClass]="{ 'text-center': !isAuthPage }">
+      Effettua l'accesso al tuo account
+      {{ isAuthPage ? ":" : "per confermare la prenotazione" }}
+    </h5>
+  </div>
+  <div class="mb-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <label for="email" class="form-label text">Email</label>
+      <span class="text-danger" *ngIf="isTouchedInvalid('email')">{{
+        message("email")
+      }}</span>
+    </div>
+    <input
+      type="email"
+      class="form-control form-control-sm rounded-1"
+      id="email"
+      formControlName="email"
+    />
+  </div>
+  <div class="mb-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <label for="password" class="form-label text">Password</label>
+      <span class="text-danger" *ngIf="isTouchedInvalid('password')">{{
+        message("password")
+      }}</span>
+    </div>
+    <div class="position-relative">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control form-control-sm rounded-1 text"
+        id="password"
+        formControlName="password"
+      />
+      <ng-icon
+        role="button"
+        class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-50"
+        [name]="showPassword ? 'ionEyeOffOutline' : 'ionEyeOutline'"
+        (click)="showPassword = !showPassword"
+      ></ng-icon>
+    </div>
+  </div>
+  <div class="mb-3 d-flex align-items-center gap-2">
+    <ng-container *ngIf="isAuthPage">
+      <input
+        type="checkbox"
+        class="mt-0 form-check-input"
+        id="remember"
+        formControlName="remember"
+      />
+      <label for="remember">Ricordami al prossimo accesso</label>
+    </ng-container>
+  </div>
+  <div class="d-flex align-items-center justify-content-between">
+    <app-btn-primary-filled [type]="'submit'" [disabled]="!loginRequest.valid"
+      >Accedi</app-btn-primary-filled
+    >
+    <a
+      *ngIf="isAuthPage"
+      class="fw-bold mb-0 text-decoration-none"
+      routerLink="/auth/reset-request"
+    >
+      Hai dimenticato la password?
+    </a>
+    <ng-content></ng-content>
+  </div>
+</form>

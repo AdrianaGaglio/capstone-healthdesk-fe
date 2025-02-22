@@ -1,0 +1,76 @@
+<div
+  class="onhover d-flex p-3 gap-3 rounded-1 position-relative"
+  [ngClass]="{ 'opacity-75': appointment.status === 'CANCELLED' }"
+>
+  <img
+    [src]="appointment.doctor.avatar"
+    alt="doctor avatar"
+    class="w-fixed-100 h-fixed-100 rounded-1 object-fit-cover object-position-center"
+  />
+
+  <div
+    class="d-flex flex-column position-absolute end-0 top-0 me-3 mt-3 fs-sm fw-bold text-end"
+  >
+    <span
+      >{{ appointment.startDate | date : "EEEE" : "it" | titlecase }}
+      {{ appointment.startDate | date : "dd/MM/yyyy" }}</span
+    >
+    <span>Ore: {{ appointment.startDate | date : "HH:ms" }}</span>
+  </div>
+  <div class="flex-grow-1">
+    <p class="mb-0 d-flex align-items-center gap-2">
+      <ng-icon name="ionMedkitOutline"></ng-icon>
+      <span class="fs-4 fw-bold text-dark"
+        >{{ appointment.doctor.name }} {{ appointment.doctor.surname }}</span
+      >
+    </p>
+    <p class="mb-1 fs-sm">({{ appointment.doctor.title }})</p>
+    <p class="mb-0 d-flex align-items-center gap-2">
+      <ng-icon name="ionLocationOutline"></ng-icon>
+
+      <span class="text-dark" *ngIf="appointment.address">
+        {{ appointment.address.street }},
+        {{ appointment.address.streetNumber }} - {{ appointment.address.city }}
+        {{ appointment.address.provinceAcronym }}
+        {{ appointment.address.postalCode }}
+      </span>
+      <span *ngIf="appointment.online">Online</span>
+    </p>
+    <div class="mt-3 d-flex justify-content-between">
+      <a
+        role="button"
+        (click)="closeModal()"
+        [routerLink]="['/dettagli-appuntamento', appointment.id]"
+        class="text-decoration-none btn btn-primary rounded-1 btn-sm fw-medium fs-6 text-white"
+        >Dettagli visita</a
+      >
+
+      <div
+        class="d-flex gap-2"
+        *ngIf="
+          appointment.status !== 'CANCELLED' &&
+          appointment.status !== 'CONFIRMED' &&
+          !isDoctor
+        "
+      >
+        <app-btn-dark-filled
+          [type]="'button'"
+          [title]="'Modifica data e ora'"
+          (onClick)="openCalendar()"
+          >Modifica</app-btn-dark-filled
+        >
+        <app-btn-danger-filled
+          [type]="'button'"
+          [title]="'Annulla appuntamento'"
+          (onClick)="cancel(appointment.id)"
+          >Annulla</app-btn-danger-filled
+        >
+      </div>
+      <span
+        class="text-danger fw-bold"
+        *ngIf="appointment.status === 'CANCELLED'"
+        >Annullata</span
+      >
+    </div>
+  </div>
+</div>

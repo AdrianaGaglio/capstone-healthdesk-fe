@@ -1,0 +1,16 @@
+<div class="px-3">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink (click)="emitOnline(false)">In studio</button>
+      <ng-template ngbNavContent>
+        <ng-content></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2" *ngIf="hasOnline">
+      <button ngbNavLink (click)="emitOnline(true)">Online</button>
+      <ng-template ngbNavContent> </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>

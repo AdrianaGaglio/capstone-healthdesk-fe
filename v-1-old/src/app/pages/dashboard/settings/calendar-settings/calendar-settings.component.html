@@ -1,0 +1,235 @@
+<div class="row">
+  <h3 class="mb-3 display-4">Impostazioni agenda</h3>
+
+  <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+    <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg">
+      <form #form="ngForm">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="fw-bolder">Gestisci gli orari</h5>
+          <div class="d-flex align-items-center gap-2">
+            <app-btn-primary-filled
+              [type]="'submit'"
+              (onClick)="updateDays()"
+              *ngIf="edit"
+              >Salva</app-btn-primary-filled
+            >
+            <app-btn-dark-filled
+              [type]="'submit'"
+              (onClick)="toggleEditing()"
+              >{{ !edit ? "Modifica" : "Annulla" }}</app-btn-dark-filled
+            >
+          </div>
+        </div>
+        <div
+          class="mb-3 d-flex align-items-center justify-content-between gap-2 flex-wrap"
+          *ngFor="let day of days"
+        >
+          <div
+            class="form-check form-switch d-flex align-items-center w-fixed-150 gap-2"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              name="{{ day.dayName }}"
+              [(ngModel)]="day.isActive"
+              [value]="day.isActive"
+              id="{{ day.dayName }}"
+              [disabled]="!edit"
+            />
+            <label class="form-check-label fs-5" for="{day.dayName}">{{
+              translateDay(day.dayName)
+            }}</label>
+          </div>
+          <div
+            class="d-flex align-items-center gap-3 gap-lg-5 flex-grow-1 flex-wrap"
+          >
+            <ng-container *ngIf="day.isActive">
+              <div class="d-flex gap-2 align-items-center">
+                <select
+                  class="form-select w-fixed-100"
+                  [name]="day.dayName + '-startTime'"
+                  [id]="day.dayName + '-startTime'"
+                  [(ngModel)]="day.slots[0].startTime"
+                  [disabled]="!edit"
+                >
+                  <option [value]="time" *ngFor="let time of times">
+                    {{ time | slice : 0 : 5 }}
+                  </option>
+                </select>
+                <select
+                  class="form-select w-fixed-100"
+                  [name]="day.dayName + '-endTime'"
+                  [id]="day.dayName + '-endTime'"
+                  [(ngModel)]="day.slots[day.slots.length - 1].endTime"
+                  [disabled]="!edit"
+                >
+                  <option [value]="time" *ngFor="let time of times">
+                    {{ time | slice : 0 : 5 }}
+                  </option>
+                </select>
+              </div>
+
+              <ng-container *ngIf="!day.hasExtraRange">
+                <div class="d-flex gap-2 align-items-center">
+                  <input
+                    class="form-check"
+                    type="checkbox"
+                    name="{{ day.hasExtraRange }}"
+                    [checked]="!day.hasExtraRange"
+                    (change)="handleExtraRange(day, !day.hasExtraRange)"
+                    [value]="!day.hasExtraRange"
+                    id="{{ day.hasExtraRange }}"
+                    [disabled]="!edit"
+                  />
+                  <label for="{day.hasExtraRange}">Continuato</label>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="day.hasExtraRange === true">
+                <div class="d-flex align-items-center gap-2">
+                  <select
+                    class="form-select w-fixed-100"
+                    [name]="day.dayName + '-extra-startTime'"
+                    [id]="day.dayName + '-extra-startTime'"
+                    [(ngModel)]="day.extraRange[0].startTime"
+                    [disabled]="!edit"
+                  >
+                    <option [value]="time" *ngFor="let time of times">
+                      {{ time | slice : 0 : 5 }}
+                    </option>
+                  </select>
+                  <select
+                    class="form-select w-fixed-100"
+                    [name]="day.dayName + '-extra-endTime'"
+                    [id]="day.dayName + '-extra-endTime'"
+                    [(ngModel)]="
+                      day.extraRange[day.extraRange.length - 1].endTime
+                    "
+                    [disabled]="!edit"
+                  >
+                    <option [value]="time" *ngFor="let time of times">
+                      {{ time | slice : 0 : 5 }}
+                    </option>
+                  </select>
+                  <app-btn-primary-filled
+                    *ngIf="edit"
+                    [type]="'button'"
+                    [extraClass]="'position-relative h-fixed-30 w-fixed-30'"
+                    (click)="handleExtraRange(day, !day.hasExtraRange)"
+                  >
+                    <ng-icon
+                      name="ionTrashBinOutline"
+                      class="position-absolute top-50 start-50 translate-middle"
+                    ></ng-icon>
+                  </app-btn-primary-filled>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      *ngIf="calendar"
+      class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg flex-row align-items-center justify-content-between"
+    >
+      <h5 class="fw-bolder mb-0">
+        {{ calendar.isActive ? "Disattiva agenda" : "Abilita agenda" }}
+      </h5>
+      <app-btn
+        [type]="'button'"
+        [color]="
+          calendar.isActive
+            ? 'btn-danger text-white w-medium'
+            : 'btn-secondary w-medium'
+        "
+        [extraClass]="'fw-medium'"
+        (onClick)="changeStatus(!calendar.isActive)"
+        [title]="calendar.isActive ? 'Disabilita agenda' : 'Attiva agenda'"
+        >{{ calendar.isActive ? "Disabilita" : "Attiva" }}</app-btn
+      >
+    </div>
+    <div class="card mb-3 p-2 rounded-1 border-0 shadow-sm default-bg">
+      <ng-container *ngIf="calendar">
+        <div class="w-100 d-flex align-items-center justify-content-between">
+          <h5 class="mb-0 fw-bolder">
+            {{
+              calendar.onHoliday
+                ? "Interrompi sospensione agenda"
+                : "Sospendi per un periodo"
+            }}
+          </h5>
+          <div
+            class="form-check form-switch flex-grow-1 d-flex justify-content-end"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="onHoliday"
+              name="onHoliday"
+              [(ngModel)]="calendar.onHoliday"
+              (change)="updateHolidayInfo()"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="editHoliday"
+          class="d-flex align-items-end justify-content-between gap-2"
+        >
+          <div class="d-flex align-items-center gap-2 flex-grow-1">
+            <div class="flex-grow-1">
+              <label
+                class="form-label col-form-label-sm mb-0"
+                for="holidayDateStart"
+                >Inizio periodo</label
+              >
+              <input
+                type="date"
+                min="{{ today }}"
+                class="form-control form-control-sm"
+                id="holidayDateStart"
+                name="holidayDateStart"
+                [(ngModel)]="calendar.holidayDateStart"
+              />
+            </div>
+            <div class="flex-grow-1">
+              <label
+                class="form-label col-form-label-sm mb-0"
+                for="holidayDateEnd"
+                >Fine periodo</label
+              >
+              <input
+                type="date"
+                min="{{ today }}"
+                class="form-control form-control-sm"
+                id="holidayDateEnd"
+                name="holidayDateEnd"
+                [(ngModel)]="calendar.holidayDateEnd"
+              />
+            </div>
+          </div>
+          <app-btn-primary-filled [type]="'button'" (onClick)="manageHoliday()"
+            >Salva</app-btn-primary-filled
+          >
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+    <h5 class="fw-bolder">Clicca sugli slot liberi per disattivarli</h5>
+    <p class="mb-0">
+      Cliccando sugli slot bloccati lo stato verrà ripristinato
+    </p>
+    <app-calendar
+      *ngIf="calendar"
+      [slotMinTime]="calendar.slotMinTime"
+      [slotMaxTime]="calendar.slotMaxTime"
+      [height]="450"
+      [filterForDoctor]="''"
+      (timing)="blockSlot($event)"
+      (emitAppId)="unlockSlot($event)"
+    ></app-calendar>
+  </div>
+</div>

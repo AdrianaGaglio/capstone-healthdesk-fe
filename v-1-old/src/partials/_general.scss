@@ -1,0 +1,21 @@
+app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.custom-bg {
+  background-color: $secondary;
+}
+
+.default-bg {
+  background-color: lighten($background, 10%);
+}
+
+.bg-secondary-light {
+  background-color: lighten($secondary, 3%);
+}

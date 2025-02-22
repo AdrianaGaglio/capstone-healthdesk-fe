@@ -1,0 +1,13 @@
+<a
+  [class]="
+    'btn btn-secondary rounded-1 btn-sm fw-medium fs-6 text-dark' +
+    ' ' +
+    extraClass
+  "
+  [routerLink]="url"
+  [ngClass]="color"
+  [href]="href"
+  [title]="title"
+>
+  <ng-content></ng-content>
+</a>
