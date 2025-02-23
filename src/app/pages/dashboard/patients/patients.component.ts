@@ -20,6 +20,8 @@ export class PatientsComponent {
   search: string = '';
   isSearching: boolean = false;
 
+  sort: string[] = ['name'];
+
   orderAsc: boolean = false;
 
   ngOnInit() {
@@ -38,12 +40,10 @@ export class PatientsComponent {
   }
 
   changePageAndSize(page: number = this.currentPage, sort: string[] = []) {
-    this.orderAsc = !this.orderAsc;
-    sort[0] = !sort[0] ? 'name' : sort[0];
-    sort[0] = sort[0] + (this.orderAsc ? ',asc' : ',desc');
+    this.sort = sort[0] ? sort : this.sort;
     if (!this.isSearching) {
       this.patientSvc
-        .getAllPaged(this.currentPage, this.size, sort)
+        .getAllPaged(page, this.size, this.sort)
         .subscribe((res) => {
           this.pages = this.getPages(res.totalPages);
           this.patients = res.content;
@@ -52,6 +52,13 @@ export class PatientsComponent {
     } else {
       this.searchPatients();
     }
+  }
+
+  order(page: number = this.currentPage, sort: string[] = []) {
+    this.sort = sort[0] ? sort : this.sort;
+    this.orderAsc = !this.orderAsc;
+    this.sort = [this.sort[0] + (this.orderAsc ? ',asc' : ',desc')];
+    this.changePageAndSize(this.currentPage, this.sort);
   }
 
   getPages(totalPages: number) {

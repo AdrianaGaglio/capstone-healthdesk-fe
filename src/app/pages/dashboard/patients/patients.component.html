@@ -2,77 +2,110 @@
   <div class="row">
     <h3 class="mb-3 display-4">Pazienti</h3>
     <div class="col col-12">
-      <div>
-        <button
-          class="btn btn-sm border-0"
-          (click)="changePageAndSize(currentPage - 1)"
-          [disabled]="currentPage == 0"
-        >
-          ⮜
-        </button>
-        <span class="py-1 text-dark fs-sm"
-          >{{ currentPage + 1 }}/{{ pages.length }}</span
-        >
-        <button
-          class="btn btn-sm text-dark border-0"
-          (click)="changePageAndSize(currentPage + 1)"
-        >
-          ⮞
-        </button>
-      </div>
-      <table class="table table-borderless table-responsive">
-        <thead>
-          <tr>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm">Nome</span>
-            </th>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm">Cognome</span>
-            </th>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm">Email</span>
-            </th>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm">Telefono</span>
-            </th>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm">Ultima visita</span>
-            </th>
-            <th scope="col align-middle">
-              <span class="fw-medium fs-sm"></span>
-            </th>
-          </tr>
-        </thead>
-
-        <div class="px-2 py-3" *ngIf="!patients || patients.length < 1">
-          Nessun paziente in carico
+      <div class="d-flex justify-content-start gap-2 py-1">
+        <div class="position-relative" *ngIf="patients">
+          <input
+            type="text"
+            id="search"
+            name="search"
+            [(ngModel)]="search"
+            class="form-control form-control-sm border-secondary shadow-sm w-auto"
+            placeholder="Cerca paziente..."
+            (keypress)="onKeyPress($event)"
+            (input)="onInputChange($event)"
+            (keyup)="searchPatients()"
+          />
+          <ng-icon
+            (click)="searchPatients()"
+            class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-50"
+            name="ionSearchOutline"
+            role="button"
+          ></ng-icon>
         </div>
-        <tbody>
-          <tr *ngFor="let patient of patients">
-            <td class="align-middle">
-              <span>{{ patient.name }}</span>
-            </td>
-            <td class="align-middle">
-              <span>{{ patient.surname }}</span>
-            </td>
-            <td class="align-middle">
-              <span>{{ patient.email }}</span>
-            </td>
-            <td class="align-middle">
-              <span>{{ patient.phoneNumber }}</span>
-            </td>
-            <td class="align-middle">
-              <span *ngIf="patient.lastVisit">{{
-                patient.lastVisit | date : "dd/MM/yyyy"
-              }}</span>
-              <span *ngIf="!patient.lastVisit">---</span>
-            </td>
-            <td class="align-middle">
-              <app-btn-primary [type]="'button'">Prenota</app-btn-primary>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="d-flex justify-content-between gap-2">
+          <button
+            class="btn btn-sm border-0"
+            (click)="changePageAndSize(currentPage - 1, sort)"
+            [disabled]="currentPage == 0"
+          >
+            ⮜
+          </button>
+          <span class="py-1 text-dark fs-sm"
+            >{{ currentPage + 1 }}/{{ pages.length }}</span
+          >
+          <button
+            class="btn btn-sm text-dark border-0"
+            (click)="changePageAndSize(currentPage + 1, sort)"
+          >
+            ⮞
+          </button>
+        </div>
+      </div>
+      <div class="table-responsive-sm">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col align-middle">
+                <span
+                  class="fw-medium fs-sm"
+                  role="button"
+                  (click)="order(currentPage, ['name'])"
+                  >Nome</span
+                >
+              </th>
+              <th scope="col align-middle">
+                <span
+                  class="fw-medium fs-sm"
+                  role="button"
+                  (click)="order(currentPage, ['surname'])"
+                  >Cognome</span
+                >
+              </th>
+              <th scope="col align-middle">
+                <span class="fw-medium fs-sm">Email</span>
+              </th>
+              <th scope="col align-middle">
+                <span class="fw-medium fs-sm">Telefono</span>
+              </th>
+              <th scope="col align-middle">
+                <span class="fw-medium fs-sm">Ultima visita</span>
+              </th>
+              <th scope="col align-middle">
+                <span class="fw-medium fs-sm"></span>
+              </th>
+            </tr>
+          </thead>
+
+          <div class="px-2 py-3" *ngIf="!patients || patients.length < 1">
+            Nessun paziente trovato
+          </div>
+          <tbody>
+            <tr *ngFor="let patient of patients">
+              <td class="align-middle">
+                <span>{{ patient.name }}</span>
+              </td>
+              <td class="align-middle">
+                <span>{{ patient.surname }}</span>
+              </td>
+              <td class="align-middle">
+                <span>{{ patient.email }}</span>
+              </td>
+              <td class="align-middle">
+                <span>{{ patient.phoneNumber }}</span>
+              </td>
+              <td class="align-middle">
+                <span *ngIf="patient.lastVisit">{{
+                  patient.lastVisit | date : "dd/MM/yyyy"
+                }}</span>
+                <span *ngIf="!patient.lastVisit">---</span>
+              </td>
+              <td class="align-middle">
+                <app-btn-primary [type]="'button'">Prenota</app-btn-primary>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
