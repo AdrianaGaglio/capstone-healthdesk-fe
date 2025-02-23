@@ -33,8 +33,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private cookie: CookieService,
-    private router: Router,
-    private patientSvc: PatientService
+    private router: Router
   ) {
     this.restoreUser();
   }
@@ -141,12 +140,6 @@ export class AuthService {
     // altrimenti salvo i dati nel subject
     const auth: iAuthResponse = { token: token, role: role };
     this.auth$.next(auth);
-
-    if (auth.role === 'PATIENT') {
-      this.patientSvc
-        .getPatient()
-        .subscribe((patient) => this.user$.next(patient));
-    }
   }
 
   // impostazione nuova password dopo registrazione

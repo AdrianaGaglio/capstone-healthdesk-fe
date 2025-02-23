@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <div class="row">
+    <h3 class="mb-3 display-4">Scheda personale</h3>
+    <div class="col col-12 col-lg-6">
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <div
+          class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+        >
+          <h5 class="mb-0">Prossimi appuntamenti</h5>
+        </div>
+        <div
+          class="px-2 py-3"
+          *ngIf="!nextAppointments || nextAppointments.length < 1"
+        >
+          Nessun appuntamento trovato
+        </div>
+        <ng-container *ngIf="nextAppointments && nextAppointments.length > 0">
+          <div
+            class="onhover py-3 rounded-2 px-2"
+            *ngFor="let a of nextAppointments.slice(0, 1)"
+          >
+            <app-appointment [appointment]="a"></app-appointment>
+          </div>
+
+          <ng-container
+            *ngIf="nextAppointments.slice(1).length > 0 && showMoreNext"
+          >
+            <div
+              class="onhover py-3 rounded-2 px-2"
+              *ngFor="let a of nextAppointments.slice(1)"
+            >
+              <app-appointment [appointment]="a"></app-appointment>
+            </div>
+          </ng-container>
+          <app-btn-primary
+            *ngIf="nextAppointments.length > 1"
+            (onClick)="showMoreNext = !showMoreNext"
+            >{{
+              !showMoreNext ? "Mostra altro" : "Mostra meno"
+            }}</app-btn-primary
+          >
+        </ng-container>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <div
+          class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+        >
+          <h5 class="mb-0">Visite effettuate</h5>
+        </div>
+        <div class="px-2 py-3" *ngIf="!completed || completed.length < 1">
+          Nessun appuntamento trovato
+        </div>
+        <ng-container *ngIf="completed && completed.length > 0">
+          <div
+            class="onhover py-3 rounded-2 px-2"
+            *ngFor="let a of completed.slice(0, 1)"
+          >
+            <app-appointment [appointment]="a"></app-appointment>
+          </div>
+          <ng-container
+            *ngIf="completed.slice(1).length > 0 && showMoreCompleted"
+          >
+            <div
+              class="onhover py-3 rounded-2 px-2"
+              *ngFor="let a of completed.slice(1)"
+            >
+              <app-appointment [appointment]="a"></app-appointment>
+            </div>
+          </ng-container>
+          <app-btn-primary
+            *ngIf="nextAppointments.length > 1"
+            (onClick)="showMoreCompleted = !showMoreCompleted"
+            >{{
+              !showMoreCompleted ? "Mostra altro" : "Mostra meno"
+            }}</app-btn-primary
+          >
+        </ng-container>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <div
+          class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+        >
+          <h5 class="mb-0">Visite annullate</h5>
+        </div>
+        <div class="px-2 py-3" *ngIf="!cancelled || cancelled.length < 1">
+          Nessun appuntamento trovato
+        </div>
+        <ng-container *ngIf="cancelled && cancelled.length > 0">
+          <div
+            class="opacity-75 onhover py-3 rounded-2 px-2"
+            *ngFor="let a of cancelled.slice(0, 1)"
+          >
+            <app-appointment [appointment]="a"></app-appointment>
+          </div>
+          <ng-container *ngIf="cancelled.slice(1).length > 0">
+            <div
+              class="opacity-75 onhover py-3 rounded-2 px-2"
+              *ngFor="let a of cancelled.slice(1)"
+            >
+              <app-appointment [appointment]="a"></app-appointment>
+            </div>
+          </ng-container>
+          <app-btn-primary
+            *ngIf="nextAppointments.length > 1"
+            (onClick)="showMoreCancelled = !showMoreCancelled"
+            >{{
+              !showMoreCancelled ? "Mostra altro" : "Mostra meno"
+            }}</app-btn-primary
+          >
+        </ng-container>
+      </div>
+    </div>
+    <div class="col col-12 col-lg-6">
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-prescription [mf]="mf"></app-prescription>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-document [mf]="mf"></app-document>
+      </div>
+    </div>
+  </div>
+</div>

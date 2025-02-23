@@ -12,11 +12,40 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
-  { path: 'chi-sono', loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule) },
-  { path: 'contatti', loadChildren: () => import('./pages/contacts/contacts.module').then(m => m.ContactsModule) },
-  { path: 'prenota', loadChildren: () => import('./pages/bookings/bookings.module').then(m => m.BookingsModule) },
-  { path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule) },
-  { path: 'paziente', loadChildren: () => import('./pages/patient/patient.module').then(m => m.PatientModule) },
+  {
+    path: 'chi-sono',
+    loadChildren: () =>
+      import('./pages/about/about.module').then((m) => m.AboutModule),
+  },
+  {
+    path: 'contatti',
+    loadChildren: () =>
+      import('./pages/contacts/contacts.module').then((m) => m.ContactsModule),
+  },
+  {
+    path: 'prenota',
+    loadChildren: () =>
+      import('./pages/bookings/bookings.module').then((m) => m.BookingsModule),
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  {
+    path: 'paziente',
+    loadChildren: () =>
+      import('./pages/patient/patient.module').then((m) => m.PatientModule),
+  },
+  {
+    path: 'dettagli-appuntamento/:id',
+    loadChildren: () =>
+      import('./pages/appointment-details/appointment-details.module').then(
+        (m) => m.AppointmentDetailsModule
+      ),
+  },
 ];
 
 @NgModule({

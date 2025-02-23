@@ -1,21 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { iPatient, iPatientPaged } from '../interfaces/ipatient';
 import { iMessage } from '../interfaces/imessage';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authSvc: AuthService) {
+    this.restorePatient();
+  }
 
   url: string = environment.baseUrl + 'patients';
 
   getPatient(): Observable<iPatient> {
-    return this.http.get<iPatient>(this.url);
+    return this.http.get<iPatient>(this.url).pipe(
+      tap((res) => {
+        this.authSvc.user$.next(res);
+      })
+    );
   }
 
   getAll(): Observable<iPatient[]> {
@@ -59,5 +65,13 @@ export class PatientService {
     }
 
     return this.http.get<iPatientPaged>(url);
+  }
+
+  restorePatient() {
+    this.authSvc.auth$.subscribe((auth) => {
+      if (auth && auth.role === 'PATIENT') {
+        this.getPatient().subscribe();
+      }
+    });
   }
 }

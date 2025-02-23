@@ -1,0 +1,11 @@
+<div
+  class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+>
+  <h5 class="mb-0">Referti caricati</h5>
+  <app-btn-dark-filled (onClick)="addDocument()" [type]="'button'"
+    >Carica referto</app-btn-dark-filled
+  >
+</div>
+<div class="py-2" *ngIf="!mf.documentation || mf.documentation.length < 1">
+  <p class="mb-0">Nessun referto disponibile</p>
+</div>

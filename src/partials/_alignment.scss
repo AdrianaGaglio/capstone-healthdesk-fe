@@ -35,7 +35,8 @@ app-register {
   justify-content: center;
 }
 
-app-dashboard {
+app-dashboard,
+app-patient {
   flex-grow: 1;
   width: 100%;
   display: flex;

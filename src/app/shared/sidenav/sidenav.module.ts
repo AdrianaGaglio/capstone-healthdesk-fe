@@ -4,9 +4,15 @@ import { SidenavComponent } from './sidenav.component';
 import { NgIconsModule } from '@ng-icons/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DirectivesModule } from '../directives/directives.module';
+import { DoctorSidenavComponent } from './doctor-sidenav/doctor-sidenav.component';
+import { PatientSidenavComponent } from './patient-sidenav/patient-sidenav.component';
 
 @NgModule({
-  declarations: [SidenavComponent],
+  declarations: [
+    SidenavComponent,
+    DoctorSidenavComponent,
+    PatientSidenavComponent,
+  ],
   imports: [
     CommonModule,
     NgIconsModule,
@@ -14,6 +20,6 @@ import { DirectivesModule } from '../directives/directives.module';
     RouterLinkActive,
     DirectivesModule,
   ],
-  exports: [SidenavComponent],
+  exports: [SidenavComponent, DoctorSidenavComponent, PatientSidenavComponent],
 })
 export class SidenavModule {}

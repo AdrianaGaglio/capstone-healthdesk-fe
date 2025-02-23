@@ -1,0 +1,36 @@
+<div class="d-flex gap-2 align-items-start">
+  <img
+    [src]="getAvatar()"
+    alt="immagine medico"
+    class="w-fixed-50 h-fixed-50 object-fit-cover rounded-2"
+  />
+  <div class="flex-grow-1">
+    <div class="mb-1 d-flex gap-2 align-items-start fs-5">
+      <ng-icon name="ionMedkitOutline"></ng-icon>
+      <p class="fw-medium mb-0">
+        {{ appointment.doctor.name }} {{ appointment.doctor.surname }}
+      </p>
+    </div>
+    <p class="fs-sm mb-0">
+      Prestazione: <span>{{ appointment.service.name }}</span>
+    </p>
+  </div>
+  <div>
+    <p class="mb-2 fs-sm fw-medium">
+      {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
+    </p>
+    <div class="d-flex gap-2 justify-content-end">
+      <app-link-dark-filled
+        [class]="' fs-sm'"
+        [url]="'/dettagli-appuntamento/' + appointment.id"
+        >Dettagli</app-link-dark-filled
+      >
+      <app-btn-primary-filled
+        *ngIf="appointment.status === 'PENDING'"
+        [class]="' fs-sm'"
+        [type]="'button'"
+        >Conferma</app-btn-primary-filled
+      >
+    </div>
+  </div>
+</div>

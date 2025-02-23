@@ -14,47 +14,7 @@
         class="position-absolute top-50 start-50 translate-middle"
       ></ng-icon>
     </div>
-    <ul class="nav nav-pills nav-flush flex-column text-center">
-      <li class="nav-item">
-        <a
-          routerLink="/dashboard/calendario"
-          routerLinkActive="bg-secondary-light"
-          class="nav-link rounded-0 py-3"
-          title="Gestione calendario"
-        >
-          <ng-icon name="ionCalendarOutline" class="fs-3"></ng-icon>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          routerLink="/dashboard/pazienti"
-          routerLinkActive="bg-secondary-light"
-          class="nav-link rounded-0 py-3"
-          title="Gestione pazienti"
-        >
-          <ng-icon name="ionPeopleOutline" class="fs-3"></ng-icon>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          routerLink="/dashboard/appuntamenti"
-          routerLinkActive="bg-secondary-light"
-          class="nav-link rounded-0 py-3"
-          title="Gestione appuntamenti"
-        >
-          <ng-icon name="ionListOutline" class="fs-3"></ng-icon>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          routerLink="/dashboard/impostazioni"
-          routerLinkActive="bg-secondary-light"
-          class="nav-link rounded-0 py-3"
-          title="Impostazioni"
-        >
-          <ng-icon name="ionSettingsOutline" class="fs-3"></ng-icon>
-        </a>
-      </li>
-    </ul>
+    <app-doctor-sidenav *ngIf="isDoctor"></app-doctor-sidenav>
+    <app-patient-sidenav *ngIf="!isDoctor"></app-patient-sidenav>
   </div>
 </aside>
