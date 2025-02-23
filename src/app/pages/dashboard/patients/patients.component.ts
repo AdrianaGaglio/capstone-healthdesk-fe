@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PatientService } from '../../../services/patient.service';
 import { iPatient } from '../../../interfaces/ipatient';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddBookingComponent } from '../../../shared/add-booking/add-booking.component';
+import { CreateBookingComponent } from '../../../shared/create-booking/create-booking.component';
+import { CalendarService } from '../../../services/calendar.service';
+import { ModalFeedbackComponent } from '../../../shared/modalfeedback/modalfeedback.component';
 
 @Component({
   selector: 'app-patients',
@@ -8,7 +13,12 @@ import { iPatient } from '../../../interfaces/ipatient';
   styleUrl: './patients.component.scss',
 })
 export class PatientsComponent {
-  constructor(private patientSvc: PatientService) {}
+  private modalService = inject(NgbModal);
+
+  constructor(
+    private patientSvc: PatientService,
+    private calendarSvc: CalendarService
+  ) {}
 
   patients!: iPatient[];
 
@@ -90,5 +100,43 @@ export class PatientsComponent {
         this.currentPage = this.pages[0];
         this.isSearching = true;
       });
+  }
+
+  book(patient: iPatient) {
+    this.openModal(patient)
+      .result.then((result) => {
+        this.calendarSvc.restoreCalendar();
+        if (result) {
+          this.feedback('Prenotazione inserita correttamente');
+        }
+      })
+      .catch((error) => {
+        this.modalService.dismissAll(error);
+      });
+  }
+
+  openModal(patient: iPatient) {
+    const modalRef = this.modalService.open(CreateBookingComponent, {
+      size: 'xl',
+      centered: true,
+      scrollable: true,
+    });
+
+    modalRef.componentInstance.patient = patient;
+
+    return modalRef;
+  }
+
+  feedback(message: string) {
+    const modalRef = this.modalService.open(ModalFeedbackComponent, {
+      size: 'md',
+      centered: true,
+    });
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.isError = false;
+
+    setTimeout(() => {
+      this.modalService.dismissAll();
+    }, 1000);
   }
 }

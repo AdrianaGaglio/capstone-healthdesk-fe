@@ -64,6 +64,8 @@ import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { FormsModule } from '@angular/forms';
 import { ManageAppointmentModule } from './shared/manage-appointment/manage-appointment.module';
+import { AddBookingModule } from './shared/add-booking/add-booking.module';
+import { CreateBookingModule } from './shared/create-booking/create-booking.module';
 
 registerLocaleData(localeIt);
 

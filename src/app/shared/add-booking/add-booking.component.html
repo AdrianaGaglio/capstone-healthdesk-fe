@@ -1,5 +1,6 @@
 <form [formGroup]="appointmentRequest" (submit)="submit()">
   <app-tab [hasOnline]="hasOnline" (onTabChanged)="setOnline($event)">
+    <ng-content select="[slot=patient]"></ng-content>
     <div *ngIf="doctor && doctor.addresses" class="mb-2 py-2">
       <label for="doctorAddressId" class="form-label fs-sm mb-1"
         >Studio medico</label
@@ -36,6 +37,7 @@
       </option>
     </select>
   </div>
+  <ng-content select="[slot=timing]"></ng-content>
   <div class="py-2 mb-2">
     <app-calendar
       *ngIf="calendar"

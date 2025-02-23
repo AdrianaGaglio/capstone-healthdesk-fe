@@ -1,7 +1,18 @@
 import { AuthService } from './../../auth/auth.service';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CalendarService } from '../../services/calendar.service';
-import { iCalendar } from '../../interfaces/icalendar';
+import {
+  iAppointmentResponseForCalendar,
+  iCalendar,
+} from '../../interfaces/icalendar';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { iPatient } from '../../interfaces/ipatient';
 import { DoctorService } from '../../services/doctor.service';
@@ -10,7 +21,10 @@ import { combineLatest } from 'rxjs';
 import { iTiming } from '../../interfaces/itiming';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthFormComponent } from '../auth/auth-form.component';
-import { iAppointmentRequest } from '../../interfaces/iappointment';
+import {
+  iAppointment,
+  iAppointmentRequest,
+} from '../../interfaces/iappointment';
 import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
@@ -33,7 +47,12 @@ export class AddBookingComponent implements OnInit {
 
   appointmentRequest!: FormGroup;
 
-  patient!: iPatient;
+  @Input() patient!: iPatient;
+
+  @Output() onTimeSelect = new EventEmitter<iTiming>();
+  @Output() onAppointmentCreated =
+    new EventEmitter<iAppointmentResponseForCalendar>();
+  @Input() timingFromDoctor!: iTiming;
 
   doctor!: iDoctor;
   services!: iService[];
@@ -49,6 +68,10 @@ export class AddBookingComponent implements OnInit {
       doctorAddressId: this.fb.control(null),
       online: this.fb.control(false, [Validators.required]),
     });
+
+    if (this.patient) {
+      this.appointmentRequest.get('patientId')?.setValue(this.patient.id);
+    }
 
     this.authSvc.auth$.subscribe((auth) => {
       if (auth && auth.role === 'PATIENT') {
@@ -93,9 +116,23 @@ export class AddBookingComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.timingFromDoctor) {
+      this.appointmentRequest
+        .get('startDate')
+        ?.setValue(this.timingFromDoctor.startDate);
+      this.appointmentRequest
+        .get('endDate')
+        ?.setValue(this.timingFromDoctor.endDate);
+      console.log(this.appointmentRequest.value);
+    }
+  }
+
   setTime(timing: iTiming) {
     this.appointmentRequest.get('startDate')?.setValue(timing.startDate);
     this.appointmentRequest.get('endDate')?.setValue(timing.endDate);
+
+    this.onTimeSelect.emit(timing);
   }
 
   isTouchedInvalid(field: string) {
@@ -125,6 +162,7 @@ export class AddBookingComponent implements OnInit {
   addAppointment(request: iAppointmentRequest) {
     this.appSvc.addAppointment(request).subscribe((res) => {
       this.appointmentRequest.reset();
+      this.onAppointmentCreated.emit(res);
     });
   }
 

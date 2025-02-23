@@ -1,0 +1,59 @@
+<div
+  *ngIf="patient"
+  class="p-3 position-relative overflow-y-scroll overflow-y-auto"
+  #longContent
+>
+  <div class="mb-3">
+    <app-add-booking
+      [patient]="patient"
+      (onTimeSelect)="setTime($event)"
+      [timingFromDoctor]="timingFromDoctor"
+      (onAppointmentCreated)="close($event)"
+    >
+      <span
+        class="position-absolute top-0 end-0 mt-3 me-3 bg-secondary rounded-2 px-2 py-1 fw-bold"
+        slot="patient"
+        >{{ patient.name }} {{ patient.surname }}</span
+      >
+
+      <div slot="timing">
+        <label for="data" class="form-label fs-sm mb-1"
+          >Nuova data (per selezionare orari al di fuori dell'agenda)</label
+        >
+        <div class="d-flex align-items-center gap-2">
+          <input
+            #dateInput="ngModel"
+            class="form-control form-control-sm border-secondary shadow-sm mb-3 w-auto"
+            type="date"
+            [min]="today"
+            name="date"
+            [(ngModel)]="date"
+            required
+          />
+          <select
+            *ngIf="date"
+            class="form-select form-select-sm border-secondary shadow-sm mb-3 w-auto"
+            name="time"
+            id="time"
+            [(ngModel)]="time"
+            (change)="
+              setTime({ startDate: date + 'T' + time + ':00', endDate: '' })
+            "
+            #timeInput="ngModel"
+            required
+          >
+            <option *ngFor="let time of generateTimeSlots(date)" [value]="time">
+              {{ time }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </app-add-booking>
+  </div>
+  <app-btn-dark
+    class="w-100 text-center"
+    [type]="'button'"
+    (onClick)="close(null)"
+    >Annulla</app-btn-dark
+  >
+</div>

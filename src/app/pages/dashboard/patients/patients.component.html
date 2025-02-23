@@ -100,7 +100,12 @@
                 <span *ngIf="!patient.lastVisit">---</span>
               </td>
               <td class="align-middle">
-                <app-btn-primary [type]="'button'">Prenota</app-btn-primary>
+                <app-btn-primary
+                  [type]="'button'"
+                  [title]="'Inserisci prenotazione'"
+                  (onClick)="book(patient)"
+                  >Prenota</app-btn-primary
+                >
               </td>
             </tr>
           </tbody>
