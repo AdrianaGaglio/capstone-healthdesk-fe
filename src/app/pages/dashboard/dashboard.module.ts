@@ -25,6 +25,15 @@ import { ServiceComponent } from './settings/services/service/service.component'
 import { AddAddressComponent } from './settings/addresses/add-address/add-address.component';
 import { AddressComponent } from './settings/addresses/address/address.component';
 import { EditLoginInfoModule } from '../../shared/edit-login-info/edit-login-info.module';
+import { SpecializationsComponent } from './settings/details/specializations/specializations.component';
+import { TrainingsComponent } from './settings/details/trainings/trainings.component';
+import { ExperiencesComponent } from './settings/details/experiences/experiences.component';
+import { SpecializationComponent } from './settings/details/specializations/specialization/specialization.component';
+import { AddSpecializationComponent } from './settings/details/specializations/add-specialization/add-specialization.component';
+import { ExperienceComponent } from './settings/details/experiences/experience/experience.component';
+import { AddExperienceComponent } from './settings/details/experiences/add-experience/add-experience.component';
+import { AddTrainingComponent } from './settings/details/trainings/add-training/add-training.component';
+import { TrainingComponent } from './settings/details/trainings/training/training.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +52,15 @@ import { EditLoginInfoModule } from '../../shared/edit-login-info/edit-login-inf
     ServiceComponent,
     AddAddressComponent,
     AddressComponent,
+    SpecializationsComponent,
+    TrainingsComponent,
+    ExperiencesComponent,
+    SpecializationComponent,
+    AddSpecializationComponent,
+    ExperienceComponent,
+    AddExperienceComponent,
+    AddTrainingComponent,
+    TrainingComponent,
   ],
   imports: [
     CommonModule,

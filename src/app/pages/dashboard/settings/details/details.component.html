@@ -127,6 +127,15 @@
           (onUpdate)="feedback('Dati di accesso modificati')"
         ></app-edit-login-info>
       </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg">
+        <app-specializations [doctor]="doctor"></app-specializations>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg">
+        <app-trainings [doctor]="doctor"></app-trainings>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg">
+        <app-experiences [doctor]="doctor"></app-experiences>
+      </div>
     </div>
   </div>
 </div>

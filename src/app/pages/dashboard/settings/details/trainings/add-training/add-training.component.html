@@ -1,0 +1,84 @@
+<div class="p-3">
+  <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+    Inserisci una nuova specializzazione
+  </h6>
+  <form #form="ngForm">
+    <div class="d-flex align-items-center gap-2">
+      <div class="mb-3 w-75">
+        <label class="form-label fs-sm mb-1" for="name"
+          >Nome della formazione</label
+        >
+
+        <input
+          #name="ngModel"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': name.invalid && name.touched }"
+          id="name"
+          name="name"
+          [(ngModel)]="newTraining.name"
+          type="text"
+          required
+        />
+      </div>
+      <div class="mb-3 w-25">
+        <label class="form-label fs-sm mb-1" for="startDate">Data inizio</label>
+
+        <input
+          #startDate="ngModel"
+          type="date"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{
+            'border-danger': startDate.invalid && startDate.touched
+          }"
+          id="startDate"
+          name="startDate"
+          [(ngModel)]="newTraining.startDate"
+          required
+        />
+      </div>
+      <div class="mb-3 w-25">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label fs-sm mb-0" for="description"
+            >Data fine</label
+          >
+        </div>
+        <input
+          #endDate="ngModel"
+          type="date"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          id="endDate"
+          name="endDate"
+          [(ngModel)]="newTraining.endDate"
+        />
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fs-sm mb-1" for="description"
+        >Breve descrizione</label
+      >
+
+      <textarea
+        #description="ngModel"
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{
+          'border-danger': description.invalid && description.touched
+        }"
+        id="description"
+        name="description"
+        [(ngModel)]="newTraining.description"
+        type="text"
+        required
+      ></textarea>
+    </div>
+    <app-btn-primary-filled
+      [type]="'submit'"
+      (onClick)="addTraining()"
+      [disabled]="!form.valid"
+      >Salva</app-btn-primary-filled
+    >
+
+    <app-btn-dark [class]="'border-0'" [type]="'button'" (onClick)="close(null)"
+      >Annulla</app-btn-dark
+    >
+  </form>
+</div>

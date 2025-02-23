@@ -1,0 +1,25 @@
+<ng-container *ngIf="doctor">
+  <div
+    class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2"
+  >
+    <h5 class="fw-bolder mb-0">Corsi e formazioni</h5>
+    <div class="d-flex gap-2">
+      <app-btn-dark-filled
+        [type]="'button'"
+        [title]="'Aggiungi nuova formazione'"
+        (onClick)="addTraining()"
+        >Aggiungi formazione</app-btn-dark-filled
+      >
+    </div>
+  </div>
+  <div class="px-1 py-2" *ngIf="!trainings || trainings.length == 0">
+    <p class="mb-0">Nessuna formazione inserita</p>
+  </div>
+  <div *ngFor="let t of trainings" class="onhover rounded-2 px-2 py-3">
+    <app-training
+      (onDelete)="removeTraining($event)"
+      [doctor]="doctor"
+      [training]="t"
+    ></app-training>
+  </div>
+</ng-container>

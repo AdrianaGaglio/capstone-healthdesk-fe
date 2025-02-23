@@ -1,0 +1,23 @@
+<div class="d-flex gap-2 align-items-center justify-content-between">
+  <div>
+    <h6 class="fw-bold mb-2">{{ experience.name }}</h6>
+    <p class="mb-2">{{ experience.description }}</p>
+    <p class="mb-0 fs-sm">
+      Dal {{ experience.startDate | date : "dd/MM/yyyy" }}
+      <ng-container *ngIf="experience.endDate"
+        >al {{ experience.endDate | date : "dd/MM/yyyy" }}</ng-container
+      >
+    </p>
+  </div>
+  <app-btn-primary-filled
+    [class]="'position-relative w-fixed-30 h-fixed-30'"
+    [type]="'button'"
+    [title]="'Elimina esperienza professionale'"
+    (onClick)="delete(experience.id)"
+  >
+    <ng-icon
+      class="position-absolute top-50 start-50 translate-middle"
+      name="ionTrashBinOutline"
+    ></ng-icon>
+  </app-btn-primary-filled>
+</div>

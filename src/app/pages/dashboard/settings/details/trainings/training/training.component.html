@@ -1,0 +1,23 @@
+<div class="d-flex gap-2 align-items-center justify-content-between">
+  <div>
+    <h6 class="fw-bold mb-2">{{ training.name }}</h6>
+    <p class="mb-2">{{ training.description }}</p>
+    <p class="mb-0 fs-sm">
+      Dal {{ training.startDate | date : "dd/MM/yyyy" }}
+      <ng-container *ngIf="training.endDate"
+        >al {{ training.endDate | date : "dd/MM/yyyy" }}</ng-container
+      >
+    </p>
+  </div>
+  <app-btn-primary-filled
+    [class]="'position-relative w-fixed-30 h-fixed-30'"
+    [type]="'button'"
+    [title]="'Elimina formazione'"
+    (onClick)="delete(training.id)"
+  >
+    <ng-icon
+      class="position-absolute top-50 start-50 translate-middle"
+      name="ionTrashBinOutline"
+    ></ng-icon>
+  </app-btn-primary-filled>
+</div>
