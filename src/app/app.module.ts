@@ -51,6 +51,7 @@ import {
   ionAlarmOutline,
   ionConstructOutline,
   ionListOutline,
+  ionPencilOutline,
 } from '@ng-icons/ionicons';
 import {
   HTTP_INTERCEPTORS,
@@ -117,6 +118,7 @@ registerLocaleData(localeIt);
       ionConstructOutline,
       ionListOutline,
       ionPeopleOutline,
+      ionPencilOutline,
     }),
     NgbDropdownModule,
   ],

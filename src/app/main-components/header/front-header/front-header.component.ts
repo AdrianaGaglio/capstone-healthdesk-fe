@@ -32,6 +32,9 @@ export class FrontHeaderComponent {
       ([auth, user]) => {
         if (auth) {
           this.isLoggedIn = true;
+          auth.role == 'DOCTOR'
+            ? (this.isDoctor = true)
+            : (this.isDoctor = false);
         }
         if (user) {
           this.user = user;
