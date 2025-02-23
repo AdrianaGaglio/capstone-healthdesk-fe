@@ -1,0 +1,72 @@
+<div class="p-3">
+  <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+    Inserisci una nuova prestazione
+  </h6>
+  <form [formGroup]="newService">
+    <div class="mb-3">
+      <label class="mb-1 form-label mb fs-sm" for="name"
+        >Nome della prestazione</label
+      >
+
+      <input
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('name') }"
+        id="name"
+        name="name"
+        formControlName="name"
+        type="text"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label fs-sm mb-1"
+        >Breve descrizione della prestazione</label
+      >
+      <input
+        class="form-control form-control-sm border-secondary shadow-sm"
+        id="description"
+        name="description"
+        formControlName="description"
+        type="text"
+        required
+      />
+    </div>
+    <div class="mb-3 row">
+      <label for="price" class="form-label mb-0 fs-sm mb-1"
+        >Costo della prestazione</label
+      >
+      <div class="col-6 d-flex align-items-center">
+        <input
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('price') }"
+          id="price"
+          name="price"
+          formControlName="price"
+          step="1"
+          type="number"
+          required
+        />
+      </div>
+      <div class="col-6 d-flex align-items-center gap-2">
+        <input
+          type="checkbox"
+          class="form-check-input mb-0"
+          id="online"
+          name="online"
+          formControlName="online"
+        />
+        <label for="online" class="form-label fs-sm mb-0"
+          >Disponibile online</label
+        >
+      </div>
+    </div>
+    <app-btn-primary-filled
+      [type]="'submit'"
+      (onClick)="createService()"
+      [disabled]="!newService.valid"
+      >Salva</app-btn-primary-filled
+    >
+    <app-btn-dark [type]="'button'" [class]="'border-0'" (onClick)="close(null)"
+      >Annulla</app-btn-dark
+    >
+  </form>
+</div>

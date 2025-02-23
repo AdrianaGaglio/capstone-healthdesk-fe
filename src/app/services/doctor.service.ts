@@ -52,7 +52,7 @@ export class DoctorService {
   // modifica informazioni medico (servizi, specializzazioni, training ed esperienze)
   updateDoctorInfo(
     doctorId: number,
-    updateRequest: iDoctorUpdateAdditionalInfo
+    updateRequest: Partial<iDoctorUpdateAdditionalInfo>
   ): Observable<iDoctor> {
     return this.http.put<iDoctor>(`${this.url}/${doctorId}`, updateRequest);
   }

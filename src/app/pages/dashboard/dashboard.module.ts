@@ -19,7 +19,8 @@ import { CalendarModule } from '../../shared/calendar/calendar.module';
 import { NextAppointmentsModule } from '../../shared/next-appointments/next-appointments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonsModule } from '../../shared/buttons/buttons.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddServiceComponent } from './settings/services/add-service/add-service.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FormsModule } from '@angular/forms';
     PaymentMethodsComponent,
     ServicesComponent,
     SettingsControlsComponent,
+    AddServiceComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { FormsModule } from '@angular/forms';
     NextAppointmentsModule,
     ButtonsModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [NgbActiveModal],
 })

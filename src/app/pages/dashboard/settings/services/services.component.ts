@@ -4,6 +4,7 @@ import { iDoctor, iService } from '../../../../interfaces/idoctor';
 import { DoctorSvcService } from '../../../../services/doctor-svc.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFeedbackComponent } from '../../../../shared/modalfeedback/modalfeedback.component';
+import { AddServiceComponent } from './add-service/add-service.component';
 
 @Component({
   selector: 'app-services',
@@ -60,7 +61,7 @@ export class ServicesComponent {
   deleteService(serviceId: number) {
     this.doctorSrv.deleteService(this.doctor.id, serviceId).subscribe((res) => {
       this.doctorSvc.restoreDoctor();
-      this.orderServices();
+
       this.openModal("Prestazione eliminata correttamente'");
     });
   }
@@ -80,5 +81,21 @@ export class ServicesComponent {
 
   orderServices() {
     this.services = this.services.sort((a, b) => a.id - b.id);
+  }
+
+  addService() {
+    const modalRef = this.modalService.open(AddServiceComponent, {
+      size: 'lg',
+      centered: true,
+    });
+
+    modalRef.componentInstance.doctor = this.doctor;
+
+    modalRef.result.then((res) => {
+      this.doctorSvc.restoreDoctor();
+      if (res) {
+        this.openModal('Prestazione inserita correttamente');
+      }
+    });
   }
 }
