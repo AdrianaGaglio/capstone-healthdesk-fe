@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { iDoctor } from '../interfaces/idoctor';
 import { iPatient } from '../interfaces/ipatient';
 import { PatientService } from '../services/patient.service';
+import { iAuthupdaterequest } from '../interfaces/iauthupdaterequest';
 
 @Injectable({
   providedIn: 'root',
@@ -162,5 +163,18 @@ export class AuthService {
       `${this.url}/auth/reset-request?email=${email}`,
       email
     );
+  }
+
+  updateLoginInfo(
+    updateRequest: iAuthupdaterequest
+  ): Observable<iAuthResponse> {
+    return this.http
+      .put<iAuthResponse>(`${this.url}auth/update`, updateRequest)
+      .pipe(
+        tap((auth) => {
+          this.setCookie(auth);
+          this.restoreUser();
+        })
+      );
   }
 }

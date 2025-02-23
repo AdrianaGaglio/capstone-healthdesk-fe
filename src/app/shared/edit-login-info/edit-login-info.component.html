@@ -1,0 +1,84 @@
+<ng-container *ngIf="user">
+  <div
+    class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2"
+  >
+    <h5 class="fw-bolder mb-0">Dati di accesso</h5>
+    <div class="d-flex gap-2">
+      <app-btn-primary-filled
+        *ngIf="edit"
+        [type]="'button'"
+        [title]="'Conferma modifiche'"
+        [disabled]="form.valid === false"
+        (onClick)="updateLoginInfo()"
+        >Conferma</app-btn-primary-filled
+      >
+      <app-btn-dark-filled
+        [type]="'button'"
+        (onClick)="edit = !edit"
+        [title]="edit ? 'Annulla modifica' : 'Modifica dati personali'"
+        >{{ edit ? "Annulla" : "Modifica" }}</app-btn-dark-filled
+      >
+    </div>
+  </div>
+  <p class="mb-2 d-flex align-items-center gap-2">
+    Email:
+    <span *ngIf="!edit" class="fw-medium">{{ user.email }}</span>
+    <input
+      *ngIf="edit"
+      type="text"
+      name="title"
+      id="title"
+      [(ngModel)]="user.email"
+      class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+    />
+  </p>
+  <form #form="ngForm">
+    <p class="mb-2 d-flex align-items-center gap-2">
+      Password:
+      <span *ngIf="!edit" class="fw-medium">**********</span>
+      <span *ngIf="edit" class="position-relative">
+        <input
+          placeholder="Vecchia password"
+          #oldPassword="ngModel"
+          *ngIf="edit"
+          [type]="showOldPassword ? 'text' : 'password'"
+          name="oldPassword"
+          [(ngModel)]="loginUpdate.oldPassword"
+          class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+          [required]="loginUpdate.newPassword.length > 0"
+          [ngClass]="{
+            'border-danger':
+              loginUpdate.newPassword.length > 0 && !oldPassword.valid
+          }"
+        />
+        <ng-icon
+          role="button"
+          (click)="showOldPassword = !showOldPassword"
+          class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-75"
+          [name]="!showOldPassword ? 'ionEyeOutline' : 'ionEyeOffOutline'"
+        ></ng-icon>
+      </span>
+      <span *ngIf="edit" class="position-relative">
+        <input
+          #newPassword="ngModel"
+          placeholder="Nuova password"
+          [type]="showNewPassword ? 'text' : 'password'"
+          name="newPassword"
+          [(ngModel)]="loginUpdate.newPassword"
+          class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+          [required]="loginUpdate.oldPassword.length > 0"
+          [ngClass]="{
+            'border-danger':
+              loginUpdate.oldPassword.length > 0 && !newPassword.valid
+          }"
+        />
+        <ng-icon
+          role="button"
+          (click)="showNewPassword = !showNewPassword"
+          class="position-absolute top-50 end-0 translate-middle-y me-2 opacity-75"
+          [name]="!showNewPassword ? 'ionEyeOutline' : 'ionEyeOffOutline'"
+        ></ng-icon>
+      </span>
+    </p>
+  </form>
+</ng-container>

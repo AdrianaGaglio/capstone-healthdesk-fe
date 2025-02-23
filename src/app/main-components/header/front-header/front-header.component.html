@@ -74,7 +74,9 @@
             ngbDropdownItem
             class="text-dark"
             [routerLink]="
-              isDoctor ? '/dashboard/impostazioni/profilo' : '/paziente/profilo'
+              isDoctor
+                ? '/dashboard/impostazioni/dettagli'
+                : '/paziente/profilo'
             "
             >Profilo</a
           >

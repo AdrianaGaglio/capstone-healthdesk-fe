@@ -24,6 +24,7 @@ import { AddServiceComponent } from './settings/services/add-service/add-service
 import { ServiceComponent } from './settings/services/service/service.component';
 import { AddAddressComponent } from './settings/addresses/add-address/add-address.component';
 import { AddressComponent } from './settings/addresses/address/address.component';
+import { EditLoginInfoModule } from '../../shared/edit-login-info/edit-login-info.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { AddressComponent } from './settings/addresses/address/address.component
     ButtonsModule,
     FormsModule,
     ReactiveFormsModule,
+    EditLoginInfoModule,
   ],
   providers: [NgbActiveModal],
 })

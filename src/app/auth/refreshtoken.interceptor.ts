@@ -10,10 +10,15 @@ import {
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class RefreshTokenInterceptor implements HttpInterceptor {
-  constructor(private authSvc: AuthService, private cookie: CookieService) {}
+  constructor(
+    private authSvc: AuthService,
+    private cookie: CookieService,
+    private router: Router
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -37,6 +42,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           console.warn('Token scaduto');
           this.authSvc.logout();
+          this.router.navigate(['/']);
         }
         return throwError(() => error);
       })
