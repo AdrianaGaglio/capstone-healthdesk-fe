@@ -1,0 +1,125 @@
+<div class="p-3">
+  <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+    Inserisci un nuovo indirizzo
+  </h6>
+  <form [formGroup]="addressRequest">
+    <div class="mb-3">
+      <label class="form-label fs-sm mb-1" for="name">Nome studio</label>
+
+      <input
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{ 'border-danger': isTouchedInvalid('name') }"
+        id="name"
+        name="name"
+        formControlName="name"
+        type="text"
+      />
+    </div>
+    <div class="mb-3 d-flex align-items-center gap-2">
+      <div class="col-6 flex-grow-1">
+        <label class="form-label fs-sm mb-1" for="description">Indirizzo</label>
+
+        <input
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('street') }"
+          id="street"
+          name="street"
+          formControlName="street"
+          type="text"
+        />
+      </div>
+      <div class="col-6 w-25">
+        <label class="form-label fs-sm mb-1" for="streetNumber">Numero</label>
+
+        <input
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{ 'border-danger': isTouchedInvalid('streetNumber') }"
+          id="streetNumber"
+          name="streetNumber"
+          formControlName="streetNumber"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex flex-column flex-grow-1">
+          <label class="form-label fs-sm mb-1" for="description"
+            >Provincia</label
+          >
+
+          <div class="d-flex align-items-center gap-2">
+            <select
+              (change)="setAcronym()"
+              class="form-select form-select-sm border-secondary shadow-sm"
+              [ngClass]="{ 'border-danger': isTouchedInvalid('province') }"
+              name="province"
+              id="province"
+              formControlName="province"
+            >
+              <option value="null" selected>-- seleziona provincia --</option>
+              <option *ngFor="let p of provinces" [ngValue]="p.acronym">
+                {{ p.name }}
+              </option>
+            </select>
+            <input
+              class="form-control form-control-sm w-25"
+              id="provinceAcronym"
+              name="provinceAcronym"
+              formControlName="provinceAcronym"
+              type="text"
+              [value]="addressRequest.get('provinceAcronym')?.value"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="flex-grow-1">
+          <label class="form-label fs-sm mb-1" for="city">Città</label>
+
+          <select
+            class="form-select form-select-sm border-secondary shadow-sm"
+            [ngClass]="{ 'border-danger': isTouchedInvalid('city') }"
+            name="city"
+            id="city"
+            (change)="setPostalCode()"
+            formControlName="city"
+          >
+            <option value="null" selected>-- seleziona città --</option>
+            <option *ngFor="let c of cities" [ngValue]="c.name">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+        <div class="w-25">
+          <label class="form-label mb-1" for="postalCode">CAP</label>
+
+          <input
+            class="form-control form-control-sm"
+            id="postalCode"
+            name="postalCode"
+            formControlName="postalCode"
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <app-btn-primary-filled
+        [type]="'submit'"
+        (onClick)="createAddress()"
+        [disabled]="!addressRequest.valid"
+        >Salva</app-btn-primary-filled
+      >
+      <app-btn-dark
+        [type]="'button'"
+        [class]="'border-0'"
+        (onClick)="close(null)"
+        >Annulla</app-btn-dark
+      >
+    </div>
+  </form>
+</div>

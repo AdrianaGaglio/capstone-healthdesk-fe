@@ -21,6 +21,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonsModule } from '../../shared/buttons/buttons.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddServiceComponent } from './settings/services/add-service/add-service.component';
+import { ServiceComponent } from './settings/services/service/service.component';
+import { AddAddressComponent } from './settings/addresses/add-address/add-address.component';
+import { AddressComponent } from './settings/addresses/address/address.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { AddServiceComponent } from './settings/services/add-service/add-service
     ServicesComponent,
     SettingsControlsComponent,
     AddServiceComponent,
+    ServiceComponent,
+    AddAddressComponent,
+    AddressComponent,
   ],
   imports: [
     CommonModule,

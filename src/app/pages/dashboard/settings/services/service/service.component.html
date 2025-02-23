@@ -1,0 +1,96 @@
+<div class="d-flex align-items-center gap-3">
+  <div class="form-check form-switch mb-0">
+    <input
+      class="form-check-input mb-0"
+      type="checkbox"
+      role="switch"
+      name="{{ service.name }}"
+      [(ngModel)]="service.isActive"
+      [value]="service.isActive"
+      id="{{ service.name }}"
+      (click)="toggleServiceActivation(service.id)"
+    />
+  </div>
+  <div class="flex-grow-1">
+    <div
+      class="d-flex align-items-start align-items-md-center gap-3 mb-2 flex-column flex-md-row"
+    >
+      <h6 *ngIf="!edit" class="fw-bold mb-0">{{ service.name }}</h6>
+      <input
+        *ngIf="edit"
+        type="text"
+        id="name"
+        [(ngModel)]="service.name"
+        class="form-control form-control-sm border-secondary shadow-sm w-auto"
+      />
+      <span
+        role="button"
+        (click)="toggleServiceAvailability(service.id)"
+        class="flex-shrink-0 d-inline-block availability fs-xs fw-medium rounded-2 px-2 py-1"
+        [ngClass]="{
+          'bg-secondary': service.online,
+          'bg-warning': !service.online
+        }"
+        >{{ service.online ? "Disponibile online" : "Solo in presenza" }}</span
+      >
+    </div>
+    <p *ngIf="!edit" class="fs-sm">{{ service.description }}</p>
+    <textarea
+      rows="1"
+      *ngIf="edit"
+      name="description"
+      id="description"
+      [(ngModel)]="service.description"
+      class="form-control form-control-sm border-secondary shadow-sm mb-2"
+    ></textarea>
+    <p class="d-flex align-items-center gap-2 mb-0">
+      Costo:
+      <span *ngIf="!edit" class="fw-bold">{{ service.price }},00€</span>
+      <input
+        type="number"
+        name="price"
+        [(ngModel)]="service.price"
+        *ngIf="edit"
+        class="form-control form-control-sm border-secondary shadow-sm w-auto"
+      />
+    </p>
+  </div>
+  <div class="ms-auto d-flex gap-2">
+    <app-btn-danger-filled
+      *ngIf="edit"
+      class="position-relative"
+      [class]="'w-fixed-30 h-fixed-30'"
+      [type]="'button'"
+      [title]="'Conferma modifica'"
+      (onClick)="update(service)"
+    >
+      <ng-icon
+        name="ionCheckmarkOutline"
+        class="fs-6 position-absolute start-50 top-50 translate-middle"
+      ></ng-icon>
+    </app-btn-danger-filled>
+    <app-btn-secondary-filled
+      class="position-relative"
+      [class]="'w-fixed-30 h-fixed-30'"
+      [type]="'button'"
+      (onClick)="edit = !edit"
+      [title]="edit ? 'Annulla modifica' : 'Modifica prestazione'"
+    >
+      <ng-icon
+        [name]="!edit ? 'ionPencilOutline' : 'ionArrowUndoOutline'"
+        class="fs-6 position-absolute start-50 top-50 translate-middle"
+      ></ng-icon>
+    </app-btn-secondary-filled>
+    <app-btn-primary-filled
+      class="position-relative"
+      [class]="'w-fixed-30 h-fixed-30'"
+      [type]="'button'"
+      [title]="'Elimina prestazione'"
+      (onClick)="deleteService(service.id)"
+      ><ng-icon
+        class="fs-6 position-absolute start-50 top-50 translate-middle"
+        name="ionTrashBinOutline"
+      ></ng-icon
+    ></app-btn-primary-filled>
+  </div>
+</div>

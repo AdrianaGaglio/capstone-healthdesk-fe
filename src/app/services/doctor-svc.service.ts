@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { iDoctor } from '../interfaces/idoctor';
+import { iDoctor, iService } from '../interfaces/idoctor';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +30,9 @@ export class DoctorSvcService {
     return this.http.delete<iDoctor>(
       `${this.url}/${doctorId}/delete-service?serviceId=${serviceId}`
     );
+  }
+
+  update(service: iService): Observable<iService> {
+    return this.http.put<iService>(`${this.url}/${service.id}`, service);
   }
 }

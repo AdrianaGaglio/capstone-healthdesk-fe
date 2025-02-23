@@ -1,0 +1,26 @@
+<div class="d-flex align-items-center gap-3" *ngIf="address">
+  <div>
+    <h6 class="fw-bold d-flex align-items-center gap-2 mb-2 fs-5">
+      <ng-icon name="ionLocationOutline"></ng-icon> {{ address.name }}
+    </h6>
+
+    <p class="fs-sm mb-0">
+      {{ address.doctorAddress.street }},
+      {{ address.doctorAddress.streetNumber }}
+      {{ address.doctorAddress.city }}
+      {{ address.doctorAddress.provinceAcronym }}
+      {{ address.doctorAddress.postalCode }}
+    </p>
+  </div>
+  <app-btn-primary-filled
+    class="ms-auto align-self-center"
+    [type]="'button'"
+    [class]="'position-relative w-fixed-30 h-fixed-30'"
+    [title]="'Elimina indirizzo'"
+    (onClick)="deleteAddress(address.doctorAddress.id)"
+    ><ng-icon
+      class="fs-6 position-absolute start-50 top-50 translate-middle"
+      name="ionTrashBinOutline"
+    ></ng-icon
+  ></app-btn-primary-filled>
+</div>

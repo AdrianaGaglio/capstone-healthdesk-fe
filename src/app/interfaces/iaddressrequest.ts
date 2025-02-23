@@ -4,7 +4,7 @@ export interface iAddressRequest {
   provinceAcronym: string;
   cityName: string;
   postalCode: string;
-  additional: string;
+  additional?: string;
 }
 
 export interface iAddressRequestForDoctor extends iAddressRequest {

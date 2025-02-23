@@ -30,42 +30,6 @@ export class ServicesComponent {
     });
   }
 
-  toggleServiceActivation(serviceId: number) {
-    this.doctorSrv
-      .updateActivation(this.doctor.id, serviceId)
-      .subscribe((res) => {
-        this.doctorSvc.restoreDoctor();
-        this.orderServices();
-      });
-  }
-
-  toggleServiceAvailability(serviceId: number) {
-    this.doctorSrv
-      .updateAvailability(this.doctor.id, serviceId)
-      .subscribe((res) => {
-        this.doctorSvc.restoreDoctor();
-        this.orderServices();
-
-        let s = res.services.find((a) => a.id === serviceId);
-
-        let message = s?.online
-          ? 'Prestazione ' + s.name + ' impostata come disponibile online!'
-          : 'Prestazione ' +
-            s!.name +
-            ' impostata come disponibile solo in presenza!';
-
-        this.openModal(message);
-      });
-  }
-
-  deleteService(serviceId: number) {
-    this.doctorSrv.deleteService(this.doctor.id, serviceId).subscribe((res) => {
-      this.doctorSvc.restoreDoctor();
-
-      this.openModal("Prestazione eliminata correttamente'");
-    });
-  }
-
   openModal(message: string) {
     const modalRef = this.modalService.open(ModalFeedbackComponent, {
       size: 'md',
