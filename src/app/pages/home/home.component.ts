@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
 import { iDoctor, iService } from '../../interfaces/idoctor';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { iDoctor, iService } from '../../interfaces/idoctor';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private doctorSvc: DoctorService) {}
+  constructor(private doctorSvc: DoctorService, private router: Router) {}
 
   doctor!: iDoctor;
 
@@ -21,5 +22,10 @@ export class HomeComponent implements OnInit {
         this.services = doctor.services;
       }
     });
+  }
+
+  selectService(service: iService) {
+    localStorage.setItem('selectedService', JSON.stringify(service));
+    this.router.navigate(['/prenota']);
   }
 }

@@ -23,12 +23,8 @@ export class DoctorOrAdminGuard implements CanActivate, CanActivateChild {
       take(1),
       map((auth) => {
         if (auth?.role == 'DOCTOR' || auth?.role == 'ADMIN') {
-          console.log('utente medico, può entrare', auth);
-
           return true;
         } else {
-          console.log('utente non medico, non può entrare', auth);
-          window.history.back();
           return false;
         }
       })

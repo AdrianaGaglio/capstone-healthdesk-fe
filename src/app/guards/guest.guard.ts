@@ -24,11 +24,8 @@ export class GuestGuard implements CanActivate, CanActivateChild {
       take(1),
       map((loggedIn) => {
         if (loggedIn) {
-          console.log('utente loggato, non può entrare', loggedIn);
-          window.history.back();
           return false;
         } else {
-          console.log('utente non loggato, può entrare', loggedIn);
           return true;
         }
       })

@@ -25,8 +25,18 @@ export class BookingsComponent implements OnInit {
 
   setService(service: iService) {
     this.selectedService = service;
+
     this.highlight();
   }
+
+  // ngOnChanges() {
+  //   if (localStorage.getItem('selectedService')) {
+  //     this.selectedService = JSON.parse(
+  //       localStorage.getItem('selectedService')!
+  //     );
+  //     localStorage.removeItem('selectedService');
+  //   }
+  // }
 
   // evidenzio il box di prenotazione
   highlight() {

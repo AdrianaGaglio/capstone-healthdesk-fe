@@ -23,11 +23,8 @@ export class PatientGuard implements CanActivate, CanActivateChild {
       take(1),
       map((auth) => {
         if (auth?.role == 'PATIENT') {
-          console.log('utente paziente, può entrare', auth);
           return true;
         } else {
-          console.log('utente non paziente, non può entrare', auth);
-          window.history.back();
           return false;
         }
       })

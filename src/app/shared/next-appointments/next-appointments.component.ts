@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment.development';
 import { UtilitiesService } from '../../services/utilities.service';
 import { filter } from 'rxjs';
 import { CalendarService } from '../../services/calendar.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-next-appointments',
@@ -20,7 +21,8 @@ export class NextAppointmentsComponent {
   constructor(
     private appointmentSvc: AppointmentService,
     private utilities: UtilitiesService,
-    private calendarSvc: CalendarService
+    private calendarSvc: CalendarService,
+    private authSvc: AuthService
   ) {}
 
   appointments!: iAppointment[];
@@ -38,7 +40,6 @@ export class NextAppointmentsComponent {
     this.calendarSvc.calendar$.subscribe((calendar) => {
       if (calendar) {
         this.calendar = calendar;
-
         this.getNextAppointments();
       }
     });
@@ -46,18 +47,22 @@ export class NextAppointmentsComponent {
 
   // funzione per ottenere la lista dei prossimi appuntamenti
   getNextAppointments() {
-    this.appointmentSvc
-      .getNextAppointments(this.calendar.id, this.currentPage, this.size)
-      .subscribe((res) => {
-        this.appointments = res.content.sort(
-          (a, b) =>
-            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-        );
-        console.log(res);
-        this.totalElements = res.totalElements;
-        this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
-        this.currentPage = this.pages[0];
-      });
+    this.authSvc.auth$.subscribe((auth) => {
+      if (auth && auth.role === 'DOCTOR') {
+        this.appointmentSvc
+          .getNextAppointments(this.calendar.id, this.currentPage, this.size)
+          .subscribe((res) => {
+            this.appointments = res.content.sort(
+              (a, b) =>
+                new Date(a.startDate).getTime() -
+                new Date(b.startDate).getTime()
+            );
+            this.totalElements = res.totalElements;
+            this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
+            this.currentPage = this.pages[0];
+          });
+      }
+    });
   }
 
   setStatus(app: iAppointment) {

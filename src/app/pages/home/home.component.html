@@ -124,7 +124,10 @@
             }}
           </h6>
           <p class="text-center mb-2">{{ s.description | truncate : 40 }}</p>
-          <app-btn-primary-filled [type]="'button'" class="mx-auto mt-auto"
+          <app-btn-primary-filled
+            [type]="'button'"
+            class="mx-auto mt-auto"
+            (onClick)="selectService(s)"
             >Prenota</app-btn-primary-filled
           >
         </div>

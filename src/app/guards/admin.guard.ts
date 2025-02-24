@@ -23,11 +23,8 @@ export class AdminGuard implements CanActivate, CanActivateChild {
       take(1),
       map((auth) => {
         if (auth?.role == 'ADMIN') {
-          console.log('utente admin, può entrare', auth);
           return true;
         } else {
-          console.log('utente non admin, non può entrare', auth);
-          window.history.back();
           return false;
         }
       })

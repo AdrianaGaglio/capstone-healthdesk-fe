@@ -24,11 +24,8 @@ export class LoggedInGuard implements CanActivate, CanActivateChild {
       take(1),
       map((loggedIn) => {
         if (loggedIn) {
-          console.log('utente loggato, può entrare', loggedIn);
           return true;
         } else {
-          console.log('utente non loggato, non può entrare', loggedIn);
-          window.history.back();
           return false;
         }
       })
