@@ -9,7 +9,7 @@
           <h5 class="fw-bolder mb-0">Dati personali</h5>
           <div class="d-flex gap-2">
             <app-btn-primary-filled
-              *ngIf="edit"
+              *ngIf="edit || firstAccess"
               [type]="'button'"
               [title]="'Conferma modifiche'"
               (onClick)="update(patient.id, patient)"
@@ -80,15 +80,16 @@
 
             <p class="mb-2 d-flex align-items-center gap-2">
               C. Fiscale:
-              <span *ngIf="!edit" class="fw-medium">{{
+              <span *ngIf="!edit && !firstAccess" class="fw-medium">{{
                 patient.taxId ? patient.taxId : "-----"
               }}</span>
               <input
-                *ngIf="edit"
+                *ngIf="edit || firstAccess"
                 type="text"
                 name="title"
                 id="title"
                 [(ngModel)]="patient.taxId"
+                [ngClass]="{ 'border-danger': firstAccess }"
                 class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
               />
             </p>
@@ -120,7 +121,7 @@
               />
             </p>
             <p
-              *ngIf="!edit && patient.address"
+              *ngIf="!edit && patient.address && !firstAccess"
               class="mb-0 d-flex align-items-center gap-2"
             >
               Indirizzo:
@@ -134,12 +135,17 @@
             <p
               class="mb-0"
               *ngIf="
-                (!patient.address || patient.address.street === '') && !edit
+                (!patient.address || patient.address.street === '') &&
+                !edit &&
+                !firstAccess
               "
             >
               Nessun indirizzo specificato
             </p>
-            <div class="d-flex align-items-center gap-1" *ngIf="edit">
+            <div
+              class="d-flex align-items-center gap-1"
+              *ngIf="edit || firstAccess"
+            >
               <div class="d-flex flex-column">
                 <label
                   class="form-label col-form-label-sm mb-0"

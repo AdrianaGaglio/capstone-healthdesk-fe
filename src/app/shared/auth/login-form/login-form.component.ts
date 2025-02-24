@@ -13,6 +13,7 @@ import { DoctorService } from '../../../services/doctor.service';
 import { PatientService } from '../../../services/patient.service';
 import { tap } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -24,7 +25,8 @@ export class LoginFormComponent implements OnInit {
     private authSvc: AuthService,
     private doctorSvc: DoctorService,
     private patientSvc: PatientService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   private activeModal = inject(NgbActiveModal);

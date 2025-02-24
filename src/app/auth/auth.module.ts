@@ -6,9 +6,25 @@ import { AuthFormModule } from '../shared/auth/auth-form.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgIconsModule } from '@ng-icons/core';
+import { ButtonsModule } from '../shared/buttons/buttons.module';
 
 @NgModule({
-  declarations: [AuthComponent, LoginComponent, RegisterComponent],
-  imports: [CommonModule, AuthRoutingModule, AuthFormModule],
+  declarations: [
+    AuthComponent,
+    LoginComponent,
+    RegisterComponent,
+    ResetPasswordComponent,
+  ],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    AuthFormModule,
+    ReactiveFormsModule,
+    NgIconsModule,
+    ButtonsModule,
+  ],
 })
 export class AuthModule {}

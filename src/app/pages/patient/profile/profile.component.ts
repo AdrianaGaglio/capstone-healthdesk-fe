@@ -6,8 +6,9 @@ import { PatientService } from '../../../services/patient.service';
 import { UploadService } from '../../../services/upload.service';
 import { UtilitiesService } from '../../../services/utilities.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { iCity, iProvince } from '../../../interfaces/iaddress';
+import { iAddress, iCity, iProvince } from '../../../interfaces/iaddress';
 import { AddressService } from '../../../services/address.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -47,6 +48,11 @@ export class ProfileComponent {
   ngOnInit() {
     this.authSvc.user$.subscribe((user) => {
       this.patient = user as iPatient;
+      if (!this.patient.taxId && !this.patient.address) {
+        this.patient.address = {} as iAddress;
+        this.feedback('Inserisci codice fiscale e indirizzo di residenza');
+        this.firstAccess = true;
+      }
     });
 
     this.addressSvc.getProvinces().subscribe((res) => {
@@ -85,6 +91,10 @@ export class ProfileComponent {
       this.edit = false;
       this.patient = res;
 
+      if (this.firstAccess) {
+        this.firstAccess = false;
+      }
+
       const modalRef = this.modalService.open(ModalFeedbackComponent, {
         size: 'md',
         centered: true,
@@ -100,8 +110,10 @@ export class ProfileComponent {
   setCity() {
     if (!this.selectedProvince) return;
 
-    this.patient.address.province = this.selectedProvince.name;
-    this.patient.address.provinceAcronym = this.selectedProvince.acronym;
+    if (this.patient.address) {
+      this.patient.address.province = this.selectedProvince.name;
+      this.patient.address.provinceAcronym = this.selectedProvince.acronym;
+    }
 
     let provinceName = this.selectedProvince.name;
     this.addressSvc.getCitys(provinceName).subscribe((res) => {
