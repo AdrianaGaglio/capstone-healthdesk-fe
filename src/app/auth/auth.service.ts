@@ -90,11 +90,11 @@ export class AuthService {
   }
 
   logout() {
-    this.auth$.next(null);
+    this.router.navigate(['/auth']);
     this.cookie.delete('token', '/');
     this.cookie.delete('role', '/');
     this.cookie.delete('remember', '/');
-    this.router.navigate(['/auth']);
+    this.auth$.next(null);
   }
 
   // salvo i dati nei cookie
