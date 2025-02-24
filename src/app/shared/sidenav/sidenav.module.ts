@@ -6,6 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DirectivesModule } from '../directives/directives.module';
 import { DoctorSidenavComponent } from './doctor-sidenav/doctor-sidenav.component';
 import { PatientSidenavComponent } from './patient-sidenav/patient-sidenav.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PatientSidenavComponent } from './patient-sidenav/patient-sidenav.compo
     RouterLink,
     RouterLinkActive,
     DirectivesModule,
+    NgbDropdownModule,
   ],
   exports: [SidenavComponent, DoctorSidenavComponent, PatientSidenavComponent],
 })

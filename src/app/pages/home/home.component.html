@@ -167,13 +167,15 @@
           corporis consequatur qui amet porro numquam velit voluptas.
         </p>
 
-        <p class="fw-bold mb-3 d-flex gap-2 align-items-center">
-          <ng-icon name="ionCallOutline"></ng-icon>
-          {{ doctor.phoneNumber }}
-        </p>
-        <p class="fw-bold mb-0 d-flex gap-3 align-items-center">
-          <ng-icon name="ionMailOutline"></ng-icon> {{ doctor.email }}
-        </p>
+        <ng-container *ngIf="doctor">
+          <p class="fw-bold mb-3 d-flex gap-2 align-items-center">
+            <ng-icon name="ionCallOutline"></ng-icon>
+            {{ doctor.phoneNumber }}
+          </p>
+          <p class="fw-bold mb-0 d-flex gap-3 align-items-center">
+            <ng-icon name="ionMailOutline"></ng-icon> {{ doctor.email }}
+          </p>
+        </ng-container>
       </div>
     </div>
   </div>

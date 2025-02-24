@@ -16,5 +16,20 @@
     </div>
     <app-doctor-sidenav *ngIf="isDoctor"></app-doctor-sidenav>
     <app-patient-sidenav *ngIf="!isDoctor"></app-patient-sidenav>
+    <div ngbDropdown class="mx-auto text-center py-3">
+      <img
+        *ngIf="avatar"
+        role="button"
+        ngbDropdownToggle
+        [src]="avatar"
+        class="w-fixed-40 h-fixed-40 rounded-circle shadow-sm"
+        alt="immagine profilo"
+      />
+      <div ngbDropdownMenu class="bg-secondary-light shadow-sm rounded-2">
+        <button ngbDropdownItem class="text-dark" (click)="logout()">
+          Esci
+        </button>
+      </div>
+    </div>
   </div>
 </aside>

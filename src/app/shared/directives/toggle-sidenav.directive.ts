@@ -8,6 +8,8 @@ export class ToggleSidenavDirective {
 
   sidenav!: HTMLElement;
 
+  links!: HTMLElement;
+
   ngOnInit() {
     this.sidenav = document.querySelector('#sidenav') as HTMLElement;
   }
