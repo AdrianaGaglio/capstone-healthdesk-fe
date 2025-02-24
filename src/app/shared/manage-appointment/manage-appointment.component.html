@@ -22,8 +22,14 @@
       <p class="fs-xs fw-medium mb-2">
         {{ appointment.startDate | date : "EEEE dd/MM/yyyy HH:mm" | titlecase }}
       </p>
+
       <span class="fs-xs fw-medium">Paziente:</span>
       <h6 class="fs-5" [ngClass]="{ 'mb-0': isPassed }">
+        <img
+          [src]="getAvatar(patient)"
+          alt="immage profilo"
+          class="w-fixed-30 h-fixed-30 object-fit-cover rounded-circle"
+        />
         {{ patient.name }} {{ patient.surname }}
       </h6>
     </div>

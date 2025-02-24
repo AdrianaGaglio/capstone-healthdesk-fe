@@ -8,23 +8,56 @@
       <app-btn-primary-filled
         [type]="'button'"
         [class]="'mb-5 w-100'"
-        class="w-100"
+        class="w-100 d-none d-lg-inline"
         [title]="'Prenota appuntamento'"
         (click)="highlight()"
         >Prenota un appuntamento</app-btn-primary-filled
       >
 
-      <app-doctor-address *ngIf="doctor" [addresses]="doctor.addresses">
-        <h6
-          class="fs-6 text-dark fw-medium border-bottom border-secondary pb-2 mb-2"
+      <app-btn-primary-filled
+        [type]="'button'"
+        [class]="'mb-5 w-100'"
+        class="w-100 d-inline d-lg-none"
+        [title]="'Prenota appuntamento'"
+        (click)="scrollToBottom()"
+        >Prenota un appuntamento</app-btn-primary-filled
+      >
+
+      <div class="mb-3">
+        <app-doctor-address *ngIf="doctor" [addresses]="doctor.addresses">
+          <h6
+            class="fs-6 text-dark fw-medium border-bottom border-secondary pb-2 mb-2"
+          >
+            {{ doctor.addresses.length > 1 ? "Indirizzi" : "Indirizzo" }}
+            di ricevimento:
+          </h6>
+        </app-doctor-address>
+      </div>
+      <div class="mb-3">
+        <app-doctor-services
+          *ngIf="doctor"
+          [services]="doctor.services"
+          (onServiceSelected)="setService($event)"
         >
-          {{ doctor.addresses.length > 1 ? "Indirizzi" : "Indirizzo" }}
-          di ricevimento:
-        </h6>
-      </app-doctor-address>
+          <h6
+            class="fs-6 text-dark fw-medium border-bottom border-secondary pb-2 mb-2"
+          >
+            Prestazioni e prezzi
+          </h6>
+        </app-doctor-services>
+      </div>
+      <div class="mb-3">
+        <app-doctor-cv-info *ngIf="doctor" [doctor]="doctor">
+          <h6 class="fs-6 text-dark fw-medium mb-0">
+            Dettagli e informazioni professionali
+          </h6>
+        </app-doctor-cv-info>
+      </div>
     </div>
     <div class="col col-12 col-lg-5 col-xl-6 px-3 px-lg-1 px-xl-5" #addBooking>
-      <app-add-booking></app-add-booking>
+      <div class="position-sticky top-0 py-3">
+        <app-add-booking [selectedService]="selectedService"></app-add-booking>
+      </div>
     </div>
   </div>
 </div>

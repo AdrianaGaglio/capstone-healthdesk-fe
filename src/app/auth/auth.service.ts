@@ -68,22 +68,16 @@ export class AuthService {
           this.setCookie(auth, remember); // salvo i cookie in base alle preferenze
           this.auth$.next(auth); // salvo la risposta nel subject
 
-          const previousPage = localStorage.getItem('details');
-
-          if (previousPage) {
-            window.history.back();
-          } else {
-            switch (auth.role) {
-              case 'DOCTOR':
-                this.router.navigate(['/dashboard']);
-                break;
-              case 'PATIENT':
-                this.router.navigate(['/paziente']);
-                break;
-              case 'ADMIN':
-                this.router.navigate(['/admin']);
-                break;
-            }
+          switch (auth.role) {
+            case 'DOCTOR':
+              this.router.navigate(['/dashboard']);
+              break;
+            case 'PATIENT':
+              this.router.navigate(['/paziente']);
+              break;
+            case 'ADMIN':
+              this.router.navigate(['/admin']);
+              break;
           }
         }),
         switchMap((auth) =>

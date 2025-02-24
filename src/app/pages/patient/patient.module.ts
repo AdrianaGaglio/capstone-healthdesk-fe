@@ -29,6 +29,7 @@ import { ReminderModule } from '../../shared/reminder/reminder.module';
     ButtonsModule,
     LoadFilesModule,
     ReminderModule,
+    FormsModule,
   ],
 })
 export class PatientModule {}

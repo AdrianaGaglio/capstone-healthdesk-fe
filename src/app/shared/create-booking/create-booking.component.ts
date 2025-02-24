@@ -29,7 +29,10 @@ export class CreateBookingComponent {
   calendar!: iCalendar;
   slots!: iEvent[];
 
+  today: string = '';
+
   ngOnInit() {
+    this.today = new Date().toISOString().split('T')[0];
     this.calendarSvc.calendar$.subscribe((calendar) => {
       if (calendar) {
         this.calendar = calendar;
@@ -47,8 +50,6 @@ export class CreateBookingComponent {
 
   date: string = '';
   time: string = '';
-
-  today: string = '';
 
   setTime(timing: iTiming) {
     if (!timing.endDate) {

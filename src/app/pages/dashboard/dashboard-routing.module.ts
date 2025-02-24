@@ -12,6 +12,7 @@ import { ServicesComponent } from './settings/services/services.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsControlsComponent } from './settings/settings-controls/settings-controls.component';
 import { PatientMedicalFolderComponent } from './patients/patient-medical-folder/patient-medical-folder.component';
+import { DoctorGuard } from '../../guards/doctor.guard';
 
 const routes: Routes = [
   {
@@ -30,11 +31,13 @@ const routes: Routes = [
       {
         path: 'pazienti',
         component: PatientsComponent,
+        canActivate: [DoctorGuard],
       },
       { path: 'pazienti/mf/:id', component: PatientMedicalFolderComponent },
       {
         path: 'appuntamenti',
         component: AppointmentsComponent,
+        canActivate: [DoctorGuard],
       },
       {
         path: 'impostazioni',

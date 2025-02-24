@@ -1,1 +1,242 @@
-<p>profile works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <h3 class="mb-3 display-4">Impostazioni profilo</h3>
+    <div class="col col-12 px-3 mb-3">
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm default-bg">
+        <div
+          class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2"
+        >
+          <h5 class="fw-bolder mb-0">Dati personali</h5>
+          <div class="d-flex gap-2">
+            <app-btn-primary-filled
+              *ngIf="edit"
+              [type]="'button'"
+              [title]="'Conferma modifiche'"
+              (onClick)="update(patient.id, patient)"
+              >Conferma</app-btn-primary-filled
+            >
+            <app-btn-dark-filled
+              [type]="'button'"
+              (onClick)="edit = !edit"
+              [title]="edit ? 'Annulla modifica' : 'Modifica dati personali'"
+              >{{ edit ? "Annulla" : "Modifica" }}</app-btn-dark-filled
+            >
+          </div>
+        </div>
+        <div class="d-flex gap-3 align-items-start">
+          <div class="position-relative text-center">
+            <img
+              [src]="getAvatar()"
+              alt="immagine profilo"
+              class="rounded-2 w-fixed-150 object-fit-cover object-position-center"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              #fileInput
+              hidden
+            />
+            <app-btn-primary-filled
+              class="position-absolute end-0 bottom-0 me-1 mb-1"
+              [class]="'position-relative w-fixed-30 h-fixed-30'"
+              [type]="'button'"
+              (onClick)="fileInput.click()"
+            >
+              <ng-icon
+                class="position-absolute start-50 top-50 translate-middle"
+                name="ionCloudUploadOutline"
+              ></ng-icon>
+            </app-btn-primary-filled>
+          </div>
+          <div *ngIf="patient">
+            <h6 class="fs-3 fw-medium" *ngIf="!edit">
+              {{ patient.name }} {{ patient.surname }}
+            </h6>
+            <div *ngIf="edit" class="d-flex gap-2 align-items-center">
+              <div>
+                <label for="name" class="form-label fs-sm mb-1">Nome</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  [(ngModel)]="patient.name"
+                  class="form-control form-control-sm border-secondary shadow-sm w-auto mb-2"
+                />
+              </div>
+              <div>
+                <label for="surname" class="form-label fs-sm mb-1"
+                  >Cognome</label
+                >
+                <input
+                  type="text"
+                  name="surname"
+                  id="surname"
+                  [(ngModel)]="patient.surname"
+                  class="form-control form-control-sm border-secondary shadow-sm w-auto mb-2"
+                />
+              </div>
+            </div>
+
+            <p class="mb-2 d-flex align-items-center gap-2">
+              C. Fiscale:
+              <span *ngIf="!edit" class="fw-medium">{{
+                patient.taxId ? patient.taxId : "-----"
+              }}</span>
+              <input
+                *ngIf="edit"
+                type="text"
+                name="title"
+                id="title"
+                [(ngModel)]="patient.taxId"
+                class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+              />
+            </p>
+            <p class="mb-2 d-flex align-items-center gap-2">
+              Data di nascita:
+              <span *ngIf="!edit" class="fw-medium">{{
+                patient.birthDate | date : "dd/MM/yyyy"
+              }}</span>
+              <input
+                *ngIf="edit"
+                type="text"
+                name="birthDate"
+                id="birthDate"
+                [(ngModel)]="patient.birthDate"
+                class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+              />
+            </p>
+            <p class="mb-2 d-flex align-items-center gap-2">
+              Telefono:
+              <span *ngIf="!edit" class="fw-medium">{{
+                patient.phoneNumber
+              }}</span>
+              <input
+                type="text"
+                name="phoneNumber"
+                [(ngModel)]="patient.phoneNumber"
+                *ngIf="edit"
+                class="form-control form-control-sm border-secondary shadow-sm w-auto mb-0"
+              />
+            </p>
+            <p
+              *ngIf="!edit && patient.address"
+              class="mb-0 d-flex align-items-center gap-2"
+            >
+              Indirizzo:
+              <span class="fw-medium"
+                >{{ patient.address.street }},
+                {{ patient.address.streetNumber }} {{ patient.address.city }}
+                {{ patient.address.provinceAcronym }}
+                {{ patient.address.postalCode }}</span
+              >
+            </p>
+            <p
+              class="mb-0"
+              *ngIf="
+                (!patient.address || patient.address.street === '') && !edit
+              "
+            >
+              Nessun indirizzo specificato
+            </p>
+            <div class="d-flex align-items-center gap-1" *ngIf="edit">
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="streetName"
+                  >Indirizzo</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm border-secondary shadow-sm w-auto"
+                  id="streetName"
+                  name="streetName"
+                  [value]="patient.address.street ? patient.address.street : ''"
+                  [(ngModel)]="patient.address.street"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="streetNumber"
+                  >Numero</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm border-secondary shadow-sm w-auto"
+                  id="streetNumber"
+                  name="streetNumber"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  [value]="
+                    patient.address.streetNumber
+                      ? patient.address.streetNumber
+                      : ''
+                  "
+                  [(ngModel)]="patient.address.streetNumber"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="provinceName"
+                  >Provincia</label
+                >
+                <select
+                  class="form-select form-select-sm border-secondary shadow-sm w-auto"
+                  name="provinceName"
+                  id="provinceName"
+                  [(ngModel)]="selectedProvince"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  (change)="setCity()"
+                >
+                  <option [ngValue]="p" *ngFor="let p of provinces">
+                    {{ p.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="d-flex flex-column">
+                <label class="form-label col-form-label-sm mb-0" for="cityName"
+                  >Città</label
+                >
+                <select
+                  class="form-select form-select-sm w-auto border-secondary shadow-sm"
+                  name="cityName"
+                  id="cityName"
+                  [(ngModel)]="selectedCity"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  (change)="selectCity()"
+                >
+                  <option [ngValue]="c" *ngFor="let c of cities">
+                    {{ c.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="d-flex flex-column">
+                <label
+                  class="form-label col-form-label-sm mb-0"
+                  for="postalCode"
+                  >CAP</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-auto border-secondary shadow-sm"
+                  name="postalCode"
+                  id="postalCode"
+                  [value]="
+                    selectedCity
+                      ? selectedCity.postalCode
+                      : patient.address.postalCode
+                  "
+                  [(ngModel)]="patient.address.postalCode"
+                  [ngClass]="{ 'border-danger': firstAccess }"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DoctorOrAdminGuard } from './guards/doctor-or-admin.guard';
+import { PatientGuard } from './guards/patient.guard';
+import { GuestGuard } from './guards/guest.guard';
 
 const routes: Routes = [
   {
@@ -11,6 +14,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [GuestGuard],
   },
   {
     path: 'chi-sono',
@@ -33,11 +37,13 @@ const routes: Routes = [
       import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+    canActivate: [DoctorOrAdminGuard],
   },
   {
     path: 'paziente',
     loadChildren: () =>
       import('./pages/patient/patient.module').then((m) => m.PatientModule),
+    canActivate: [PatientGuard],
   },
   {
     path: 'dettagli-appuntamento/:id',

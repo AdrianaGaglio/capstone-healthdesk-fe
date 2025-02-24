@@ -67,7 +67,9 @@
           <a
             ngbDropdownItem
             class="text-dark"
-            [routerLink]="isDoctor ? '/dashboard' : '/scheda-personale'"
+            [routerLink]="
+              isDoctor ? '/dashboard' : '/paziente/scheda-personale'
+            "
             >{{ isDoctor ? "Dashboard" : "Scheda personale" }}</a
           >
           <a

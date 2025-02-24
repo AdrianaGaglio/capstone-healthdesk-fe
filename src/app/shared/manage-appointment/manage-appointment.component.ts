@@ -86,6 +86,10 @@ export class ManageAppointmentComponent {
     }
   }
 
+  getAvatar(user: iPatient) {
+    return this.utilities.getAvatar(user);
+  }
+
   generateTimeSlots(date: string) {
     const day = date.split('T')[0];
     const existingDay = this.calendar.appointments.some(

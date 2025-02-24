@@ -59,6 +59,15 @@ export class AddBookingComponent implements OnInit {
   services!: iService[];
   hasOnline!: boolean;
 
+  @Input() selectedService: iService = {
+    id: 0,
+    name: '',
+    description: '',
+    price: 0,
+    online: false,
+    isActive: false,
+  };
+
   ngOnInit() {
     this.appointmentRequest = this.fb.group({
       startDate: this.fb.control(null, [Validators.required]),
@@ -126,6 +135,12 @@ export class AddBookingComponent implements OnInit {
         .get('endDate')
         ?.setValue(this.timingFromDoctor.endDate);
       console.log(this.appointmentRequest.value);
+    }
+
+    if (this.selectedService && this.selectedService.id !== 0) {
+      this.appointmentRequest
+        .get('serviceId')
+        ?.setValue(this.selectedService.id);
     }
   }
 

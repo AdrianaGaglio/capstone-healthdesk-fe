@@ -53,5 +53,9 @@ export class AddressesComponent {
     });
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.isError = false;
+
+    setTimeout(() => {
+      this.modalService.dismissAll();
+    }, 1000);
   }
 }

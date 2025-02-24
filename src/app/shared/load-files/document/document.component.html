@@ -33,6 +33,7 @@
         ></ng-icon>
       </a>
       <app-btn-danger-filled
+        *ngif="!isDoctor"
         [class]="'position-relative w-fixed-30 h-fixed-30'"
         (onClick)="delete(d.id)"
       >

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
-import { iDoctor } from '../../interfaces/idoctor';
+import { iDoctor, iService } from '../../interfaces/idoctor';
 
 @Component({
   selector: 'app-bookings',
@@ -13,12 +13,19 @@ export class BookingsComponent implements OnInit {
   doctor!: iDoctor;
   @ViewChild('addBooking') addBooking!: ElementRef;
 
+  selectedService!: iService;
+
   ngOnInit() {
     this.doctorSvc.doctor$.subscribe((doctor) => {
       if (doctor) {
         this.doctor = doctor;
       }
     });
+  }
+
+  setService(service: iService) {
+    this.selectedService = service;
+    this.highlight();
   }
 
   // evidenzio il box di prenotazione
@@ -28,5 +35,13 @@ export class BookingsComponent implements OnInit {
     setTimeout(() => {
       bookingForm.classList.remove('bounce');
     }, 1000);
+  }
+
+  // scorro in fondo alla pagina
+  scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight, // Altezza totale della pagina
+      behavior: 'smooth', // Scroll fluido
+    });
   }
 }

@@ -60,7 +60,7 @@ export class ServiceComponent {
     this.doctorSrv.deleteService(this.doctor.id, serviceId).subscribe((res) => {
       this.doctorSvc.restoreDoctor();
 
-      this.openModal("Prestazione eliminata correttamente'");
+      this.openModal('Prestazione eliminata correttamente');
     });
   }
 

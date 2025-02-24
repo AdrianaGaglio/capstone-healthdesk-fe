@@ -26,6 +26,7 @@ export class ServicesComponent {
     this.doctorSvc.doctor$.subscribe((doctor) => {
       if (doctor) {
         this.doctor = doctor;
+        this.services = this.doctor.services.sort((a, b) => a.id - b.id);
       }
     });
   }
@@ -43,10 +44,6 @@ export class ServicesComponent {
     }, 1000);
   }
 
-  orderServices() {
-    this.services = this.services.sort((a, b) => a.id - b.id);
-  }
-
   addService() {
     const modalRef = this.modalService.open(AddServiceComponent, {
       size: 'lg',
@@ -56,8 +53,9 @@ export class ServicesComponent {
     modalRef.componentInstance.doctor = this.doctor;
 
     modalRef.result.then((res) => {
-      this.doctorSvc.restoreDoctor();
       if (res) {
+        this.doctorSvc.restoreDoctor();
+        this.services = this.doctor.services.sort((a, b) => a.id - b.id);
         this.openModal('Prestazione inserita correttamente');
       }
     });
