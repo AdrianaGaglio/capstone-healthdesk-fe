@@ -1,1 +1,46 @@
-<p>contacts works!</p>
+<section class="py-5">
+  <div class="container">
+    <div class="row pb-5">
+      <div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
+        <h5 class="display-3 mb-3">Dove ricevo</h5>
+        <p class="mb-0">
+          Ricevo in lingua italiana e sono sempre disponibile a valutare insieme
+          il percorso più adatto alle esigenze di ogni persona. Se senti il
+          bisogno di un supporto o vuoi approfondire il mio approccio
+          terapeutico, sarò lieta di accoglierti e accompagnarti in questo
+          cammino.
+        </p>
+      </div>
+      <div class="col-12 col-lg-6 d-flex align-items-center">
+        <app-doctor-address
+          *ngIf="doctor"
+          [addresses]="doctor.addresses"
+        ></app-doctor-address>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="py-5 bg-secondary-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <app-contact-form *ngIf="doctor" [doctor]="doctor"></app-contact-form>
+      </div>
+      <div class="col-12 col-lg-6">
+        <h5 class="display-3 mb-2">Contatti</h5>
+        <p class="mb-3 fs-sm">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
+          corporis consequatur qui amet porro numquam velit voluptas.
+        </p>
+
+        <p class="fw-bold mb-3 d-flex gap-2 align-items-center">
+          <ng-icon name="ionCallOutline"></ng-icon>
+          {{ doctor.phoneNumber }}
+        </p>
+        <p class="fw-bold mb-0 d-flex gap-3 align-items-center">
+          <ng-icon name="ionMailOutline"></ng-icon> {{ doctor.email }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
