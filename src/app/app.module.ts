@@ -72,6 +72,8 @@ import { ManageAppointmentModule } from './shared/manage-appointment/manage-appo
 import { CreateBookingModule } from './shared/create-booking/create-booking.module';
 import { LoadFilesModule } from './shared/load-files/load-files.module';
 import { SidenavModule } from './shared/sidenav/sidenav.module';
+import { FrontFooterComponent } from './main-components/front-footer/front-footer.component';
+import { DashboardFooterComponent } from './main-components/dashboard-footer/dashboard-footer.component';
 
 registerLocaleData(localeIt);
 
@@ -82,6 +84,8 @@ registerLocaleData(localeIt);
     FooterComponent,
     FrontHeaderComponent,
     DashboardHeaderComponent,
+    FrontFooterComponent,
+    DashboardFooterComponent,
   ],
   imports: [
     BrowserModule,

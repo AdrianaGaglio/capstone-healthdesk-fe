@@ -1,1 +1,4 @@
-<div class="container-fluid">Footer</div>
+<footer class="container-fluid border-top px-0">
+  <app-front-footer *ngIf="!isDashboard"></app-front-footer>
+  <app-dashboard-footer *ngIf="isDashboard"></app-dashboard-footer>
+</footer>
