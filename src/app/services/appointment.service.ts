@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { iAppointmentRequest } from '../interfaces/iappointment';
+import { iAppointment, iAppointmentRequest } from '../interfaces/iappointment';
 import { Observable, tap } from 'rxjs';
 import {
   iAppointmentResponseForCalendar,
@@ -65,6 +65,17 @@ export class AppointmentService {
     );
   }
 
+  updateDate(
+    id: number,
+    startDate: string,
+    endDate: string
+  ): Observable<iAppointmentResponseForMF> {
+    return this.http.put<iAppointmentResponseForMF>(
+      `${this.url}/update/${id}`,
+      { id: id, startDate: startDate, endDate: endDate }
+    );
+  }
+
   blockSlot(
     blockedSlot: Partial<iAppointmentRequest>
   ): Observable<iAppointmentResponseForCalendar> {
@@ -76,5 +87,9 @@ export class AppointmentService {
 
   unlockSlot(id: number): Observable<iMessage> {
     return this.http.post<iMessage>(`${this.url}/unlock-slot?id=${id}`, id);
+  }
+
+  getById(id: number): Observable<iAppointment> {
+    return this.http.get<iAppointment>(`${this.url}/${id}`);
   }
 }

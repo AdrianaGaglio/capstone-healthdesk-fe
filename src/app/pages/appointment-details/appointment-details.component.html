@@ -1,1 +1,107 @@
-<p>appointment-details works!</p>
+<ng-container *ngIf="appointment">
+  <section class="py-5">
+    <div class="container">
+      <div class="row card rounded-2 border-0 shadow-lg p-3">
+        <div class="mb-3">
+          <h2 class="display-4 mb-0">Dettagli appuntamento</h2>
+          <div
+            class="d-flex gap-3 py-3"
+            *ngIf="!isPassed && appointment.status !== 'CANCELLED'"
+          >
+            <app-btn-primary-filled
+              *ngIf="appointment.status === 'PENDING'"
+              [title]="'Conferma presenza'"
+              (onClick)="confirm(appointment.id)"
+              >Conferma</app-btn-primary-filled
+            >
+            <app-btn-danger-filled
+              *ngIf="
+                appointment.status === 'PENDING' ||
+                appointment.status === 'CONFIRMED'
+              "
+              [title]="'Annulla appuntamento'"
+              (onClick)="cancel(appointment.id)"
+              >Annulla</app-btn-danger-filled
+            >
+            <app-btn-dark-filled
+              *ngIf="appointment.status !== 'CANCELLED'"
+              [title]="'Modifica orario'"
+              (onClick)="openCalendar()"
+              >Modifica</app-btn-dark-filled
+            >
+          </div>
+        </div>
+        <div
+          *ngIf="appointment"
+          class="d-flex flex-column flex-lg-row justify-content-start justify-content-lg-between gap-3 pb-3 border-bottom border-secondary"
+        >
+          <div class="d-flex flex-wrap gap-3 order-1 order-lg-0">
+            <img
+              [src]="getAvatar(doctor)"
+              alt="immagine medico"
+              class="w-fixed-100 h-fixed-100 object-fit-cover rounded-2"
+            />
+            <div class="d-flex flex-column justify-content-center">
+              <h6 class="fw-medium fs-5 mb-1">
+                {{ doctor.name }} {{ doctor.surname }}
+              </h6>
+              <p class="fs-sm">{{ doctor.title }}</p>
+              <p class="mb-0">
+                Prestazione:
+                <span class="text-decoration-underline fw-medium">{{
+                  appointment.service.name
+                }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="d-flex flex-column align-items-lg-end">
+            <p
+              class="fw-bold bg-secondary-light p-1 rounded-2 align-self-start"
+            >
+              {{ appointment.startDate | date : "EEEE dd/MM/yyyy" | titlecase }}
+            </p>
+            <p class="bg-warning p-1 px-2 rounded-2 fw-medium align-self-start">
+              {{ appointment.online ? "Online" : "In presenza" }}
+            </p>
+          </div>
+        </div>
+        <div class="py-3">
+          <h6 class="fw-bolder">Dettagli appuntamento</h6>
+          <div
+            class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between mb-3 mb-lg-0"
+          >
+            <div class="mb-3">
+              <p class="text-decoration-underline mb-1">Indirizzo</p>
+              <p
+                class="fs-sm mb-1 mb-lg-0"
+                *ngIf="appointment && appointment.doctorAddress"
+              >
+                {{ appointment.doctorAddress.street }},
+                {{ appointment.doctorAddress.streetNumber }} -
+                {{ appointment.doctorAddress.city }}
+                {{ appointment.doctorAddress.provinceAcronym }}
+                {{ appointment.doctorAddress.postalCode }}
+              </p>
+              <p *ngIf="appointment && !appointment.doctorAddress">
+                Indirizzo non disponibile
+              </p>
+            </div>
+            <app-map
+              *ngIf="appointment && appointment.doctorAddress"
+              [width]="'300px'"
+              [address]="getAddress(appointment.doctorAddress)"
+            ></app-map>
+          </div>
+          <div *ngIf="appointment">
+            <p class="text-decoration-underline mb-1">Prestazione</p>
+            <p class="fw-semibold mb-1">
+              {{ appointment.service.name }}
+              <span class="fs-xs">({{ appointment.service.price }},00€)</span>
+            </p>
+            <p class="fs-sm mb-0">{{ appointment.service.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-container>

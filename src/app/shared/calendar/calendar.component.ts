@@ -59,6 +59,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   @Input() initialView!: string;
 
+  @Input() modal!: boolean;
+
   @Output() onTimeSelect = new EventEmitter<iTiming>(); // emetto gli orari dello slot selezionato
   @Output() onUnlockSlot = new EventEmitter<number>(); // emetto l'id dello slot da sbloccare
   @Output() onAppointmentSelect = new EventEmitter<iAppointment>();

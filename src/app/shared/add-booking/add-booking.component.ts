@@ -173,6 +173,7 @@ export class AddBookingComponent implements OnInit {
         });
     } else {
       this.addAppointment(this.appointmentRequest.value);
+      this.feedback('Appuntamento inserito correttamente');
     }
   }
 

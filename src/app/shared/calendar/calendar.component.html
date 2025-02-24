@@ -1,4 +1,9 @@
-<div #longContent>
+<div #longContent [ngClass]="{ 'p-3': modal }">
+  <ng-container *ngIf="modal">
+    <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+      Seleziona un nuovo orario
+    </h6>
+  </ng-container>
   <ng-content></ng-content>
   <full-calendar [options]="calendarOptions">
     <ng-template #eventContent let-arg>
