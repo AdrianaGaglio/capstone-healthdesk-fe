@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
-import { iDoctor } from '../../interfaces/idoctor';
+import { iDoctor, iService } from '../../interfaces/idoctor';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +12,13 @@ export class HomeComponent implements OnInit {
 
   doctor!: iDoctor;
 
+  services!: iService[];
+
   ngOnInit() {
     this.doctorSvc.doctor$.subscribe((doctor) => {
       if (doctor) {
         this.doctor = doctor;
-        console.log(this.doctor);
+        this.services = doctor.services;
       }
     });
   }
