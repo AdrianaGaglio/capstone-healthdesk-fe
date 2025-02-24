@@ -1,7 +1,7 @@
 import { iRegisterRequest } from './../../interfaces/iregisterrequest';
 import { Component, inject, Input } from '@angular/core';
 import { iPatient } from '../../interfaces/ipatient';
-import { iMedicalFolder } from '../../interfaces/imedicalfolder';
+import { iMedicalFolder, iNote } from '../../interfaces/imedicalfolder';
 import { MedicalFolderComponent } from '../../pages/patient/medical-folder/medical-folder.component';
 import { MedicalFolderService } from '../../services/medical-folder.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,16 @@ export class NotesComponent {
 
   @Input() patient!: iPatient;
   @Input() mf!: iMedicalFolder;
+
+  notes!: iNote[];
+
+  ngOnInit() {
+    if (this.mf.notes) {
+      this.notes = this.mf.notes.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    }
+  }
 
   addNote() {
     const modalRef = this.modalService.open(AddNoteComponent, {

@@ -1,5 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
-import { iMedicalFolder } from '../../../interfaces/imedicalfolder';
+import {
+  iDocumentation,
+  iMedicalFolder,
+} from '../../../interfaces/imedicalfolder';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentComponent } from '../add-document/add-document.component';
 import { AuthService } from '../../../auth/auth.service';
@@ -21,11 +24,17 @@ export class DocumentComponent {
   @Input() mf!: iMedicalFolder;
   @Input() patient!: iPatient;
 
+  documentation!: iDocumentation[];
+
   isDoctor: boolean = false;
 
   private modalService = inject(NgbModal);
 
   ngOnInit() {
+    this.documentation = this.mf.documentation.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
     this.authSvc.auth$.subscribe((auth) => {
       if (auth && auth.role === 'DOCTOR') {
         this.isDoctor = true;
@@ -46,6 +55,9 @@ export class DocumentComponent {
       .then((result) => {
         this.mfSvc.get().subscribe((mf) => {
           this.mf = mf;
+          this.documentation = this.mf.documentation.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
         });
       })
       .catch((error) => this.modalService.dismissAll(error));

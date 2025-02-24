@@ -6,12 +6,12 @@
     >Aggiungi nota</app-btn-dark-filled
   >
 </div>
-<div class="py-2" *ngIf="!mf.notes || mf.notes.length < 1">
+<div class="py-2" *ngIf="!notes || notes.length < 1">
   <p class="mb-0">Nessuna nota disponibile</p>
 </div>
-<ng-container *ngIf="mf && mf.notes && mf.notes.length > 0">
+<ng-container *ngIf="mf && notes && notes.length > 0">
   <div
-    *ngFor="let n of mf.notes"
+    *ngFor="let n of notes"
     class="onhover rounded-1 d-flex justify-content-between align-items-center p-2"
   >
     <div>

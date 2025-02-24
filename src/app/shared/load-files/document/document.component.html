@@ -9,12 +9,12 @@
     >Carica referto</app-btn-dark-filled
   >
 </div>
-<div class="py-2" *ngIf="!mf.documentation || mf.documentation.length < 1">
+<div class="py-2" *ngIf="!documentation || documentation.length < 1">
   <p class="mb-0">Nessun referto disponibile</p>
 </div>
-<ng-container *ngIf="mf.documentation && mf.documentation.length > 0">
+<ng-container *ngIf="documentation && documentation.length > 0">
   <div
-    *ngFor="let d of mf.documentation"
+    *ngFor="let d of documentation"
     class="onhover p-2 rounded-2 d-flex justify-content-between align-items-center"
   >
     <div>
