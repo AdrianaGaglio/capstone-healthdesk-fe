@@ -1,0 +1,43 @@
+<ng-container *ngIf="mf">
+  <div
+    class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+  >
+    <h5 class="mb-0">Promemoria</h5>
+    <app-btn-dark-filled
+      *ngIf="isDoctor"
+      [type]="'button'"
+      (onClick)="addReminder()"
+      >Aggiungi promemoria</app-btn-dark-filled
+    >
+  </div>
+  <div class="py-2" *ngIf="!mf.reminders || mf.reminders.length < 1">
+    <p class="mb-0">Nessun promemoria impostato</p>
+  </div>
+  <ng-container *ngIf="mf && mf.reminders && mf.reminders.length > 0">
+    <div
+      *ngFor="let r of mf.reminders"
+      class="onhover rounded-1 d-flex justify-content-between align-items-center p-2"
+    >
+      <div>
+        <p class="fw-bold mb-1 d-flex gap-2 align-items-center">
+          {{ r.description }}
+          <span class="fs-xs fw-medium px-2 py-1 rounded-2 bg-secondary">{{
+            setFrequency(r.frequency)
+          }}</span>
+        </p>
+        <p class="mb-0 fs-sm">dal {{ r.startDate | date : "dd/MM/yyyy" }}</p>
+      </div>
+      <div class="d-flex gap-2 align-items-center" *ngIf="isDoctor">
+        <app-btn-danger-filled
+          [class]="'position-relative w-fixed-30 h-fixed-30'"
+          (onClick)="delete(r.id)"
+        >
+          <ng-icon
+            class="position-absolute top-50 start-50 translate-middle"
+            name="ionTrashBinOutline"
+          ></ng-icon>
+        </app-btn-danger-filled>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

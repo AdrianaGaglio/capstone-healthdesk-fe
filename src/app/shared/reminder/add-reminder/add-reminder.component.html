@@ -1,0 +1,68 @@
+<div class="p-3">
+  <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+    Inserisci un nuovo promemoria per il paziente
+  </h6>
+  <form #form="ngForm" class="position-relative">
+    <ng-icon
+      role="button"
+      name="ionCloseOutline"
+      class="position-absolute top-0 end-0 z-3"
+    ></ng-icon>
+    <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+      <div class="flex-grow-1">
+        <label class="mb-1 form-label fs-sm" for="description"
+          >Descrizione</label
+        >
+        <input
+          #description="ngModel"
+          type="text"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{
+            'border-danger': description.invalid && description.touched
+          }"
+          id="description"
+          name="description"
+          [(ngModel)]="reminder.description"
+          required
+        />
+      </div>
+      <div class="flex-grow-1">
+        <label class="mb-1 form-label fs-sm" for="startDate">Dal giorno</label>
+        <input
+          #startDate="ngModel"
+          type="date"
+          min="{{ today }}"
+          class="form-control form-control-sm border-secondary shadow-sm"
+          [ngClass]="{
+            'border-danger': startDate.invalid && startDate.touched
+          }"
+          id="startDate"
+          name="startDate"
+          [(ngModel)]="reminder.startDate"
+          required
+        />
+      </div>
+      <div class="flex-grow-1">
+        <label for="frequency" class="form-label fs-sm mb-1">Frequenza</label>
+        <select
+          #frequency="ngModel"
+          class="form-select form-select-sm border-secondary shadow-sm"
+          [ngClass]="{
+            'border-danger': frequency.invalid && frequency.touched
+          }"
+          id="frequency"
+          name="frequency"
+          [(ngModel)]="reminder.frequency"
+          required
+        >
+          <option *ngFor="let f of frequencies" [ngValue]="f.eng">
+            {{ f.it }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <app-btn-dark-filled [disabled]="!form.valid" (onClick)="addReminder()"
+      >Aggiungi</app-btn-dark-filled
+    >
+  </form>
+</div>

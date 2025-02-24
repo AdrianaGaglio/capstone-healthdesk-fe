@@ -1,0 +1,50 @@
+<div
+  class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+>
+  <h5 class="mb-0">Prescrizioni</h5>
+  <app-btn-dark-filled
+    *ngIf="isDoctor"
+    [type]="'button'"
+    (onClick)="addPrescription()"
+    >Carica prescrizione</app-btn-dark-filled
+  >
+</div>
+<div
+  class="py-2"
+  *ngIf="!mf.prescriptions || (mf && mf.prescriptions.length < 1)"
+>
+  <p class="mb-0">Nessuna prescrizione disponibile</p>
+</div>
+<ng-container *ngIf="mf && mf.prescriptions && mf.prescriptions.length > 0">
+  <div
+    *ngFor="let p of mf.prescriptions"
+    class="onhover p-2 rounded-2 d-flex justify-content-between align-items-center"
+  >
+    <div>
+      <p class="fw-bold mb-2">{{ p.description }}</p>
+      <p class="mb-0 fs-sm">del {{ p.date | date : "dd/MM/yyyy" }}</p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <a
+        [href]="p.file"
+        title="Scarica prescrizione"
+        class="btn btn-sm btn-primary d-inline position-relative h-fixed-30 w-fixed-30"
+      >
+        <ng-icon
+          class="position-absolute top-50 start-50 translate-middle"
+          name="ionCloudDownloadOutline"
+        ></ng-icon>
+      </a>
+      <app-btn-danger-filled
+        *ngIf="isDoctor"
+        [class]="'position-relative w-fixed-30 h-fixed-30'"
+        (onClick)="delete(p.id)"
+      >
+        <ng-icon
+          class="position-absolute top-50 start-50 translate-middle"
+          name="ionTrashBinOutline"
+        ></ng-icon>
+      </app-btn-danger-filled>
+    </div>
+  </div>
+</ng-container>

@@ -46,7 +46,6 @@ export class MedicalFolderComponent {
         this.mfSvc.get().subscribe((res) => {
           this.mf = res;
           this.generateLists();
-          console.log(this.mf);
         });
       }
     });

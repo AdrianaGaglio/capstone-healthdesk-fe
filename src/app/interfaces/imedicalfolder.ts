@@ -7,6 +7,7 @@ export interface iMedicalFolder {
   prescriptions: iPrescription[];
   documentation: iDocumentation[];
   reminders: iReminder[];
+  notes?: iNote[];
 }
 
 export interface iAppointmentResponseForMF {
@@ -44,4 +45,11 @@ export interface iReminder {
   description: string;
   frequency: string;
   startDate: string;
+}
+
+export interface iNote {
+  id: number;
+  date: string;
+  title: string;
+  description: string;
 }

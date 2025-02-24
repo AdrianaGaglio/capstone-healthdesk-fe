@@ -1,0 +1,41 @@
+<div class="p-3">
+  <h6 class="fw-medium text-center bg-secondary p-1 rounded-2">
+    Inserisci una nuova nota
+  </h6>
+  <form #form="ngForm" (submit)="addNote()">
+    <div class="mb-3">
+      <label for="title" class="form-label fs-sm mb-1">Titolo nota</label>
+      <input
+        #title="ngModel"
+        type="text"
+        id="title"
+        name="title"
+        [(ngModel)]="newNote.title"
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{ 'border-danger': title.invalid && title.touched }"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label fs-sm mb-1">Contenuto</label>
+      <textarea
+        #description="ngModel"
+        type="text"
+        id="description"
+        name="description"
+        [(ngModel)]="newNote.description"
+        class="form-control form-control-sm border-secondary shadow-sm"
+        [ngClass]="{
+          'border-danger': description.invalid && description.touched
+        }"
+        required
+      ></textarea>
+    </div>
+    <app-btn-primary-filled [type]="'submit'" [disabled]="!form.valid"
+      >Inserisci nota</app-btn-primary-filled
+    >
+    <app-btn-dark [type]="'button'" (onClick)="close(null)"
+      >Annulla</app-btn-dark
+    >
+  </form>
+</div>

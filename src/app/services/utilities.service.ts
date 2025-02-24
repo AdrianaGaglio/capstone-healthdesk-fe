@@ -17,6 +17,8 @@ export class UtilitiesService {
 
   days: { eng: string; it: string }[] = environment.days;
 
+  frequency: { eng: string; it: string }[] = environment.frequency;
+
   getAvatar(user: iPatient | iDoctor | null): string {
     if (!user) {
       return 'https://ui-avatars.com/api/?name=A';
@@ -33,5 +35,9 @@ export class UtilitiesService {
 
   setDay(day: string) {
     return this.days.find((d) => d.eng === day)?.it;
+  }
+
+  setFrequency(freq: string) {
+    return this.frequency.find((f) => f.eng === freq)?.it;
   }
 }

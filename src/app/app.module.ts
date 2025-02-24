@@ -53,6 +53,8 @@ import {
   ionConstructOutline,
   ionListOutline,
   ionPencilOutline,
+  ionCloudDownloadOutline,
+  ionClipboardOutline,
 } from '@ng-icons/ionicons';
 import {
   HTTP_INTERCEPTORS,
@@ -68,6 +70,8 @@ import { AddBookingComponent } from './shared/add-booking/add-booking.component'
 import { AddBookingModule } from './shared/add-booking/add-booking.module';
 import { ManageAppointmentModule } from './shared/manage-appointment/manage-appointment.module';
 import { CreateBookingModule } from './shared/create-booking/create-booking.module';
+import { LoadFilesModule } from './shared/load-files/load-files.module';
+import { SidenavModule } from './shared/sidenav/sidenav.module';
 
 registerLocaleData(localeIt);
 
@@ -121,6 +125,8 @@ registerLocaleData(localeIt);
       ionPeopleOutline,
       ionPencilOutline,
       ionCheckmarkOutline,
+      ionCloudDownloadOutline,
+      ionClipboardOutline,
     }),
     NgbDropdownModule,
   ],

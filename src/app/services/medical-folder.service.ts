@@ -6,6 +6,7 @@ import {
   iMedicalFolder,
   iDocumentCreate,
   iReminder,
+  iNote,
 } from '../interfaces/imedicalfolder';
 
 @Injectable({
@@ -79,6 +80,17 @@ export class MedicalFolderService {
   removeReminder(mfId: number, reminderId: number): Observable<iMedicalFolder> {
     return this.http.delete<iMedicalFolder>(
       `${this.url}/${mfId}/remove-reminder?reminderId=${reminderId}`
+    );
+  }
+
+  addNote(mfId: number, note: Partial<iNote>): Observable<iMedicalFolder> {
+    return this.http.put<iMedicalFolder>(`${this.url}/${mfId}/add-note`, note);
+  }
+
+  removeNote(mfId: number, noteId: number): Observable<iMedicalFolder> {
+    return this.http.put<iMedicalFolder>(
+      `${this.url}/${mfId}/remove-note?noteId=${noteId}`,
+      noteId
     );
   }
 }

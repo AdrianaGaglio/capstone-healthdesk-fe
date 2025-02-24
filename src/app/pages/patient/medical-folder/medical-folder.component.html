@@ -112,10 +112,21 @@
     </div>
     <div class="col col-12 col-lg-6">
       <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
-        <app-prescription [mf]="mf"></app-prescription>
+        <app-reminder [patient]="patient" [mf]="mf"></app-reminder>
       </div>
       <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
-        <app-document [mf]="mf"></app-document>
+        <app-prescription
+          *ngIf="mf && patient"
+          [patient]="patient"
+          [mf]="mf"
+        ></app-prescription>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-document
+          *ngIf="mf && patient"
+          [patient]="patient"
+          [mf]="mf"
+        ></app-document>
       </div>
     </div>
   </div>

@@ -26,6 +26,7 @@ import {
   iAppointmentRequest,
 } from '../../interfaces/iappointment';
 import { AppointmentService } from '../../services/appointment.service';
+import { ModalFeedbackComponent } from '../modalfeedback/modalfeedback.component';
 
 @Component({
   selector: 'app-add-booking',
@@ -149,6 +150,7 @@ export class AddBookingComponent implements OnInit {
         .result.then((patientId) => {
           this.appointmentRequest.get('patientId')?.setValue(patientId);
           this.addAppointment(this.appointmentRequest.value);
+          this.feedback('Appuntamento inserito correttamente');
         })
         .catch((error) => {
           console.log(error);
@@ -175,5 +177,18 @@ export class AddBookingComponent implements OnInit {
     modalRef.componentInstance.bookingRequest = true;
 
     return modalRef;
+  }
+
+  feedback(message: string) {
+    const modalRef = this.modalService.open(ModalFeedbackComponent, {
+      size: 'md',
+      centered: true,
+    });
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.isError = false;
+
+    setTimeout(() => {
+      this.modalService.dismissAll();
+    }, 1000);
   }
 }

@@ -1,3 +1,4 @@
+import { NotesModule } from './../../shared/notes/notes.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -34,6 +35,10 @@ import { ExperienceComponent } from './settings/details/experiences/experience/e
 import { AddExperienceComponent } from './settings/details/experiences/add-experience/add-experience.component';
 import { AddTrainingComponent } from './settings/details/trainings/add-training/add-training.component';
 import { TrainingComponent } from './settings/details/trainings/training/training.component';
+import { PatientMedicalFolderComponent } from './patients/patient-medical-folder/patient-medical-folder.component';
+import { AddPrescriptionComponent } from '../../shared/load-files/add-prescription/add-prescription.component';
+import { LoadFilesModule } from '../../shared/load-files/load-files.module';
+import { ReminderModule } from '../../shared/reminder/reminder.module';
 
 @NgModule({
   declarations: [
@@ -61,6 +66,7 @@ import { TrainingComponent } from './settings/details/trainings/training/trainin
     AddExperienceComponent,
     AddTrainingComponent,
     TrainingComponent,
+    PatientMedicalFolderComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +79,9 @@ import { TrainingComponent } from './settings/details/trainings/training/trainin
     FormsModule,
     ReactiveFormsModule,
     EditLoginInfoModule,
+    LoadFilesModule,
+    ReminderModule,
+    NotesModule,
   ],
   providers: [NgbActiveModal],
 })

@@ -9,11 +9,10 @@ import { SidenavModule } from '../../shared/sidenav/sidenav.module';
 import { AppointmentComponent } from './medical-folder/appointment/appointment.component';
 import { NgIconsModule } from '@ng-icons/core';
 import { ButtonsModule } from '../../shared/buttons/buttons.module';
-import { PrescriptionComponent } from './medical-folder/prescription/prescription.component';
-import { DocumentComponent } from './medical-folder/document/document.component';
-import { AddDocumentComponent } from './medical-folder/add-document/add-document.component';
-import { AddPrescriptionComponent } from './medical-folder/add-prescription/add-prescription.component';
+
 import { FormsModule } from '@angular/forms';
+import { LoadFilesModule } from '../../shared/load-files/load-files.module';
+import { ReminderModule } from '../../shared/reminder/reminder.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +20,6 @@ import { FormsModule } from '@angular/forms';
     ProfileComponent,
     MedicalFolderComponent,
     AppointmentComponent,
-    PrescriptionComponent,
-    DocumentComponent,
-    AddDocumentComponent,
-    AddPrescriptionComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     SidenavModule,
     NgIconsModule,
     ButtonsModule,
-    FormsModule,
+    LoadFilesModule,
+    ReminderModule,
   ],
 })
 export class PatientModule {}

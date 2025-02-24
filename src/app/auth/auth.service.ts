@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -25,6 +25,7 @@ import { iDoctor } from '../interfaces/idoctor';
 import { iPatient } from '../interfaces/ipatient';
 import { PatientService } from '../services/patient.service';
 import { iAuthupdaterequest } from '../interfaces/iauthupdaterequest';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root',

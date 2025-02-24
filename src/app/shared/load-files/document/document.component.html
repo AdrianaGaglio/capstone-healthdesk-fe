@@ -1,0 +1,46 @@
+<div
+  class="border-bottom border-secondary pb-2 mb-2 d-flex align-items-center justify-content-between"
+>
+  <h5 class="mb-0">Referti caricati</h5>
+  <app-btn-dark-filled
+    *ngIf="!isDoctor"
+    (onClick)="addDocument()"
+    [type]="'button'"
+    >Carica referto</app-btn-dark-filled
+  >
+</div>
+<div class="py-2" *ngIf="!mf.documentation || mf.documentation.length < 1">
+  <p class="mb-0">Nessun referto disponibile</p>
+</div>
+<ng-container *ngIf="mf.documentation && mf.documentation.length > 0">
+  <div
+    *ngFor="let d of mf.documentation"
+    class="onhover p-2 rounded-2 d-flex justify-content-between align-items-center"
+  >
+    <div>
+      <p class="fw-bold mb-2">{{ d.description }}</p>
+      <p class="mb-0 fs-sm">del {{ d.date | date : "dd/MM/yyyy" }}</p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <a
+        [href]="d.file"
+        title="Scarica referto"
+        class="btn btn-sm btn-primary d-inline position-relative h-fixed-30 w-fixed-30"
+      >
+        <ng-icon
+          class="position-absolute top-50 start-50 translate-middle"
+          name="ionCloudDownloadOutline"
+        ></ng-icon>
+      </a>
+      <app-btn-danger-filled
+        [class]="'position-relative w-fixed-30 h-fixed-30'"
+        (onClick)="delete(d.id)"
+      >
+        <ng-icon
+          class="position-absolute top-50 start-50 translate-middle"
+          name="ionTrashBinOutline"
+        ></ng-icon>
+      </app-btn-danger-filled>
+    </div>
+  </div>
+</ng-container>

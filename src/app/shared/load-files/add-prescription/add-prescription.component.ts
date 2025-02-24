@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { iMedicalFolder } from '../../../../interfaces/imedicalfolder';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../auth/auth.service';
-import { MedicalFolderService } from '../../../../services/medical-folder.service';
-import { UploadService } from '../../../../services/upload.service';
+import { AuthService } from '../../../auth/auth.service';
+import { iMedicalFolder } from '../../../interfaces/imedicalfolder';
+import { MedicalFolderService } from '../../../services/medical-folder.service';
+import { UploadService } from '../../../services/upload.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-prescription',
@@ -18,9 +19,9 @@ export class AddPrescriptionComponent {
     private router: Router
   ) {}
 
-  @Input() mf!: iMedicalFolder;
+  private activeModal = inject(NgbActiveModal);
 
-  @Output() onUpload = new EventEmitter<iMedicalFolder>();
+  @Input() mf!: iMedicalFolder;
 
   ngOnInit() {
     this.authSvc.auth$.subscribe((auth) => {
@@ -93,7 +94,7 @@ export class AddPrescriptionComponent {
               this.mfSvc
                 .addPrescription(this.mf.id, request)
                 .subscribe((res) => {
-                  this.onUpload.emit(res);
+                  this.activeModal.close(res);
                   this.files = [];
                   this.description = '';
                 });
@@ -101,7 +102,7 @@ export class AddPrescriptionComponent {
               this.mfSvc
                 .addCertificate(this.mf.id, request)
                 .subscribe((res) => {
-                  this.onUpload.emit(res);
+                  this.activeModal.close(res);
 
                   this.files = [];
                   this.description = '';

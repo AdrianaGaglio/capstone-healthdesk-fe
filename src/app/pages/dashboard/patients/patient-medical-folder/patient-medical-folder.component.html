@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="patient">
+    <h3 class="mb-3 display-4 d-flex gap-3 align-items-center">
+      Cartella medica:
+      <span class="display-6 bg-secondary px-2 rounded-2"
+        >{{ patient.name }} {{ patient.surname }}</span
+      >
+    </h3>
+    <div class="col col-12 col-lg-6">
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-notes [patient]="patient" [mf]="mf"></app-notes>
+      </div>
+    </div>
+    <div class="col col-12 col-lg-6">
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-prescription
+          *ngIf="patient && mf"
+          [patient]="patient"
+          [mf]="mf"
+        ></app-prescription>
+      </div>
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-reminder [mf]="mf"></app-reminder>
+      </div>
+
+      <div class="mb-3 card p-2 rounded-1 border-0 shadow-sm">
+        <app-document
+          *ngIf="patient && mf"
+          [patient]="patient"
+          [mf]="mf"
+        ></app-document>
+      </div>
+    </div>
+  </div>
+</div>

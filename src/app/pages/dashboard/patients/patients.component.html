@@ -82,10 +82,23 @@
           <tbody>
             <tr *ngFor="let patient of patients">
               <td class="align-middle">
-                <span>{{ patient.name }}</span>
+                <span
+                  ><a
+                    class="text-decoration-none text-dark fw-bold"
+                    [routerLink]="['/dashboard/pazienti/mf', patient.id]"
+                    routerLinkActive="router-link-active"
+                    >{{ patient.name }}</a
+                  ></span
+                >
               </td>
               <td class="align-middle">
-                <span>{{ patient.surname }}</span>
+                <span
+                  ><a
+                    class="text-decoration-none text-dark fw-bold"
+                    [routerLink]="['/dashboard/pazienti/mf', patient.id]"
+                    >{{ patient.surname }}</a
+                  ></span
+                >
               </td>
               <td class="align-middle">
                 <span>{{ patient.email }}</span>

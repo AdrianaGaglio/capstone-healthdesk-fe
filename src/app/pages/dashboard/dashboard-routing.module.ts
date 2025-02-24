@@ -11,6 +11,7 @@ import { PaymentMethodsComponent } from './settings/payment-methods/payment-meth
 import { ServicesComponent } from './settings/services/services.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsControlsComponent } from './settings/settings-controls/settings-controls.component';
+import { PatientMedicalFolderComponent } from './patients/patient-medical-folder/patient-medical-folder.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
         path: 'pazienti',
         component: PatientsComponent,
       },
+      { path: 'pazienti/mf/:id', component: PatientMedicalFolderComponent },
       {
         path: 'appuntamenti',
         component: AppointmentsComponent,

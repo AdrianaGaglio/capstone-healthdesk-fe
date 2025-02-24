@@ -1,4 +1,8 @@
-<app-login-form *ngIf="!isRegister" (onLogin)="emitPatientId($event)">
+<app-login-form
+  *ngIf="!isRegister"
+  (onLogin)="emitPatientId($event)"
+  [bookingRequest]="bookingRequest"
+>
   <p slot="title" class="fs-5 text-dark text-center mb-3">Accedi</p>
 
   <app-btn-dark

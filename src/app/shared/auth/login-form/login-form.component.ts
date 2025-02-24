@@ -1,9 +1,18 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DoctorService } from '../../../services/doctor.service';
 import { PatientService } from '../../../services/patient.service';
+import { tap } from 'rxjs';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login-form',
@@ -18,8 +27,12 @@ export class LoginFormComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+  private activeModal = inject(NgbActiveModal);
+
   loginRequest!: FormGroup;
   showPassword: boolean = false;
+
+  @Input() bookingRequest!: boolean;
 
   @Output() onLogin = new EventEmitter<number>();
 
@@ -40,18 +53,27 @@ export class LoginFormComponent implements OnInit {
 
   login() {
     if (this.loginRequest.valid) {
-      this.authSvc.login(this.loginRequest.value).subscribe({
-        next: (res) => {
-          this.loginRequest.reset();
-          if (res.role === 'DOCTOR') {
-            this.doctorSvc.getDoctor().subscribe();
-          } else if (res.role === 'PATIENT') {
-            this.patientSvc.getPatient().subscribe((patient) => {
-              this.onLogin.emit(patient.id);
-            });
-          }
-        },
-      });
+      this.authSvc
+        .login(this.loginRequest.value)
+        .pipe(
+          tap((res) => {
+            if (!this.bookingRequest) {
+              this.activeModal.close();
+            }
+          })
+        )
+        .subscribe({
+          next: (res) => {
+            this.loginRequest.reset();
+            if (res.role === 'DOCTOR') {
+              this.doctorSvc.getDoctor().subscribe();
+            } else if (res.role === 'PATIENT') {
+              this.patientSvc.getPatient().subscribe((patient) => {
+                this.onLogin.emit(patient.id);
+              });
+            }
+          },
+        });
     }
   }
 }
