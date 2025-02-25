@@ -40,13 +40,16 @@ export class MedicalFolderComponent {
       }
     });
 
-    this.authSvc.user$.subscribe((user) => {
-      if (user) {
-        this.patient = user as iPatient;
-        this.mfSvc.get().subscribe((res) => {
-          this.mf = res;
-          this.generateLists();
-        });
+    this.authSvc.auth$.subscribe((auth) => {
+      if (auth && auth.role === 'PATIENT') {
+        if (this.authSvc.user$.getValue()) {
+          let user = this.authSvc.user$.getValue() as iPatient;
+          this.patient = user as iPatient;
+          this.mfSvc.get().subscribe((res) => {
+            this.mf = res;
+            this.generateLists();
+          });
+        }
       }
     });
   }
